@@ -123,6 +123,24 @@ typedef unspecified_type Construct_circumcenter_2;
 */
 typedef unspecified_type Construct_vector_2;
 
+/*!
+  A construction object that must provide the function operator:
+
+	`Point_2 operator()(const Point_2& p, const Point_2& q)`
+
+  that returns the midpoint between the points `p` and `q`.
+*/
+typedef unspecified_type Construct_midpoint_2;
+
+/*!
+  A construction object that must provide the function operator:
+
+	`Point_2 operator()(const Point_2& p, const Point_2& q, const Point_2& r)`
+
+  that returns the centroid of the points `p`, `q`, and `r`.
+*/
+typedef unspecified_type Construct_centroid_2;
+
 /// @}
 
 /// \name Predicates

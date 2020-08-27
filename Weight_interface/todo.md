@@ -9,10 +9,12 @@ To discuss:
 Later:
 * Cleanup tests.
 * Comment the code.
+* Add more pictures/figures.
 * Add a concept test as in the heat_method.
 * Try to combine cotangent wrappers from the tools.h. Not sure if this is necessary.
 * Try to combine mvc and dhc in the orbifold parameterization. Not sure if this is necessary.
 * Mention that tangent_weight_3 uses positive areas (no distortions) and can be used only for PMP, while mean_value_weight_2/3 e.g. can have different signs/distortions for 2D and 3D versions due to the flattening of the 3D region.
+* Fix all other packages with respect to the new interface.
 
 To do now:
 * What happens with WP/MV/DH weights on the polygon boundary?
