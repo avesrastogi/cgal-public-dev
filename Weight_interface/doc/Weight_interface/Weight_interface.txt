@@ -106,7 +106,7 @@ Other weights have the same interface so they can be computed analogously.
 \cgalExample{Weight_interface/weight_interface.cpp}
 
 
-\subsection Weight_Interface_Examples_CoordinatesOneQuery Computing 2D Coordinates for One Query
+\subsection Weight_Interface_Examples_CoordinatesOneQuery Computing 2D Coordinates for One Query Point
 
 This example shows how to compute barycentric weights and barycentric coordinates,
 which are normalized barycentric weights, for a query point with respect to a polygon
