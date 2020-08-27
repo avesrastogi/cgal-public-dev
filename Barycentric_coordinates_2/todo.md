@@ -22,4 +22,5 @@ Small extra fixes:
 * add more objects from the traits class e.g. the sqrt object and/or centroid/midpoint;
 * no end dot in \param \tparam descriptions if it's not a sentence (everywhere);
 * fix traits concept if any by using function operator and spaces;
+* remove CGAL::Barycentric_coordinates:: namespace from the docs;
 * flexible api - do I write it here.
