@@ -24,5 +24,6 @@ Small extra fixes:
 * no end dot in \param \tparam descriptions if it's not a sentence (everywhere);
 * fix traits concept if any by using function operator and spaces;
 * remove CGAL::Barycentric_coordinates:: namespace from the docs;
+* remove ; inside all bullet lists which start from -
 * flexible api - do I write it here;
 * add review from Simon (see SR).
