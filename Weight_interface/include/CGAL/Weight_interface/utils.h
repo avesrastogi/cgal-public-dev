@@ -277,6 +277,8 @@ namespace Weights {
   }
   /// \endcond
 
+  #if defined(DOXYGEN_RUNNING)
+
   /*!
     \ingroup PkgWeightInterfaceRefUtils
 
@@ -284,10 +286,56 @@ namespace Weights {
 
     This class contains geometric objects, predicates, and constructions in order
     to be able to compute 2D weights in 3D.
+
+    \tparam K
+    a model of `Kernel`
+
+    \cgalModels
+    - `AnalyticWeightTraits_2`
+    - `AnalyticWeightTraits_3`
   */
+  template<typename K>
+  class Projection_traits_3 {
+
+  public:
+
+    /// \name Types
+    /// @{
+
+    /// Vector type.
+    typedef typename K::Vector_3 Vector_3;
+
+    /// @}
+
+    /// \name Initialization
+    /// @{
+
+    /*!
+      \brief initilaizes the projection traits class.
+
+      Implicitely given a plane whose normal is `normal`, this class enables to
+      carry out 2D computations in this plane among 3D geometric objects. All
+      geometric objects though must belong to the plane. For example, it is possible
+      to compute different 2D weights with respect to a 3D polygon that lies in this plane.
+
+      \param normal
+      a normal of an implicitely given plane
+
+      \pre normal != Vector_3(0, 0, 0)
+    */
+    Projection_traits_3(const Vector_3& normal)
+    { }
+
+    /// @}
+  };
+
+  #endif // DOXYGEN_RUNNING
+
+  /// \cond SKIP_IN_MANUAL
   template<typename Kernel>
   using Projection_traits_3 =
     internal::Projection_traits_3<Kernel>;
+  /// \endcond
 
 } // namespace Weights
 } // namespace CGAL

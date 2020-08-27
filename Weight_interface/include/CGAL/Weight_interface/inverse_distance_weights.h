@@ -38,7 +38,7 @@ namespace Weights {
     const FT weight(const FT d) {
 
       FT w = FT(0);
-      CGAL_assertion(d != FT(0));
+      CGAL_precondition(d != FT(0));
       if (d != FT(0))
         w = FT(1) / d;
       return w;
@@ -78,6 +78,8 @@ namespace Weights {
     \param traits
     this parameter can be omitted if the traits class can be deduced from the point type
 
+    \pre d != 0
+
     \cgalModels `analytic_weight()`
   */
   template<typename GeomTraits>
@@ -106,6 +108,8 @@ namespace Weights {
 
     \param traits
     this parameter can be omitted if the traits class can be deduced from the point type
+
+    \pre p != q
 
     \sa `inverse_distance_weight()`
   */

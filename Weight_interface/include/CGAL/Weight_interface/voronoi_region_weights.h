@@ -86,16 +86,14 @@ namespace Weights {
     const GeomTraits& traits) {
 
     using FT = typename GeomTraits::FT;
-    using Point_2 = typename GeomTraits::Point_2;
-
     const auto circumcenter_2 =
       traits.construct_circumcenter_2_object();
-    const Point_2 center =
-      circumcenter_2(p, q, r);
-    const Point_2 m1 =
-      internal::barycenter_2(traits, q, r);
-    const Point_2 m2 =
-      internal::barycenter_2(traits, q, p);
+    const auto midpoint_2 =
+      traits.construct_midpoint_2_object();
+
+    const auto center = circumcenter_2(p, q, r);
+    const auto m1 = midpoint_2(q, r);
+    const auto m2 = midpoint_2(q, p);
 
     const FT A1 = internal::positive_area_2(traits, q, m1, center);
     const FT A2 = internal::positive_area_2(traits, q, center, m2);
@@ -120,16 +118,14 @@ namespace Weights {
     const GeomTraits& traits) {
 
     using FT = typename GeomTraits::FT;
-    using Point_3 = typename GeomTraits::Point_3;
-
     const auto circumcenter_3 =
       traits.construct_circumcenter_3_object();
-    const Point_3 center =
-      circumcenter_3(p, q, r);
-    const Point_3 m1 =
-      internal::barycenter_3(traits, q, r);
-    const Point_3 m2 =
-      internal::barycenter_3(traits, q, p);
+    const auto midpoint_3 =
+      traits.construct_midpoint_3_object();
+
+    const auto center = circumcenter_3(p, q, r);
+    const auto m1 = midpoint_3(q, r);
+    const auto m2 = midpoint_3(q, p);
 
     const FT A1 = internal::positive_area_3(traits, q, m1, center);
     const FT A2 = internal::positive_area_3(traits, q, center, m2);

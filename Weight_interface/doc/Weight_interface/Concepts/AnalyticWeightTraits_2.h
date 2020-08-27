@@ -9,7 +9,9 @@ A concept that describes the set of requirements of the template parameter
 `GeomTraits` used to parameterize several classes and functions with 2D weights
 from the namespace `CGAL::Weights`.
 
-\cgalHasModel All models of `Kernel`.
+\cgalHasModel
+- All models of `Kernel`
+- `CGAL::Weights::Projection_traits_3`
 */
 class AnalyticWeightTraits_2 {
 

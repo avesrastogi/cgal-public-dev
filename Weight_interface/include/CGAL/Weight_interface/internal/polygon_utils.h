@@ -173,8 +173,8 @@ namespace internal {
     const GeomTraits traits,
     const VertexMap vertex_map) {
 
-    using Point_2 = typename GeomTraits::Point_2;
-    const auto collinear_2 = traits.collinear_2_object();
+    const auto collinear_2 =
+      traits.collinear_2_object();
     CGAL_precondition(polygon.size() >= 3);
 
     // First, test the polygon on convexity.

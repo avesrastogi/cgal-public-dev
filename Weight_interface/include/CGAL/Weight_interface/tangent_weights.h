@@ -41,7 +41,7 @@ namespace Weights {
 
       FT t = FT(0);
       const FT P = r * d + D;
-      CGAL_assertion(P != FT(0));
+      CGAL_precondition(P != FT(0));
       if (P != FT(0)) {
         const FT inv = FT(2) / P;
         t = A * inv;
@@ -54,7 +54,7 @@ namespace Weights {
       const FT t, const FT r) {
 
       FT w = FT(0);
-      CGAL_assertion(r != FT(0));
+      CGAL_precondition(r != FT(0));
       if (r != FT(0)) {
         const FT inv = FT(2) / r;
         w = t * inv;
@@ -72,13 +72,13 @@ namespace Weights {
       const FT P2 = d2 * r + D2;
 
       FT w = FT(0);
-      CGAL_assertion(P1 != FT(0) && P2 != FT(0));
+      CGAL_precondition(P1 != FT(0) && P2 != FT(0));
       if (P1 != FT(0) && P2 != FT(0)) {
         const FT inv1 = FT(2) / P1;
         const FT inv2 = FT(2) / P2;
         const FT t1 = A1 * inv1;
         const FT t2 = A2 * inv2;
-        CGAL_assertion(r != FT(0));
+        CGAL_precondition(r != FT(0));
         if (r != FT(0)) {
           const FT inv = FT(2) / r;
           w = (t1 + t2) * inv;
@@ -115,6 +115,8 @@ namespace Weights {
     \param D
     the dot product value
 
+    \pre (d * l + D) != 0
+
     \sa `half_tangent_weight()`
   */
   template<typename FT>
@@ -143,6 +145,8 @@ namespace Weights {
 
     \param d
     the distance value
+
+    \pre d != 0
 
     \sa `tangent_half_angle()`
     \sa `tangent_weight()`
@@ -181,6 +185,8 @@ namespace Weights {
     \param D
     the dot product value
 
+    \pre (d * l + D) != 0 && d != 0
+
     \sa `tangent_weight()`
   */
   template<typename FT>
@@ -199,7 +205,7 @@ namespace Weights {
     \brief computes the tangent weight in 2D or 3D.
 
     The weight is computed as
-    \f$w = 2 \frac{t_1 + t_2}{r}\f$, where
+    \f$w = 2 \frac{t_1 + t_2}{d}\f$, where
     \f$t_1 = \frac{2 A_1}{d d_1 + D_1}\f$ and
     \f$t_2 = \frac{2 A_2}{d d_2 + D_2}\f$
     with notations shown in the figure below and dot products
@@ -234,6 +240,8 @@ namespace Weights {
 
     \param traits
     this parameter can be omitted if the traits class can be deduced from the point type
+
+    \pre (d * d1 + D1) != 0 && (d * d2 + D2) != 0 && d != 0
 
     \note the points `p0`, `p1`, `p2` are ordered
 

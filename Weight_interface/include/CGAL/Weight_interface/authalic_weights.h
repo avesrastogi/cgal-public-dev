@@ -39,7 +39,7 @@ namespace Weights {
       const FT cot, const FT r2) {
 
       FT w = FT(0);
-      CGAL_assertion(r2 != FT(0));
+      CGAL_precondition(r2 != FT(0));
       if (r2 != FT(0)) {
         const FT inv = FT(2) / r2;
         w = cot * inv;
@@ -52,7 +52,7 @@ namespace Weights {
       const FT cot_gamma, const FT cot_beta, const FT r2) {
 
       FT w = FT(0);
-      CGAL_assertion(r2 != FT(0));
+      CGAL_precondition(r2 != FT(0));
       if (r2 != FT(0)) {
         const FT inv = FT(2) / r2;
         w = (cot_gamma + cot_beta) * inv;
@@ -81,6 +81,8 @@ namespace Weights {
 
     \param d2
     the squared distance value
+
+    \pre d2 != 0
 
     \sa `authalic_weight()`
   */
@@ -129,6 +131,8 @@ namespace Weights {
 
     \param traits
     this parameter can be omitted if the traits class can be deduced from the point type
+
+    \pre d != 0
 
     \note the points `p0`, `p1`, `p2` are ordered
 

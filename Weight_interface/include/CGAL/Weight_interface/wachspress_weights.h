@@ -40,7 +40,7 @@ namespace Weights {
       const FT A1, const FT A2, const FT C) {
 
       FT w = FT(0);
-      CGAL_assertion(A1 != FT(0) && A2 != FT(0));
+      CGAL_precondition(A1 != FT(0) && A2 != FT(0));
       const FT prod = A1 * A2;
       if (prod != FT(0)) {
         const FT inv = FT(1) / prod;
@@ -89,6 +89,8 @@ namespace Weights {
 
     \param traits
     this parameter can be omitted if the traits class can be deduced from the point type
+
+    \pre A1 != 0 && A2 != 0
 
     \note the points `p0`, `p1`, `p2` are ordered
 

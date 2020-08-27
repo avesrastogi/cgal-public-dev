@@ -203,6 +203,8 @@ public:
   explicit Projection_traits_base_3(
     const Vector_3& n_) : n(n_) {
 
+    CGAL_precondition(
+      n != Vector_3(0, 0, 0));
     const FT nx = n.x();
     const FT ny = n.y();
     const FT nz = n.z();

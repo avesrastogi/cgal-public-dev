@@ -306,111 +306,6 @@ namespace internal {
     else return FT(0); // undefined
   }
 
-  // Computes 2D barycenter of the points a and b.
-  template<typename GeomTraits>
-  const typename GeomTraits::Point_2 barycenter_2(
-    const GeomTraits& traits,
-    const typename GeomTraits::Point_2& a,
-    const typename GeomTraits::Point_2& b) {
-
-    using FT = typename GeomTraits::FT;
-    using Point_2 = typename GeomTraits::Point_2;
-
-    const FT half = FT(1) / FT(2);
-    const FT x = half * (a.x() + b.x());
-    const FT y = half * (a.y() + b.y());
-    return Point_2(x, y);
-  }
-
-  // Computes 3D barycenter of the points a and b.
-  template<typename GeomTraits>
-  const typename GeomTraits::Point_3 barycenter_3(
-    const GeomTraits& traits,
-    const typename GeomTraits::Point_3& a,
-    const typename GeomTraits::Point_3& b) {
-
-    using FT = typename GeomTraits::FT;
-    using Point_3 = typename GeomTraits::Point_3;
-
-    const FT half = FT(1) / FT(2);
-    const FT x = half * (a.x() + b.x());
-    const FT y = half * (a.y() + b.y());
-    const FT z = half * (a.z() + b.z());
-    return Point_3(x, y, z);
-  }
-
-  // Computes 2D barycenter of the points a, b, and c.
-  template<typename GeomTraits>
-  const typename GeomTraits::Point_2 barycenter_2(
-    const GeomTraits& traits,
-    const typename GeomTraits::Point_2& a,
-    const typename GeomTraits::Point_2& b,
-    const typename GeomTraits::Point_2& c) {
-
-    using FT = typename GeomTraits::FT;
-    using Point_2 = typename GeomTraits::Point_2;
-
-    const FT third = FT(1) / FT(3);
-    const FT x = third * (a.x() + b.x() + c.x());
-    const FT y = third * (a.y() + b.y() + c.y());
-    return Point_2(x, y);
-  }
-
-  // Computes 3D barycenter of the points a, b, and c.
-  template<typename GeomTraits>
-  const typename GeomTraits::Point_3 barycenter_3(
-    const GeomTraits& traits,
-    const typename GeomTraits::Point_3& a,
-    const typename GeomTraits::Point_3& b,
-    const typename GeomTraits::Point_3& c) {
-
-    using FT = typename GeomTraits::FT;
-    using Point_3 = typename GeomTraits::Point_3;
-
-    const FT third = FT(1) / FT(3);
-    const FT x = third * (a.x() + b.x() + c.x());
-    const FT y = third * (a.y() + b.y() + c.y());
-    const FT z = third * (a.z() + b.z() + c.z());
-    return Point_3(x, y, z);
-  }
-
-  // Computes 2D barycenter of the points a, b, c, and d.
-  template<typename GeomTraits>
-  const typename GeomTraits::Point_2 barycenter_2(
-    const GeomTraits& traits,
-    const typename GeomTraits::Point_2& a,
-    const typename GeomTraits::Point_2& b,
-    const typename GeomTraits::Point_2& c,
-    const typename GeomTraits::Point_2& d) {
-
-    using FT = typename GeomTraits::FT;
-    using Point_2 = typename GeomTraits::Point_2;
-
-    const FT quater = FT(1) / FT(4);
-    const FT x = quater * (a.x() + b.x() + c.x() + d.x());
-    const FT y = quater * (a.y() + b.y() + c.y() + d.y());
-    return Point_2(x, y);
-  }
-
-  // Computes 3D barycenter of the points a, b, c, and d.
-  template<typename GeomTraits>
-  const typename GeomTraits::Point_3 barycenter_3(
-    const GeomTraits& traits,
-    const typename GeomTraits::Point_3& a,
-    const typename GeomTraits::Point_3& b,
-    const typename GeomTraits::Point_3& c,
-    const typename GeomTraits::Point_3& d) {
-
-    using FT = typename GeomTraits::FT;
-    using Point_3 = typename GeomTraits::Point_3;
-
-    const FT quater = FT(1) / FT(4);
-    const FT x = quater * (a.x() + b.x() + c.x() + d.x());
-    const FT y = quater * (a.y() + b.y() + c.y() + d.y());
-    const FT z = quater * (a.z() + b.z() + c.z() + d.z());
-    return Point_3(x, y, z);
-  }
-
   // Computes 3D angle between two vectors.
   template<typename GeomTraits>
   const double angle_3(
@@ -529,26 +424,27 @@ namespace internal {
       traits.construct_cross_product_vector_3_object();
     const auto construct_vector_3 =
       traits.construct_vector_3_object();
+    const auto centroid_3 =
+      traits.construct_centroid_3_object();
 
-    // Compute barycenter.
-    const Point_3 center =
-      barycenter_3(traits, q, t, r, p);
-    // std::cout << "barycenter: " << center << std::endl;
+    // Compute centroid.
+    const auto center = centroid_3(t, r, p, q);
+    // std::cout << "centroid: " << center << std::endl;
 
     // Translate.
-    const Point_3 q1 = Point_3(
-      q.x() - center.x(), q.y() - center.y(), q.z() - center.z());
     const Point_3 t1 = Point_3(
       t.x() - center.x(), t.y() - center.y(), t.z() - center.z());
     const Point_3 r1 = Point_3(
       r.x() - center.x(), r.y() - center.y(), r.z() - center.z());
     const Point_3 p1 = Point_3(
       p.x() - center.x(), p.y() - center.y(), p.z() - center.z());
+    const Point_3 q1 = Point_3(
+      q.x() - center.x(), q.y() - center.y(), q.z() - center.z());
 
-    // std::cout << "translated q1: " << q1 << std::endl;
     // std::cout << "translated t1: " << t1 << std::endl;
     // std::cout << "translated r1: " << r1 << std::endl;
     // std::cout << "translated p1: " << p1 << std::endl;
+    // std::cout << "translated q1: " << q1 << std::endl;
 
     // Middle axis.
     auto ax = construct_vector_3(q1, r1);
@@ -576,10 +472,10 @@ namespace internal {
     // std::cout << "angle deg n1 <-> n2: " << angle_rad * 180.0 / CGAL_PI << std::endl;
 
     // Rotate p1 around ax so that it lands onto the plane [q1, t1, r1].
-    const Point_3& q2 = q1;
-    const Point_3& t2 = t1;
-    const Point_3& r2 = r1;
-    const Point_3  p2 = rotate_point_3(traits, angle_rad, ax, p1);
+    const auto& t2 = t1;
+    const auto& r2 = r1;
+    const auto  p2 = rotate_point_3(traits, angle_rad, ax, p1);
+    const auto& q2 = q1;
     // std::cout << "rotated p2: " << p2 << std::endl;
 
     // Compute orthogonal base vectors.
@@ -592,10 +488,10 @@ namespace internal {
 
     // Flatten a quad.
     const auto& origin = q2;
-    qf = to_2d(traits, b1, b2, origin, q2);
     tf = to_2d(traits, b1, b2, origin, t2);
     rf = to_2d(traits, b1, b2, origin, r2);
     pf = to_2d(traits, b1, b2, origin, p2);
+    qf = to_2d(traits, b1, b2, origin, q2);
 
     // std::cout << "flattened qf: " << qf << std::endl;
     // std::cout << "flattened tf: " << tf << std::endl;
@@ -649,10 +545,11 @@ namespace internal {
       traits.construct_cross_product_vector_3_object();
     const auto construct_vector_3 =
       traits.construct_vector_3_object();
+    const auto centroid_3 =
+      traits.construct_centroid_3_object();
 
-    // Compute barycenter.
-    const Point_3 center =
-      barycenter_3(traits, p, q, r);
+    // Compute centroid.
+    const auto center = centroid_3(p, q, r);
 
     // Translate.
     const Point_3 a = Point_3(

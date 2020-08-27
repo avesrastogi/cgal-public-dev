@@ -42,7 +42,7 @@ namespace Weights {
 
       using FT = typename GeomTraits::FT;
       FT w = FT(0);
-      CGAL_assertion(d != FT(0));
+      CGAL_precondition(d != FT(0));
       if (d != FT(0)) {
         FT denom = d;
         if (p != FT(1))
@@ -90,6 +90,8 @@ namespace Weights {
     \param traits
     this parameter can be omitted if the traits class can be deduced from the point type
 
+    \pre d != 0
+
     \cgalModels `analytic_weight()`
   */
   template<typename GeomTraits>
@@ -122,6 +124,8 @@ namespace Weights {
 
     \param traits
     this parameter can be omitted if the traits class can be deduced from the point type
+
+    \pre p != q
 
     \sa `shepard_weight()`
   */
