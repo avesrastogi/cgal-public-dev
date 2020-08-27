@@ -650,7 +650,7 @@ namespace Barycentric_coordinates {
 
     \param policy
     One of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
-    The default is `CGAL::Barycentric_coordinates::Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
+    The default is `CGAL::Barycentric_coordinates::Computation_policy_2::FAST_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
     one past the last weight stored.
@@ -711,7 +711,7 @@ namespace Barycentric_coordinates {
 
     \param policy
     One of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
-    The default is `CGAL::Barycentric_coordinates::Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
+    The default is `CGAL::Barycentric_coordinates::Computation_policy_2::FAST_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
     one past the last weight stored.
@@ -900,7 +900,7 @@ namespace Barycentric_coordinates {
 
     \param policy
     One of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
-    The default is `CGAL::Barycentric_coordinates::Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
+    The default is `CGAL::Barycentric_coordinates::Computation_policy_2::FAST_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
     one past the last weight stored.
@@ -961,7 +961,7 @@ namespace Barycentric_coordinates {
 
     \param policy
     One of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
-    The default is `CGAL::Barycentric_coordinates::Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
+    The default is `CGAL::Barycentric_coordinates::Computation_policy_2::FAST_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
     one past the last weight stored.
@@ -1150,7 +1150,7 @@ namespace Barycentric_coordinates {
 
     \param policy
     One of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
-    The default is `CGAL::Barycentric_coordinates::Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
+    The default is `CGAL::Barycentric_coordinates::Computation_policy_2::FAST_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
     one past the last weight stored.
@@ -1210,7 +1210,7 @@ namespace Barycentric_coordinates {
 
     \param policy
     One of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
-    The default is `CGAL::Barycentric_coordinates::Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
+    The default is `CGAL::Barycentric_coordinates::Computation_policy_2::FAST_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
     one past the last weight stored.

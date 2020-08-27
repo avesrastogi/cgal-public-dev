@@ -14,13 +14,13 @@ using Generator = CGAL::Random_points_in_square_2<Point_2, Creator>;
 
 int main() {
 
-  // Choose how many random query points we want to generate.
+  // Choose how many query points we want to generate.
   const std::size_t num_queries = 100;
 
   // Create vectors to store query points and polygon vertices.
   std::vector<Point_2> queries, convex;
 
-  // Generate a set of random query points.
+  // Generate a set of query points.
   queries.reserve(num_queries);
   Generator generator(1.0);
   std::copy_n(generator, num_queries, std::back_inserter(queries));
