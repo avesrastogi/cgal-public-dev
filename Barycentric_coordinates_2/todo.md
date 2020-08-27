@@ -13,12 +13,13 @@
 * Comment the code.
 
 Small extra fixes:
-* fixed return statements;
-* const Point_2 p2 = Point_2 and others, you can just write const Point_2 p2;
 * check preconditions;
-* no capital letter in the \param \tparam descriptions (everywhere);
-* no end dot in \param \tparam descriptions if it's not a sentence (everywhere);
+* fixed return statements;
 * take geometric traits by const&;
+* fix OutputIterator concept and params;
+* no capital letter in the \param \tparam descriptions (everywhere);
+* const Point_2 p2 = Point_2 and others, you can just write const Point_2 p2;
+* * add more objects from the traits class e.g. the sqrt object and/or centroid/midpoint;
+* no end dot in \param \tparam descriptions if it's not a sentence (everywhere);
 * fix traits concept if any by using function operator and spaces;
-* flexible api - do I write it here;
-* fix OutputIterator concept and params.
+* flexible api - do I write it here.
