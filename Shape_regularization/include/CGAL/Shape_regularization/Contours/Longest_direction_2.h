@@ -40,10 +40,10 @@ namespace Contours {
     principal direction of the contour.
 
     \tparam GeomTraits
-    a model of `Kernel`.
+    a model of `Kernel`
 
     \tparam InputRange
-    a model of `ConstRange` whose iterator type is `RandomAccessIterator`.
+    a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
     \tparam PointMap
     a model of `ReadablePropertyMap` whose key type is the value type of the input
@@ -122,10 +122,11 @@ namespace Contours {
       \brief orients a given `segment` with the index `query_index` towards the
       longest principal direction.
 
-      \param query_index an index of the contour vertex that emits the contour
-      edge being `segment`.
+      \param query_index
+      an index of the contour vertex that emits the contour edge being `segment`
 
-      \param segment a segment to be rotated
+      \param segment
+      a segment to be rotated
 
       \pre query_index >= 0 && query_index < input_range.size() for closed contours
       \pre query_index >= 0 && query_index < input_range.size() - 1 for open contours

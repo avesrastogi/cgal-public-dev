@@ -55,26 +55,26 @@ namespace Shape_regularization {
     shows an example.
 
     \tparam GeomTraits
-    a model of `Kernel`.
+    a model of `Kernel`
 
     \tparam InputRange
-    a model of `ConstRange`.
+    a model of `ConstRange`
 
-    \tparam NeighborQuery
-    a model of `NeighborQuery`.
+    \tparam NeighQuery
+    a model of `NeighborQuery`
 
-    \tparam RegularizationType
-    a model of `RegularizationType`.
+    \tparam RegType
+    a model of `RegularizationType`
 
-    \tparam QuadraticProgramTraits
-    a model of `QuadraticProgramTraits`.
+    \tparam QPTraits
+    a model of `QuadraticProgramTraits`
   */
   template<
   typename GeomTraits,
   typename InputRange,
-  typename NeighborQuery,
-  typename RegularizationType,
-  typename QuadraticProgramTraits>
+  typename NeighQuery,
+  typename RegType,
+  typename QPTraits>
   class QP_regularization {
 
   private:
@@ -100,9 +100,9 @@ namespace Shape_regularization {
     /// \cond SKIP_IN_MANUAL
     using Traits = GeomTraits;
     using Input_range = InputRange;
-    using Neighbor_query = NeighborQuery;
-    using Regularization_type = RegularizationType;
-    using Quadratic_program = QuadraticProgramTraits;
+    using Neighbor_query = NeighQuery;
+    using Regularization_type = RegType;
+    using Quadratic_program = QPTraits;
 
     using FT = typename Traits::FT;
     using Indices = std::vector<std::size_t>;
@@ -137,9 +137,9 @@ namespace Shape_regularization {
     */
     QP_regularization(
       const InputRange& input_range,
-      NeighborQuery& neighbor_query,
-      RegularizationType& regularization_type,
-      QuadraticProgramTraits& quadratic_program,
+      NeighQuery& neighbor_query,
+      RegType& regularization_type,
+      QPTraits& quadratic_program,
       const GeomTraits traits = GeomTraits()) :
     m_input_range(input_range),
     m_neighbor_query(neighbor_query),

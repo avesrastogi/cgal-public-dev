@@ -49,10 +49,10 @@ namespace Segments {
     Each group of parallel segments may be inserted using the method `add_group()`.
 
     \tparam GeomTraits
-    a model of `Kernel`.
+    a model of `Kernel`
 
     \tparam InputRange
-    a model of `Range` whose iterator type is `RandomAccessIterator`.
+    a model of `Range` whose iterator type is `RandomAccessIterator`
 
     \tparam SegmentMap
     a model of `ReadWritePropertyMap` whose key type is the value type of the `InputRange`
@@ -100,7 +100,7 @@ namespace Segments {
       \brief initializes all internal data structures.
 
       \tparam NamedParameters
-      a sequence of \ref bgl_namedparameters "Named Parameters".
+      a sequence of \ref bgl_namedparameters "Named Parameters"
 
       \param input_range
       a range of 2D segments to be regularized
@@ -170,7 +170,7 @@ namespace Segments {
       (see more in the user manual). By default, all segments are inserted as a group.
 
       \tparam IndexRange
-      a model of `ConstRange` whose value type is `std::size_t`.
+      a model of `ConstRange` whose value type is `std::size_t`
 
       \param index_range
       a const range of segment indices
@@ -296,15 +296,14 @@ namespace Segments {
 
       This method calls `Segments::collinear_groups()`.
 
-      \tparam OutputIterator
-      a model of `OutputIterator` whose value type is `std::vector<std::size_t>`.
+      \tparam OutIterator
+      a model of `OutputIterator` whose value type is `std::vector<std::size_t>`
 
       \param groups
-      an instance of `OutputIterator`,
-      whose value type is `std::vector<std::size_t>`
+      an output iterator with groups of segment indices
     */
-    template<typename OutputIterator>
-    OutputIterator collinear_groups(OutputIterator groups) const {
+    template<typename OutIterator>
+    OutIterator collinear_groups(OutIterator groups) const {
 
       const Collinear_groups_2 grouping(
         m_input_range,
@@ -332,15 +331,14 @@ namespace Segments {
       and then substitutes each group of collinear segments by an average segment.
       The number of returned segments is the number of detected collinear groups.
 
-      \tparam OutputIterator
-      a model of `OutputIterator` whose value type is `GeomTraits::Segment_2`.
+      \tparam OutIterator
+      a model of `OutputIterator` whose value type is `GeomTraits::Segment_2`
 
       \param segments
-      an instance of `OutputIterator`,
-      whose value type is `GeomTraits::Segment_2`
+      an output iterator with the simplified segments
     */
-    template<typename OutputIterator>
-    OutputIterator unique_segments(OutputIterator segments) const {
+    template<typename OutIterator>
+    OutIterator unique_segments(OutIterator segments) const {
 
       const Unique_segments_2 unique(
         m_input_range,

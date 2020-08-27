@@ -54,23 +54,23 @@ namespace Contours {
     The principal directions of the contour are provided via the concept `ContourDirections`.
 
     \tparam InputRange
-    a model of `ConstRange` whose iterator type is `RandomAccessIterator`.
+    a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
-    \tparam ContourDirections
-    a model of `ContourDirections`.
+    \tparam ContDirections
+    a model of `ContourDirections`
 
-    \tparam OutputIterator
-    an output iterator whose value type is `GeomTraits::Point_2`.
+    \tparam OutIterator
+    a model of `OutputIterator` whose value type is `GeomTraits::Point_2`
 
     \tparam NamedParameters
-    a sequence of \ref bgl_namedparameters "Named Parameters".
+    a sequence of \ref bgl_namedparameters "Named Parameters"
 
     \tparam PointMap
     a model of `ReadablePropertyMap` whose key type is the value type of the input
-    range and value type is `GeomTraits::Point_2`.
+    range and value type is `GeomTraits::Point_2`
 
     \tparam GeomTraits
-    a model of `Kernel`.
+    a model of `Kernel`
 
     \param input_range
     a const range of ordered points, which form a contour
@@ -103,21 +103,22 @@ namespace Contours {
       \cgalParamNEnd
     \cgalNamedParamsEnd
 
-    \return an output iterator.
+    \return an output iterator to the element in the destination range,
+    one past the last contour vertex stored
 
     \pre input_range.size() >= 3
   */
   template<
   typename InputRange,
-  typename ContourDirections,
-  typename OutputIterator,
+  typename ContDirections,
+  typename OutIterator,
   typename NamedParameters,
   typename PointMap,
   typename GeomTraits>
-  OutputIterator regularize_closed_contour(
+  OutIterator regularize_closed_contour(
     const InputRange& input_range,
-    const ContourDirections& directions,
-    OutputIterator contour,
+    const ContDirections& directions,
+    OutIterator contour,
     const NamedParameters& np,
     const PointMap point_map,
     const GeomTraits& traits) {
@@ -125,7 +126,7 @@ namespace Contours {
     CGAL_precondition(input_range.size() >= 3);
     using Contour_regularizer =
     internal::Contour_regularization_2<
-      internal::CLOSED, ContourDirections, GeomTraits>;
+      internal::CLOSED, ContDirections, GeomTraits>;
 
     Contour_regularizer regularizer(
       directions, input_range, point_map, np, traits);
@@ -135,15 +136,15 @@ namespace Contours {
   /// \cond SKIP_IN_MANUAL
   template<
   typename InputRange,
-  typename ContourDirections,
-  typename OutputIterator,
+  typename ContDirections,
+  typename OutIterator,
   typename NamedParameters,
   typename PointMap = CGAL::Identity_property_map<
   typename std::iterator_traits< typename InputRange::const_iterator >::value_type > >
-  OutputIterator regularize_closed_contour(
+  OutIterator regularize_closed_contour(
     const InputRange& input_range,
-    const ContourDirections& directions,
-    OutputIterator contour,
+    const ContDirections& directions,
+    OutIterator contour,
     const NamedParameters& np,
     const PointMap point_map = PointMap()) {
 
@@ -159,12 +160,12 @@ namespace Contours {
 
   template<
   typename InputRange,
-  typename ContourDirections,
-  typename OutputIterator>
-  OutputIterator regularize_closed_contour(
+  typename ContDirections,
+  typename OutIterator>
+  OutIterator regularize_closed_contour(
     const InputRange& input_range,
-    const ContourDirections& directions,
-    OutputIterator contour) {
+    const ContDirections& directions,
+    OutIterator contour) {
 
     CGAL_precondition(input_range.size() >= 3);
     return regularize_closed_contour(
@@ -186,23 +187,23 @@ namespace Contours {
     The principal directions of the contour are provided via the concept `ContourDirections`.
 
     \tparam InputRange
-    a model of `ConstRange` whose iterator type is `RandomAccessIterator`.
+    a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
-    \tparam ContourDirections
-    a model of `ContourDirections`.
+    \tparam ContDirections
+    a model of `ContourDirections`
 
-    \tparam OutputIterator
-    an output iterator whose value type is `GeomTraits::Point_2`.
+    \tparam OutIterator
+    a model of `OutputIterator` whose value type is `GeomTraits::Point_2`
 
     \tparam NamedParameters
-    a sequence of \ref bgl_namedparameters "Named Parameters".
+    a sequence of \ref bgl_namedparameters "Named Parameters"
 
     \tparam PointMap
     a model of `ReadablePropertyMap` whose key type is the value type of the input
-    range and value type is `GeomTraits::Point_2`.
+    range and value type is `GeomTraits::Point_2`
 
     \tparam GeomTraits
-    a model of `Kernel`.
+    a model of `Kernel`
 
     \param input_range
     a const range of ordered points, which form a contour
@@ -235,21 +236,22 @@ namespace Contours {
       \cgalParamNEnd
     \cgalNamedParamsEnd
 
-    \return an output iterator.
+    \return an output iterator to the element in the destination range,
+    one past the last contour vertex stored
 
     \pre input_range.size() >= 2
   */
   template<
   typename InputRange,
-  typename ContourDirections,
-  typename OutputIterator,
+  typename ContDirections,
+  typename OutIterator,
   typename NamedParameters,
   typename PointMap,
   typename GeomTraits>
-  OutputIterator regularize_open_contour(
+  OutIterator regularize_open_contour(
     const InputRange& input_range,
-    const ContourDirections& directions,
-    OutputIterator contour,
+    const ContDirections& directions,
+    OutIterator contour,
     const NamedParameters& np,
     const PointMap point_map,
     const GeomTraits& traits) {
@@ -257,7 +259,7 @@ namespace Contours {
     CGAL_precondition(input_range.size() >= 2);
     using Contour_regularizer =
     internal::Contour_regularization_2<
-      internal::OPEN, ContourDirections, GeomTraits>;
+      internal::OPEN, ContDirections, GeomTraits>;
 
     Contour_regularizer regularizer(
       directions, input_range, point_map, np, traits);
@@ -267,15 +269,15 @@ namespace Contours {
   /// \cond SKIP_IN_MANUAL
   template<
   typename InputRange,
-  typename ContourDirections,
-  typename OutputIterator,
+  typename ContDirections,
+  typename OutIterator,
   typename NamedParameters,
   typename PointMap = CGAL::Identity_property_map<
   typename std::iterator_traits< typename InputRange::const_iterator >::value_type > >
-  OutputIterator regularize_open_contour(
+  OutIterator regularize_open_contour(
     const InputRange& input_range,
-    const ContourDirections& directions,
-    OutputIterator contour,
+    const ContDirections& directions,
+    OutIterator contour,
     const NamedParameters& np,
     const PointMap point_map = PointMap()) {
 
@@ -291,12 +293,12 @@ namespace Contours {
 
   template<
   typename InputRange,
-  typename ContourDirections,
-  typename OutputIterator>
-  OutputIterator regularize_open_contour(
+  typename ContDirections,
+  typename OutIterator>
+  OutIterator regularize_open_contour(
     const InputRange& input_range,
-    const ContourDirections& directions,
-    OutputIterator contour) {
+    const ContDirections& directions,
+    OutIterator contour) {
 
     CGAL_precondition(input_range.size() >= 2);
     return regularize_open_contour(

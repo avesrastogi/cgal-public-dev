@@ -11,9 +11,9 @@ contour edges towards these directions. All contour regularization functions
 in this package are parameterized by this concept.
 
 \cgalHasModel
-- `Contours::Longest_direction_2`,
-- `Contours::Multiple_directions_2`,
-- `Contours::User_defined_directions_2`.
+- `Contours::Longest_direction_2`
+- `Contours::Multiple_directions_2`
+- `Contours::User_defined_directions_2`
 */
 class ContourDirections {
 

@@ -50,10 +50,10 @@ namespace Segments {
     the corresponding query vertex in the triangulation.
 
     \tparam GeomTraits
-    a model of `Kernel`.
+    a model of `Kernel`
 
     \tparam InputRange
-    a model of `ConstRange` whose iterator type is `RandomAccessIterator`.
+    a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
     \tparam SegmentMap
     a model of `ReadablePropertyMap` whose key type is the value type of the `InputRange`
@@ -125,7 +125,7 @@ namespace Segments {
       (see more in the user manual). By default, all segments are inserted as a group.
 
       \tparam IndexRange
-      a model of `ConstRange` whose value type is `std::size_t`.
+      a model of `ConstRange` whose value type is `std::size_t`
 
       \param index_range
       a const range of segment indices

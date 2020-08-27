@@ -87,7 +87,7 @@ to the user-specified conditions.}
 - `regularize_planes()`
 
 ### QP Regularization ###
-- `QP_regularization<GeomTraits, InputRange, NeighborQuery, RegularizationType, QuadraticProgramTraits>`
+- `QP_regularization<GeomTraits, InputRange, NeighQuery, RegType, QPTraits>`
 */
 
 } /* namespace Shape_regularization */

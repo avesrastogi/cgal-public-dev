@@ -134,7 +134,7 @@ void test_segments() {
   assert(collinear_groups[2][1] == 3);
 
   assert(unique_segments.size() == 3);
-  const Segment_2 ref_segment = Segment_2(Point_2(0, 2), Point_2(0, 5));
+  const Segment_2 ref_segment(Point_2(0, 2), Point_2(0, 5));
   assert(has_no_difference(unique_segments[0], saved[0]));
   assert(has_no_difference(unique_segments[1], saved[1]));
   assert(has_no_difference(unique_segments[2], ref_segment));

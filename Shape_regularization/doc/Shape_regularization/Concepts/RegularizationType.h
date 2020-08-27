@@ -10,8 +10,8 @@ A concept that describes the set of methods used by the class
 required for setting up the the global regularization problem.
 
 \cgalHasModel
-- `Segments::Angle_regularization_2`,
-- `Segments::Offset_regularization_2`.
+- `Segments::Angle_regularization_2`
+- `Segments::Offset_regularization_2`
 */
 class RegularizationType {
 

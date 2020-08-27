@@ -64,19 +64,19 @@ namespace Segments {
     Please refer to that class and these concepts for more information.
 
     \tparam InputRange
-    a model of `ConstRange` whose iterator type is `RandomAccessIterator`.
+    a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
-    \tparam NeighborQuery
-    a model of `NeighborQuery`.
+    \tparam NeighQuery
+    a model of `NeighborQuery`
 
-    \tparam RegularizationType
-    a model of `RegularizationType`.
+    \tparam RegType
+    a model of `RegularizationType`
 
-    \tparam QuadraticProgramTraits
-    a model of `QuadraticProgramTraits`.
+    \tparam QPTraits
+    a model of `QuadraticProgramTraits`
 
     \tparam GeomTraits
-    a model of `Kernel`.
+    a model of `Kernel`
 
     \param input_range
     a const range of input segments for shape regularization
@@ -108,20 +108,20 @@ namespace Segments {
   */
   template<
   typename InputRange,
-  typename NeighborQuery,
-  typename RegularizationType,
-  typename QuadraticProgramTraits,
+  typename NeighQuery,
+  typename RegType,
+  typename QPTraits,
   typename GeomTraits>
   void regularize_segments(
     InputRange& input_range,
-    NeighborQuery& neighbor_query,
-    RegularizationType& regularization_type,
-    QuadraticProgramTraits& quadratic_program,
+    NeighQuery& neighbor_query,
+    RegType& regularization_type,
+    QPTraits& quadratic_program,
     const GeomTraits& traits) {
 
     CGAL_precondition(input_range.size() >= 2);
     using Regularizer = QP_regularization<
-      GeomTraits, InputRange, NeighborQuery, RegularizationType, QuadraticProgramTraits>;
+      GeomTraits, InputRange, NeighQuery, RegType, QPTraits>;
 
     Regularizer regularizer(
       input_range, neighbor_query, regularization_type, quadratic_program, traits);
@@ -139,10 +139,10 @@ namespace Segments {
     - *Orthogonality*: segments, which are detected as near orthogonal, are made exactly orthogonal.
 
     \tparam InputRange
-    a model of `ConstRange` whose iterator type is `RandomAccessIterator`.
+    a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
     \tparam GeomTraits
-    a model of `Kernel`.
+    a model of `Kernel`
 
     \param input_range
     a const range of input segments for angle regularization
@@ -184,10 +184,10 @@ namespace Segments {
     which are detected as near collinear, are made exactly collinear.
 
     \tparam InputRange
-    a model of `ConstRange` whose iterator type is `RandomAccessIterator`.
+    a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
     \tparam GeomTraits
-    a model of `Kernel`.
+    a model of `Kernel`
 
     \param input_range
     a const range of input segments for offset regularization
@@ -224,13 +224,13 @@ namespace Segments {
   /// \cond SKIP_IN_MANUAL
   template<
   typename InputRange,
-  typename NeighborQuery,
-  typename RegularizationType,
+  typename NeighQuery,
+  typename RegType,
   typename GeomTraits>
   void regularize_segments(
     InputRange& input_range,
-    NeighborQuery& neighbor_query,
-    RegularizationType& regularization_type,
+    NeighQuery& neighbor_query,
+    RegType& regularization_type,
     const GeomTraits& traits) {
 
     CGAL_precondition(input_range.size() >= 2);
@@ -244,12 +244,12 @@ namespace Segments {
 
   template<
   typename InputRange,
-  typename NeighborQuery,
-  typename RegularizationType>
+  typename NeighQuery,
+  typename RegType>
   void regularize_segments(
     InputRange& input_range,
-    NeighborQuery& neighbor_query,
-    RegularizationType& regularization_type) {
+    NeighQuery& neighbor_query,
+    RegType& regularization_type) {
 
     CGAL_precondition(input_range.size() >= 2);
     using Iterator_type = typename InputRange::const_iterator;
@@ -355,20 +355,20 @@ namespace Segments {
     This function does not regularize input segments, but only groups them.
 
     \tparam InputRange
-    a model of `ConstRange` whose iterator type is `RandomAccessIterator`.
+    a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
-    \tparam OutputIterator
-    an output iterator whose value type is `std::vector<std::size_t>`.
+    \tparam OutIterator
+    a model of `OutputIterator` whose value type is `std::vector<std::size_t>`
 
     \tparam NamedParameters
-    a sequence of \ref bgl_namedparameters "Named Parameters".
+    a sequence of \ref bgl_namedparameters "Named Parameters"
 
     \tparam SegmentMap
     a model of `ReadablePropertyMap` whose key type is the value type of the input
-    range and value type is `GeomTraits::Segment_2`;
+    range and value type is `GeomTraits::Segment_2`
 
     \tparam GeomTraits
-    a model of `Kernel`.
+    a model of `Kernel`
 
     \param input_range
     a const range of input segments
@@ -404,20 +404,21 @@ namespace Segments {
       \cgalParamNEnd
     \cgalNamedParamsEnd
 
-    \return an output iterator.
+    \return an output iterator to the element in the destination range,
+    one past the last group stored
 
     \pre input_range.size() >= 1
     \pre max_angle >= 0 && max_angle <= 90
   */
   template<
   typename InputRange,
-  typename OutputIterator,
+  typename OutIterator,
   typename NamedParameters,
   typename SegmentMap,
   typename GeomTraits>
-  OutputIterator parallel_groups(
+  OutIterator parallel_groups(
     const InputRange& input_range,
-    OutputIterator groups,
+    OutIterator groups,
     const NamedParameters& np,
     const SegmentMap segment_map,
     const GeomTraits& traits) {
@@ -434,13 +435,13 @@ namespace Segments {
   /// \cond SKIP_IN_MANUAL
   template<
   typename InputRange,
-  typename OutputIterator,
+  typename OutIterator,
   typename NamedParameters,
   typename SegmentMap = CGAL::Identity_property_map<
   typename std::iterator_traits< typename InputRange::const_iterator >::value_type > >
-  OutputIterator parallel_groups(
+  OutIterator parallel_groups(
     const InputRange& input_range,
-    OutputIterator groups,
+    OutIterator groups,
     const NamedParameters& np,
     const SegmentMap segment_map = SegmentMap()) {
 
@@ -456,10 +457,10 @@ namespace Segments {
 
   template<
   typename InputRange,
-  typename OutputIterator>
-  OutputIterator parallel_groups(
+  typename OutIterator>
+  OutIterator parallel_groups(
     const InputRange& input_range,
-    OutputIterator groups) {
+    OutIterator groups) {
 
     CGAL_precondition(input_range.size() >= 1);
     return parallel_groups(
@@ -480,20 +481,20 @@ namespace Segments {
     This function does not regularize input segments, but only groups them.
 
     \tparam InputRange
-    a model of `ConstRange` whose iterator type is `RandomAccessIterator`.
+    a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
-    \tparam OutputIterator
-    an output iterator whose value type is `std::vector<std::size_t>`.
+    \tparam OutIterator
+    a model of `OutputIterator` whose value type is `std::vector<std::size_t>`
 
     \tparam NamedParameters
-    a sequence of \ref bgl_namedparameters "Named Parameters".
+    a sequence of \ref bgl_namedparameters "Named Parameters"
 
     \tparam SegmentMap
     a model of `ReadablePropertyMap` whose key type is the value type of the input
-    range and value type is `GeomTraits::Segment_2`.
+    range and value type is `GeomTraits::Segment_2`
 
     \tparam GeomTraits
-    a model of `Kernel`.
+    a model of `Kernel`
 
     \param input_range
     a const range of input segments
@@ -529,20 +530,21 @@ namespace Segments {
       \cgalParamNEnd
     \cgalNamedParamsEnd
 
-    \return an output iterator.
+    \return an output iterator to the element in the destination range,
+    one past the last group stored
 
     \pre input_range.size() >= 1
     \pre max_offset >= 0
   */
   template<
   typename InputRange,
-  typename OutputIterator,
+  typename OutIterator,
   typename NamedParameters,
   typename SegmentMap,
   typename GeomTraits>
-  OutputIterator collinear_groups(
+  OutIterator collinear_groups(
     const InputRange& input_range,
-    OutputIterator groups,
+    OutIterator groups,
     const NamedParameters& np,
     const SegmentMap segment_map,
     const GeomTraits& traits) {
@@ -559,13 +561,13 @@ namespace Segments {
   /// \cond SKIP_IN_MANUAL
   template<
   typename InputRange,
-  typename OutputIterator,
+  typename OutIterator,
   typename NamedParameters,
   typename SegmentMap = CGAL::Identity_property_map<
   typename std::iterator_traits< typename InputRange::const_iterator >::value_type > >
-  OutputIterator collinear_groups(
+  OutIterator collinear_groups(
     const InputRange& input_range,
-    OutputIterator groups,
+    OutIterator groups,
     const NamedParameters& np,
     const SegmentMap segment_map = SegmentMap()) {
 
@@ -581,10 +583,10 @@ namespace Segments {
 
   template<
   typename InputRange,
-  typename OutputIterator>
-  OutputIterator collinear_groups(
+  typename OutIterator>
+  OutIterator collinear_groups(
     const InputRange& input_range,
-    OutputIterator groups) {
+    OutIterator groups) {
 
     CGAL_precondition(input_range.size() >= 1);
     return collinear_groups(
@@ -605,20 +607,20 @@ namespace Segments {
     This function does not regularize input segments, but only groups them.
 
     \tparam InputRange
-    a model of `ConstRange` whose iterator type is `RandomAccessIterator`.
+    a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
-    \tparam OutputIterator
-    an output iterator whose value type is `std::vector<std::size_t>`.
+    \tparam OutIterator
+    a model of `OutputIterator` whose value type is `std::vector<std::size_t>`
 
     \tparam NamedParameters
-    a sequence of \ref bgl_namedparameters "Named Parameters".
+    a sequence of \ref bgl_namedparameters "Named Parameters"
 
     \tparam SegmentMap
     a model of `ReadablePropertyMap` whose key type is the value type of the input
-    range and value type is `GeomTraits::Segment_2`.
+    range and value type is `GeomTraits::Segment_2`
 
     \tparam GeomTraits
-    a model of `Kernel`.
+    a model of `Kernel`
 
     \param input_range
     a const range of input segments
@@ -654,20 +656,21 @@ namespace Segments {
       \cgalParamNEnd
     \cgalNamedParamsEnd
 
-    \return an output iterator.
+    \return an output iterator to the element in the destination range,
+    one past the last group stored
 
     \pre input_range.size() >= 1
     \pre max_angle >= 0 && max_angle <= 90
   */
   template<
   typename InputRange,
-  typename OutputIterator,
+  typename OutIterator,
   typename NamedParameters,
   typename SegmentMap,
   typename GeomTraits>
-  OutputIterator orthogonal_groups(
+  OutIterator orthogonal_groups(
     const InputRange& input_range,
-    OutputIterator groups,
+    OutIterator groups,
     const NamedParameters& np,
     const SegmentMap segment_map,
     const GeomTraits& traits) {
@@ -684,13 +687,13 @@ namespace Segments {
   /// \cond SKIP_IN_MANUAL
   template<
   typename InputRange,
-  typename OutputIterator,
+  typename OutIterator,
   typename NamedParameters,
   typename SegmentMap = CGAL::Identity_property_map<
   typename std::iterator_traits< typename InputRange::const_iterator >::value_type > >
-  OutputIterator orthogonal_groups(
+  OutIterator orthogonal_groups(
     const InputRange& input_range,
-    OutputIterator groups,
+    OutIterator groups,
     const NamedParameters& np,
     const SegmentMap segment_map = SegmentMap()) {
 
@@ -706,10 +709,10 @@ namespace Segments {
 
   template<
   typename InputRange,
-  typename OutputIterator>
-  OutputIterator orthogonal_groups(
+  typename OutIterator>
+  OutIterator orthogonal_groups(
     const InputRange& input_range,
-    OutputIterator groups) {
+    OutIterator groups) {
 
     CGAL_precondition(input_range.size() >= 1);
     return orthogonal_groups(
@@ -729,20 +732,20 @@ namespace Segments {
     This function does not regularize input segments, but only groups and then simplifies them.
 
     \tparam InputRange
-    a model of `ConstRange` whose iterator type is `RandomAccessIterator`.
+    a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
-    \tparam OutputIterator
-    an output iterator whose value type is `GeomTraits::Segment_2`.
+    \tparam OutIterator
+    a model of `OutputIterator` whose value type is `GeomTraits::Segment_2`
 
     \tparam NamedParameters
-    a sequence of \ref bgl_namedparameters "Named Parameters".
+    a sequence of \ref bgl_namedparameters "Named Parameters"
 
     \tparam SegmentMap
     a model of `ReadablePropertyMap` whose key type is the value type of the input
-    range and value type is `GeomTraits::Segment_2`.
+    range and value type is `GeomTraits::Segment_2`
 
     \tparam GeomTraits
-    a model of `Kernel`.
+    a model of `Kernel`
 
     \param input_range
     a const range of input segments
@@ -778,20 +781,21 @@ namespace Segments {
       \cgalParamNEnd
     \cgalNamedParamsEnd
 
-    \return an output iterator.
+    \return an output iterator to the element in the destination range,
+    one past the last segment stored
 
     \pre input_range.size() >= 1
     \pre max_offset >= 0
   */
   template<
   typename InputRange,
-  typename OutputIterator,
+  typename OutIterator,
   typename NamedParameters,
   typename SegmentMap,
   typename GeomTraits>
-  OutputIterator unique_segments(
+  OutIterator unique_segments(
     const InputRange& input_range,
-    OutputIterator segments,
+    OutIterator segments,
     const NamedParameters& np,
     const SegmentMap segment_map,
     const GeomTraits& traits) {
@@ -808,13 +812,13 @@ namespace Segments {
   /// \cond SKIP_IN_MANUAL
   template<
   typename InputRange,
-  typename OutputIterator,
+  typename OutIterator,
   typename NamedParameters,
   typename SegmentMap = CGAL::Identity_property_map<
   typename std::iterator_traits< typename InputRange::const_iterator >::value_type > >
-  OutputIterator unique_segments(
+  OutIterator unique_segments(
     const InputRange& input_range,
-    OutputIterator segments,
+    OutIterator segments,
     const NamedParameters& np,
     const SegmentMap segment_map = SegmentMap()) {
 
@@ -830,10 +834,10 @@ namespace Segments {
 
   template<
   typename InputRange,
-  typename OutputIterator>
-  OutputIterator unique_segments(
+  typename OutIterator>
+  OutIterator unique_segments(
     const InputRange& input_range,
-    OutputIterator segments) {
+    OutIterator segments) {
 
     CGAL_precondition(input_range.size() >= 1);
     return unique_segments(
