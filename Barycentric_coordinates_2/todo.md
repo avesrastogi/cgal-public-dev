@@ -16,6 +16,7 @@ Small extra fixes:
 * check preconditions;
 * fixed return statements;
 * take geometric traits by const&;
+* new line after \param and \tparam;
 * fix OutputIterator concept and params;
 * no capital letter in the \param \tparam descriptions (everywhere);
 * const Point_2 p2 = Point_2 and others, you can just write const Point_2 p2;
