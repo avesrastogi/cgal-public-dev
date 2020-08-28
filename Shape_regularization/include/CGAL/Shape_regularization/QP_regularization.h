@@ -140,7 +140,7 @@ namespace Shape_regularization {
       NeighQuery& neighbor_query,
       RegType& regularization_type,
       QPTraits& quadratic_program,
-      const GeomTraits traits = GeomTraits()) :
+      const GeomTraits& traits = GeomTraits()) :
     m_input_range(input_range),
     m_neighbor_query(neighbor_query),
     m_regularization_type(regularization_type),
@@ -244,7 +244,10 @@ namespace Shape_regularization {
     Neighbor_query& m_neighbor_query;
     Regularization_type& m_regularization_type;
     Quadratic_program& m_quadratic_program;
-    const Traits m_traits;
+
+    // The field m_traits is not currently used. We should probably remove the
+    // reference in case it will be used in the future!
+    const Traits& m_traits;
     const Parameters m_parameters;
 
     FT m_max_bound;

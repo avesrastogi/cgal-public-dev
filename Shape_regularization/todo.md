@@ -1,8 +1,7 @@
 * Comment the code.
 * Spell check all files.
-* Cleanup Solver_interface one more time.
 * Remove all unnecessary functions or put them in experimental.
-* Add more objects from the traits class e.g. the sqrt object and/or centroid/midpoint.
+* Cleanup Solver_interface one more time. Ask Simon to have a look.
 
 * Install OSQP on all testing platforms.
 * Add a 3D version of the QP regularization algorithm.
