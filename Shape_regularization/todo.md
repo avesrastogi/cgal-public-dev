@@ -1,6 +1,7 @@
 * Comment the code.
 * Spell check all files.
 * Remove all unnecessary functions or put them in experimental.
+* I think I should remove all traits parameters. See Shape Detection.
 * Cleanup Solver_interface one more time. Ask Simon to have a look.
 * Change QPTraits name to QPSolver.
 
