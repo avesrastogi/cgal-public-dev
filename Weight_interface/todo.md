@@ -19,3 +19,5 @@ Later:
 To do now:
 * What happens with WP/MV/DH weights on the polygon boundary?
 * There are never any preconditions (will everything be fine with degenerate positions) in your functions?
+* Add a vertex/point map to free functions. See barycentric coordinates.
+* Types Polygon -> VertexRange.
