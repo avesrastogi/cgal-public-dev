@@ -2,6 +2,7 @@
 * Spell check all files.
 * Remove all unnecessary functions or put them in experimental.
 * Cleanup Solver_interface one more time. Ask Simon to have a look.
+* Change QPTraits name to QPSolver.
 
 * Install OSQP on all testing platforms.
 * Add a 3D version of the QP regularization algorithm.
