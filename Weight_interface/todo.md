@@ -5,6 +5,7 @@ To discuss:
 * Skeletonization uses the weird secure version for the cotangent weights.
 * In skeletonization, the final example results are not determenistic.
 * Should I remove the positive area from the Tangent_weight and substitute it by computing tan(alpha/2)? In this case, I will keep the correct sign in any configuration.
+* What about using a solution that we currently use in the triangulate_hole_with_cdt() instead of flattening?
 
 Later:
 * Cleanup tests.
