@@ -63,14 +63,12 @@ namespace Weights {
   /// \endcond
 
   /*!
-    \ingroup PkgWeightInterfaceRefUtils
+    \ingroup PkgWeightInterfaceRefAuthalicWeights
 
-    \brief computes the half value of the `authalic_weight()`.
+    \brief computes the half value of the authalic weight.
 
     This function constructs the half of the authalic weight using the precomputed
-    cotangent and squared distance values.
-
-    The returned value is
+    cotangent and squared distance values. The returned value is
     \f$\frac{2\textbf{cot}}{\textbf{d2}}\f$.
 
     \tparam FT
@@ -96,55 +94,58 @@ namespace Weights {
   #if defined(DOXYGEN_RUNNING)
 
   /*!
-    \ingroup PkgWeightInterfaceRefWeights
+    \ingroup PkgWeightInterfaceRefAuthalicWeights
 
-    \brief computes the authalic weight in 2D or 3D.
-
-    The weight is computed as
-    \f$w = 2 \frac{\cot\beta + \cot\gamma}{d^2}\f$
-    with notations shown in the figure below.
-
-    - This weight is equal to the `wachspress_weight()`.
-    - This weight is a special case of the `three_point_family_weight()`.
-
-    The type `GeomTraits::Point` must be either
-    `GeomTraits::Point_2` or `GeomTraits::Point_3`.
-
-    \cgalFigureBegin{authalic_weight, authalic.svg}
-      Notation used for the authalic weight.
-    \cgalFigureEnd
-
-    \tparam GeomTraits
-    a model of `AnalyticWeightTraits_2` or `AnalyticWeightTraits_3`
-
-    \param p0
-    the first point
-
-    \param p1
-    the second point
-
-    \param p2
-    the third point
-
-    \param q
-    a query point
-
-    \param traits
-    this parameter can be omitted if the traits class can be deduced from the point type
-
-    \pre d != 0
-
-    \note the points `p0`, `p1`, `p2` are ordered
-
-    \cgalModels `analytic_weight()`
+    \brief computes the authalic weight in 2D at `q` using the points `p0`, `p1`,
+    and `p2`, given a traits class `traits` with geometric objects, predicates, and constructions.
   */
   template<typename GeomTraits>
   const typename GeomTraits::FT authalic_weight(
-    const typename GeomTraits::Point& p0,
-    const typename GeomTraits::Point& p1,
-    const typename GeomTraits::Point& p2,
-    const typename GeomTraits::Point& q,
+    const typename GeomTraits::Point_2& p0,
+    const typename GeomTraits::Point_2& p1,
+    const typename GeomTraits::Point_2& p2,
+    const typename GeomTraits::Point_2& q,
     const GeomTraits& traits) { }
+
+  /*!
+    \ingroup PkgWeightInterfaceRefAuthalicWeights
+
+    \brief computes the authalic weight in 3D at `q` using the points `p0`, `p1`,
+    and `p2`, given a traits class `traits` with geometric objects, predicates, and constructions.
+  */
+  template<typename GeomTraits>
+  const typename GeomTraits::FT authalic_weight(
+    const typename GeomTraits::Point_3& p0,
+    const typename GeomTraits::Point_3& p1,
+    const typename GeomTraits::Point_3& p2,
+    const typename GeomTraits::Point_3& q,
+    const GeomTraits& traits) { }
+
+  /*!
+    \ingroup PkgWeightInterfaceRefAuthalicWeights
+
+    \brief computes the authalic weight in 2D at `q` using the points `p0`, `p1`,
+    and `p2`, which are parameterized by a `Kernel` K.
+  */
+  template<typename K>
+  const typename K::FT authalic_weight(
+    const CGAL::Point_2<K>& p0,
+    const CGAL::Point_2<K>& p1,
+    const CGAL::Point_2<K>& p2,
+    const CGAL::Point_2<K>& q) { }
+
+  /*!
+    \ingroup PkgWeightInterfaceRefAuthalicWeights
+
+    \brief computes the authalic weight in 3D at `q` using the points `p0`, `p1`,
+    and `p2`, which are parameterized by a `Kernel` K.
+  */
+  template<typename K>
+  const typename K::FT authalic_weight(
+    const CGAL::Point_3<K>& p0,
+    const CGAL::Point_3<K>& p1,
+    const CGAL::Point_3<K>& p2,
+    const CGAL::Point_3<K>& q) { }
 
   #endif // DOXYGEN_RUNNING
 

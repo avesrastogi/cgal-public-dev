@@ -118,8 +118,6 @@ namespace Weights {
     \pre A1 != 0 && A2 != 0
 
     \note the points `p0`, `p1`, `p2` are ordered
-
-    \cgalModels `analytic_weight()`
   */
   template<typename GeomTraits>
   const typename GeomTraits::FT three_point_family_weight(

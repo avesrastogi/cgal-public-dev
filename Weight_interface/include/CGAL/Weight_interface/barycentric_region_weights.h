@@ -63,8 +63,6 @@ namespace Weights {
 
     \param traits
     this parameter can be omitted if the traits class can be deduced from the point type
-
-    \cgalModels `three_point_weight()`
   */
   template<typename GeomTraits>
   const typename GeomTraits::FT barycentric_area(

@@ -79,8 +79,6 @@ namespace Weights {
     this parameter can be omitted if the traits class can be deduced from the point type
 
     \pre d != 0
-
-    \cgalModels `analytic_weight()`
   */
   template<typename GeomTraits>
   const typename GeomTraits::FT inverse_distance_weight(

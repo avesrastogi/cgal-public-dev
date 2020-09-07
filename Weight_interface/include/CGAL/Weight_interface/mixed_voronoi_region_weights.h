@@ -73,8 +73,6 @@ namespace Weights {
     this parameter can be omitted if the traits class can be deduced from the point type
 
     \sa `voronoi_area()`
-
-    \cgalModels `three_point_weight()`
   */
   template<typename GeomTraits>
   const typename GeomTraits::FT mixed_voronoi_area(

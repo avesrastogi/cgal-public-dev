@@ -71,10 +71,9 @@ lengths, areas, and volumes of 2D and 3D objects.
 \section Weight_Interface_Interface Interface
 
 All weights have a simple and unified interface. In particular, all analytic weights take
-a query point and three other points in 2D or 3D and return a unique scalar. They are all
-models of the concept `analytic_weight()` and parameterized by a traits class that can
-be a model of `AnalyticWeightTraits_2` for 2D computations or `AnalyticWeightTraits_3`
-for 3D computations.
+a query point and three other points in 2D or 3D and return a unique scalar. They all
+have the same signature and are parameterized by a traits class that can be a model of
+`AnalyticWeightTraits_2` for 2D computations or `AnalyticWeightTraits_3` for 3D computations.
 
 The barycentric weights are parameterized by a traits class of the concept
 `AnalyticWeightTraits_2` and are all models of the concept `BarycentricWeights_2`.
@@ -84,9 +83,9 @@ container providing the corresponding output iterator. These weight also provide
 \ref PkgPropertyMap "property map" mechanism for mapping a user type of the polygon
 vertex to `CGAL::Point_2`.
 
-The weighting regions are all models of the concept `three_point_weight()` and parameterized
-by a traits class of the concept `AnalyticWeightTraits_2` or `AnalyticWeightTraits_3`.
-The returned weight is a unique scalar.
+All weighting regions have the same signature and are parameterized by a traits class
+of the concept `AnalyticWeightTraits_2` or `AnalyticWeightTraits_3`. The returned weight
+is a unique scalar.
 
 The parameter `traits` with a traits class can be omitted for all functions and classes
 if it can be deduced from the input point type.

@@ -32,7 +32,32 @@ used to balance other weights.
 
 Different related utility functions.
 
+
+\defgroup PkgWeightInterfaceRefAuthalicWeights Authalic Weights
+\ingroup PkgWeightInterfaceRef
+
+The *authalic weight* is computed as
+\f$w = 2 \frac{\cot\beta + \cot\gamma}{d^2}\f$
+with notations shown in the figure below.
+
+Here, `q` is a query point and the points `p0`, `p1`, and `p2` are ordered. The returned
+weight is a floating-point value computed at `q` using the points `p`.
+
+\cgalFigureBegin{authalic_weight, authalic.svg}
+  Notation used for the authalic weight.
+\cgalFigureEnd
+
+\cgalHeading{Other Formulations}
+- This weight is equal to the `wachspress_weight()`.
+- This weight is a special case of the `three_point_family_weight()`.
+
+\tparam GeomTraits
+a model of `AnalyticWeightTraits_2` for 2D points;
+a model of `AnalyticWeightTraits_3` for 3D points
+
+\pre d != 0
 \addtogroup PkgWeightInterfaceRef
+
 
 \cgalPkgDescriptionBegin{Weight Interface, PkgWeightInterfaceRef}
 \cgalPkgPicture{logo_120x120.png}
@@ -58,8 +83,6 @@ weights, and weighting regions. All weights are available both in 2D and 3D.}
 ## Weight Interface ##
 
 ### Concepts ###
-- `analytic_weight()`
-- `three_point_weight()`
 - `BarycentricWeights_2`
 - `AnalyticWeightTraits_2`
 - `AnalyticWeightTraits_3`

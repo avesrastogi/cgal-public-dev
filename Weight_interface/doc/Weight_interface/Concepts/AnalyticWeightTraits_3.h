@@ -11,7 +11,7 @@ from the namespace `CGAL::Weights`.
 
 \cgalHasModel
 - All models of `Kernel`
-- `CGAL::Weights::Projection_traits_3`
+- `Projection_traits_3`
 */
 class AnalyticWeightTraits_3 {
 

@@ -127,8 +127,6 @@ namespace Weights {
     \pre (d * d1 + D1) != 0 && (d * d2 + D2) != 0
 
     \note the points `p0`, `p1`, `p2` are ordered
-
-    \cgalModels `analytic_weight()`
   */
   template<typename GeomTraits>
   const typename GeomTraits::FT mean_value_weight(

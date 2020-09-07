@@ -45,8 +45,6 @@ namespace Weights {
 
     \tparam GeomTraits
     a model of `AnalyticWeightTraits_2` or `AnalyticWeightTraits_3`
-
-    \cgalModels `analytic_weight()`
   */
   template<typename GeomTraits>
   const typename GeomTraits::FT uniform_weight(
