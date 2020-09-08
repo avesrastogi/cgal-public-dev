@@ -28,7 +28,7 @@
 #include <CGAL/Surface_mesh_parameterization/Two_vertices_parameterizer_3.h>
 #include <CGAL/Surface_mesh_parameterization/parameterize.h>
 
-#include <CGAL/Weight_interface/Generalized_weights/utils.h>
+#include <CGAL/Weights/Generalized_weights/utils.h>
 
 #include <CGAL/Polygon_mesh_processing/connected_components.h>
 

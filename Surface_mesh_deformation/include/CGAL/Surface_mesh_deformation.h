@@ -23,7 +23,7 @@
 #include <CGAL/tuple.h>
 #include <CGAL/Simple_cartesian.h>
 
-#include <CGAL/Weight_interface/internal/tools.h>
+#include <CGAL/Weights/internal/tools.h>
 
 #include <vector>
 #include <list>

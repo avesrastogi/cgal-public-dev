@@ -23,7 +23,7 @@
 #include <CGAL/Surface_mesh_parameterization/Error_code.h>
 #include <CGAL/Surface_mesh_parameterization/orbifold_shortest_path.h>
 
-#include <CGAL/Weight_interface/internal/tools.h>
+#include <CGAL/Weights/internal/tools.h>
 
 #include <CGAL/assertions.h>
 #include <CGAL/circulator.h>

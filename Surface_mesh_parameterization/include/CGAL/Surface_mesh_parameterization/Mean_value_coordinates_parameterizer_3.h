@@ -20,7 +20,7 @@
 #include <CGAL/Surface_mesh_parameterization/Error_code.h>
 #include <CGAL/Surface_mesh_parameterization/Fixed_border_parameterizer_3.h>
 
-#include <CGAL/Weight_interface/Generalized_weights/tangent_weights.h>
+#include <CGAL/Weights/Generalized_weights/tangent_weights.h>
 
 #ifdef CGAL_EIGEN3_ENABLED
 #include <CGAL/Eigen_solver_traits.h>

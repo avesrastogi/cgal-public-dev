@@ -281,6 +281,37 @@ public:
   }
 }; // end class Compare_along_axis
 
+template<class Traits>
+class Less_xy_along_axis {
+
+  using Vector_3 = typename Traits::Vector_3;
+  using Point = typename Traits::Point_2;
+  Vector_3 base1, base2;
+
+public:
+  Less_xy_along_axis(
+    const Vector_3& base1,
+    const Vector_3& base2) :
+  base1(base1),
+  base2(base2)
+  { }
+
+  using result_type = bool;
+  bool operator() (
+    const Point &p,
+    const Point &q) const {
+
+    const Compare_along_axis<Traits> cx(base1);
+    const Comparison_result crx = cx(p, q);
+    if (crx == SMALLER)
+      return true;
+    if (crx == LARGER)
+      return false;
+    const Less_along_axis<Traits> ly(base2);
+    return ly(p, q);
+  }
+};
+
 } // end namespace TriangulationProjectionTraitsCartesianFunctors
 
 
@@ -347,6 +378,9 @@ public:
     Less_along_axis<Self>                                    Less_y_2;
 
   typedef TriangulationProjectionTraitsCartesianFunctors::
+    Less_xy_along_axis<Self>                                 Less_xy_2;
+
+  typedef TriangulationProjectionTraitsCartesianFunctors::
     Projected_orientation_with_normal_3<Self>                Orientation_2;
 
   typedef TriangulationProjectionTraitsCartesianFunctors::
@@ -358,12 +392,12 @@ public:
   typedef TriangulationProjectionTraitsCartesianFunctors::
   Projected_intersect_3<Self>                                Intersect_2;
 
-  typedef typename K::Construct_point_3   Construct_point_2;
+  typedef typename K::Construct_point_3           Construct_point_2;
   typedef typename K::Construct_weighted_point_3  Construct_weighted_point_2;
-  typedef typename K::Construct_segment_3  Construct_segment_2;
-  typedef typename K::Construct_vector_3   Construct_vector_2;
-  typedef typename K::Construct_line_3     Construct_line_2;
-  typedef typename K::Construct_triangle_3 Construct_triangle_2;
+  typedef typename K::Construct_segment_3         Construct_segment_2;
+  typedef typename K::Construct_vector_3          Construct_vector_2;
+  typedef typename K::Construct_line_3            Construct_line_2;
+  typedef typename K::Construct_triangle_3        Construct_triangle_2;
 
   typedef typename K::Construct_scaled_vector_3     Construct_scaled_vector_2;
   typedef typename K::Construct_translated_point_3  Construct_translated_point_2;
@@ -372,6 +406,24 @@ public:
 
   typedef typename K::Compute_area_3                Compute_area_2;
   typedef typename K::Construct_bbox_3              Construct_bbox_2;
+
+  typedef typename K::Compute_squared_length_3 Compute_squared_length_2;
+  typedef typename K::Compute_scalar_product_3 Compute_scalar_product_2;
+
+  Less_xy_2
+  less_xy_2_object() const {
+    return Less_xy_2(this->base1(), this->base2());
+  }
+
+  Compute_squared_length_2
+  compute_squared_length_2_object() const {
+    return Compute_squared_length_2();
+  }
+
+  Compute_scalar_product_2
+  compute_scalar_product_2_object() const {
+    return Compute_scalar_product_2();
+  }
 
   Less_x_2
   less_x_2_object() const

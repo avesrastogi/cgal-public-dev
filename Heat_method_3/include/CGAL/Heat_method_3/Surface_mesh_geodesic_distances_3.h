@@ -29,7 +29,7 @@
 #include <CGAL/Eigen_solver_traits.h>
 #endif
 
-#include <CGAL/Weight_interface/Generalized_weights/utils.h>
+#include <CGAL/Weights/Generalized_weights/utils.h>
 
 #include <boost/range/has_range_iterator.hpp>
 

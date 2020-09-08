@@ -1,0 +1,119 @@
+namespace CGAL {
+namespace Weights {
+
+/*!
+\defgroup PkgWeightInterfaceRef Weight Interface Reference
+
+\defgroup PkgWeightInterfaceRefConcepts Concepts
+\ingroup PkgWeightInterfaceRef
+
+Concepts, which are used to parameterize/define the functions and classes
+from `CGAL::Weights`.
+
+\defgroup PkgWeightInterfaceRefWeights Analytic Weights
+\ingroup PkgWeightInterfaceRef
+
+Models and functions that can be used to compute weights, which have a simple analytic expression.
+
+\defgroup PkgWeightInterfaceRefBarycentric Barycentric Weights
+\ingroup PkgWeightInterfaceRef
+
+Models and functions that can be used to compute barycentric weights with respect
+to polygons. These weights are then normalized in order to obtain barycentric coordinates.
+
+\defgroup PkgWeightInterfaceRefRegions Weighting Regions
+\ingroup PkgWeightInterfaceRef
+
+Models and functions that can be used to compute weighting regions. These weights are
+used to balance other weights.
+
+\defgroup PkgWeightInterfaceRefUtils Utility Functions
+\ingroup PkgWeightInterfaceRef
+
+Different related utility functions.
+
+
+\defgroup PkgWeightInterfaceRefAuthalicWeights Authalic Weights
+\ingroup PkgWeightInterfaceRef
+
+The *authalic weight* is computed as
+\f$w = 2 \frac{\cot\beta + \cot\gamma}{d^2}\f$
+with notations shown in the figure below.
+
+Here, `q` is a query point and the points `p0`, `p1`, and `p2` are ordered. The returned
+weight is a floating-point value computed at `q` using the points `p`.
+
+\cgalFigureBegin{authalic_weight, authalic.svg}
+  Notation used for the authalic weight.
+\cgalFigureEnd
+
+\cgalHeading{Other Formulations}
+- This weight is equal to the `wachspress_weight()`.
+- This weight is a special case of the `three_point_family_weight()`.
+
+\tparam GeomTraits
+a model of `AnalyticWeightTraits_2` for 2D points;
+a model of `AnalyticWeightTraits_3` for 3D points
+
+\pre d != 0
+\addtogroup PkgWeightInterfaceRef
+
+
+\cgalPkgDescriptionBegin{Weight Interface, PkgWeightInterfaceRef}
+\cgalPkgPicture{logo_120x120.png}
+
+\cgalPkgSummaryBegin
+\cgalPkgAuthors{Dmitry Anisimov}
+\cgalPkgDesc{Many geometric algorithms rely on weighted constructions. This package
+provides a simple and unified interface to different types of weights. In particular,
+it includes numerous weights with a simple analytic expression, generalized barycentric
+weights, and weighting regions. All weights are available both in 2D and 3D.}
+\cgalPkgManuals{Chapter_Weights, PkgWeightInterfaceRef}
+\cgalPkgSummaryEnd
+
+\cgalPkgShortInfoBegin
+\cgalPkgSince{5.3}
+\cgalPkgBib{cgal:a-wi}
+\cgalPkgLicense{\ref licensesGPL "GPL"}
+\cgalPkgDemo{Polyhedron demo, polyhedron_3.zip}
+\cgalPkgShortInfoEnd
+
+\cgalPkgDescriptionEnd
+
+## Weight Interface ##
+
+### Concepts ###
+- `BarycentricWeights_2`
+- `AnalyticWeightTraits_2`
+- `AnalyticWeightTraits_3`
+
+### Analytic %Weights ###
+- `uniform_weight()`
+- `shepard_weight()`
+- `inverse_distance_weight()`
+- `three_point_family_weight()`
+- `wachspress_weight()`
+- `authalic_weight()`
+- `mean_value_weight()`
+- `tangent_weight()`
+- `discrete_harmonic_weight()`
+- `cotangent_weight()`
+
+### Barycentric %Weights ###
+- `Wachspress_weights_2<Polygon, GeomTraits, VertexMap>`
+- `wachspress_weights_2()`
+- `Mean_value_weights_2<Polygon, GeomTraits, VertexMap>`
+- `mean_value_weights_2()`
+- `Discrete_harmonic_weights_2<Polygon, GeomTraits, VertexMap>`
+- `discrete_harmonic_weights_2()`
+
+### Weighting Regions ###
+- `uniform_area()`
+- `triangular_area()`
+- `barycentric_area()`
+- `voronoi_area()`
+- `mixed_voronoi_area()`
+*/
+
+} /* namespace Weights */
+} /* namespace CGAL */

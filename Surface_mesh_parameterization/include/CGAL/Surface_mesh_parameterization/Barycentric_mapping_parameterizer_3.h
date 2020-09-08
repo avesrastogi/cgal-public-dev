@@ -20,7 +20,7 @@
 #include <CGAL/Surface_mesh_parameterization/Circular_border_parameterizer_3.h>
 #include <CGAL/Surface_mesh_parameterization/Fixed_border_parameterizer_3.h>
 
-#include <CGAL/Weight_interface/Generalized_weights/uniform_weights.h>
+#include <CGAL/Weights/Generalized_weights/uniform_weights.h>
 
 #include <CGAL/Default.h>
 
