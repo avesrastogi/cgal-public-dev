@@ -34,22 +34,54 @@ namespace Weights {
   #if defined(DOXYGEN_RUNNING)
 
   /*!
-    \ingroup PkgWeightInterfaceRefRegions
+    \ingroup PkgWeightsRefUniformRegionWeights
 
-    \brief this function always returns 1.
-
-    The type `GeomTraits::Point` must be either
-    `GeomTraits::Point_2` or `GeomTraits::Point_3`.
-
-    \tparam GeomTraits
-    a model of `AnalyticWeightTraits_2` or `AnalyticWeightTraits_3`
+    \brief this function always returns 1 given three points in 2D and a traits class
+    with geometric objects, predicates, and constructions.
   */
   template<typename GeomTraits>
   const typename GeomTraits::FT uniform_area(
-    const typename GeomTraits::Point&,
-    const typename GeomTraits::Point&,
-    const typename GeomTraits::Point&,
+    const typename GeomTraits::Point_2&,
+    const typename GeomTraits::Point_2&,
+    const typename GeomTraits::Point_2&,
     const GeomTraits&) { }
+
+  /*!
+    \ingroup PkgWeightsRefUniformRegionWeights
+
+    \brief this function always returns 1 given three points in 3D and a traits class
+    with geometric objects, predicates, and constructions.
+  */
+  template<typename GeomTraits>
+  const typename GeomTraits::FT uniform_area(
+    const typename GeomTraits::Point_3&,
+    const typename GeomTraits::Point_3&,
+    const typename GeomTraits::Point_3&,
+    const GeomTraits&) { }
+
+  /*!
+    \ingroup PkgWeightsRefUniformRegionWeights
+
+    \brief this function always returns 1 given three points in 2D, which are
+    parameterized by a `Kernel` K.
+  */
+  template<typename K>
+  const typename K::FT uniform_area(
+    const CGAL::Point_2<K>&,
+    const CGAL::Point_2<K>&,
+    const CGAL::Point_2<K>&) { }
+
+  /*!
+    \ingroup PkgWeightsRefUniformRegionWeights
+
+    \brief this function always returns 1 given three points in 3D, which are
+    parameterized by a `Kernel` K.
+  */
+  template<typename K>
+  const typename K::FT uniform_area(
+    const CGAL::Point_3<K>&,
+    const CGAL::Point_3<K>&,
+    const CGAL::Point_3<K>&) { }
 
   #endif // DOXYGEN_RUNNING
 
@@ -98,7 +130,7 @@ namespace Weights {
   /// \endcond
 
   /*!
-    \ingroup PkgWeightInterfaceRefRegions
+    \ingroup PkgWeightsRefUniformRegionWeights
 
     \brief this function always returns 1.
   */

@@ -2,7 +2,7 @@ namespace CGAL {
 namespace Weights {
 
 /*!
-\ingroup PkgWeightInterfaceRefConcepts
+\ingroup PkgWeightsRefConcepts
 \cgalConcept
 
 A concept that describes the set of methods required in all classes for computing

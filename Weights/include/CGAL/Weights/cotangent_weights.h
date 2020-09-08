@@ -51,7 +51,7 @@ namespace Weights {
   /// \endcond
 
   /*!
-    \ingroup PkgWeightInterfaceRefUtils
+    \ingroup PkgWeightsRefUtils
 
     \brief computes the half value of the `cotangent_weight()`.
 
@@ -79,7 +79,7 @@ namespace Weights {
   #if defined(DOXYGEN_RUNNING)
 
   /*!
-    \ingroup PkgWeightInterfaceRefWeights
+    \ingroup PkgWeightsRefWeights
 
     \brief computes the cotangent weight in 2D or 3D.
 

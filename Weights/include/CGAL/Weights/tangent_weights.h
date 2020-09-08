@@ -90,7 +90,7 @@ namespace Weights {
   /// \endcond
 
   /*!
-    \ingroup PkgWeightInterfaceRefUtils
+    \ingroup PkgWeightsRefUtils
 
     \brief computes the tangent of the half angle.
 
@@ -127,7 +127,7 @@ namespace Weights {
   }
 
   /*!
-    \ingroup PkgWeightInterfaceRefUtils
+    \ingroup PkgWeightsRefUtils
 
     \brief computes the half value of the `tangent_weight()`.
 
@@ -159,7 +159,7 @@ namespace Weights {
   }
 
   /*!
-    \ingroup PkgWeightInterfaceRefUtils
+    \ingroup PkgWeightsRefUtils
 
     \brief computes the half value of the `tangent_weight()`.
 
@@ -200,7 +200,7 @@ namespace Weights {
   #if defined(DOXYGEN_RUNNING)
 
   /*!
-    \ingroup PkgWeightInterfaceRefWeights
+    \ingroup PkgWeightsRefWeights
 
     \brief computes the tangent weight in 2D or 3D.
 

@@ -49,7 +49,7 @@ namespace Weights {
   #if defined(DOXYGEN_RUNNING)
 
   /*!
-    \ingroup PkgWeightInterfaceRefWeights
+    \ingroup PkgWeightsRefWeights
 
     \brief computes the inverse distance weight in 2D or 3D.
 
@@ -89,7 +89,7 @@ namespace Weights {
     const GeomTraits& traits) { }
 
   /*!
-    \ingroup PkgWeightInterfaceRefWeights
+    \ingroup PkgWeightsRefWeights
 
     \brief computes the inverse distance weight in 2D or 3D.
 

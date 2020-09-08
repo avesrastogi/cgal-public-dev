@@ -69,7 +69,7 @@ namespace Weights {
   #if defined(DOXYGEN_RUNNING)
 
   /*!
-    \ingroup PkgWeightInterfaceRefWeights
+    \ingroup PkgWeightsRefWeights
 
     \brief computes the three point family weight in 2D or 3D.
 

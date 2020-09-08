@@ -35,7 +35,7 @@ namespace Weights {
   #if defined(DOXYGEN_RUNNING)
 
   /*!
-    \ingroup PkgWeightInterfaceRefUtils
+    \ingroup PkgWeightsRefUtils
 
     \brief computes the tangent of the angle between 2D or 3D vectors `[q, r]` and `[q, p]`.
 
@@ -65,7 +65,7 @@ namespace Weights {
     const GeomTraits& traits) { }
 
   /*!
-    \ingroup PkgWeightInterfaceRefUtils
+    \ingroup PkgWeightsRefUtils
 
     \brief computes the cotangent of the angle between 2D or 3D vectors `[q, r]` and `[q, p]`.
 

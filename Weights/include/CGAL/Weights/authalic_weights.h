@@ -63,7 +63,7 @@ namespace Weights {
   /// \endcond
 
   /*!
-    \ingroup PkgWeightInterfaceRefAuthalicWeights
+    \ingroup PkgWeightsRefAuthalicWeights
 
     \brief computes the half value of the authalic weight.
 
@@ -94,7 +94,7 @@ namespace Weights {
   #if defined(DOXYGEN_RUNNING)
 
   /*!
-    \ingroup PkgWeightInterfaceRefAuthalicWeights
+    \ingroup PkgWeightsRefAuthalicWeights
 
     \brief computes the authalic weight in 2D at `q` using the points `p0`, `p1`,
     and `p2`, given a traits class `traits` with geometric objects, predicates, and constructions.
@@ -108,7 +108,7 @@ namespace Weights {
     const GeomTraits& traits) { }
 
   /*!
-    \ingroup PkgWeightInterfaceRefAuthalicWeights
+    \ingroup PkgWeightsRefAuthalicWeights
 
     \brief computes the authalic weight in 3D at `q` using the points `p0`, `p1`,
     and `p2`, given a traits class `traits` with geometric objects, predicates, and constructions.
@@ -122,7 +122,7 @@ namespace Weights {
     const GeomTraits& traits) { }
 
   /*!
-    \ingroup PkgWeightInterfaceRefAuthalicWeights
+    \ingroup PkgWeightsRefAuthalicWeights
 
     \brief computes the authalic weight in 2D at `q` using the points `p0`, `p1`,
     and `p2`, which are parameterized by a `Kernel` K.
@@ -135,7 +135,7 @@ namespace Weights {
     const CGAL::Point_2<K>& q) { }
 
   /*!
-    \ingroup PkgWeightInterfaceRefAuthalicWeights
+    \ingroup PkgWeightsRefAuthalicWeights
 
     \brief computes the authalic weight in 3D at `q` using the points `p0`, `p1`,
     and `p2`, which are parameterized by a `Kernel` K.

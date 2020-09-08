@@ -2,64 +2,230 @@ namespace CGAL {
 namespace Weights {
 
 /*!
-\defgroup PkgWeightInterfaceRef Weight Interface Reference
+\defgroup PkgWeightsRef Weight Interface Reference
 
-\defgroup PkgWeightInterfaceRefConcepts Concepts
-\ingroup PkgWeightInterfaceRef
+\defgroup PkgWeightsRefConcepts Concepts
+\ingroup PkgWeightsRef
 
 Concepts, which are used to parameterize/define the functions and classes
 from `CGAL::Weights`.
 
-\defgroup PkgWeightInterfaceRefWeights Analytic Weights
-\ingroup PkgWeightInterfaceRef
+
+\defgroup PkgWeightsRefAnalytic Analytic Weights
+\ingroup PkgWeightsRef
 
 Models and functions that can be used to compute weights, which have a simple analytic expression.
 
-\defgroup PkgWeightInterfaceRefBarycentric Barycentric Weights
-\ingroup PkgWeightInterfaceRef
 
-Models and functions that can be used to compute barycentric weights with respect
-to polygons. These weights are then normalized in order to obtain barycentric coordinates.
+\defgroup PkgWeightsRefUniformWeights Uniform Weight
+\ingroup PkgWeightsRefAnalytic
 
-\defgroup PkgWeightInterfaceRefRegions Weighting Regions
-\ingroup PkgWeightInterfaceRef
-
-Models and functions that can be used to compute weighting regions. These weights are
-used to balance other weights.
-
-\defgroup PkgWeightInterfaceRefUtils Utility Functions
-\ingroup PkgWeightInterfaceRef
-
-Different related utility functions.
+\addtogroup PkgWeightsRefAnalytic
 
 
-\defgroup PkgWeightInterfaceRefAuthalicWeights Authalic Weights
-\ingroup PkgWeightInterfaceRef
+\defgroup PkgWeightsRefShepardWeights Shepard Weight
+\ingroup PkgWeightsRefAnalytic
 
-The *authalic weight* is computed as
+\addtogroup PkgWeightsRefAnalytic
+
+
+\defgroup PkgWeightsRefInverseDistanceWeights Inverse Distance Weight
+\ingroup PkgWeightsRefAnalytic
+
+\addtogroup PkgWeightsRefAnalytic
+
+
+\defgroup PkgWeightsRefThreePointFamilyWeights Three Point Family Weight
+\ingroup PkgWeightsRefAnalytic
+
+\addtogroup PkgWeightsRefAnalytic
+
+
+\defgroup PkgWeightsRefWachspressWeights Wachspress Weight
+\ingroup PkgWeightsRefAnalytic
+
+\addtogroup PkgWeightsRefAnalytic
+
+
+\defgroup PkgWeightsRefAuthalicWeights Authalic Weight
+\ingroup PkgWeightsRefAnalytic
+
+This weight is computed as
 \f$w = 2 \frac{\cot\beta + \cot\gamma}{d^2}\f$
-with notations shown in the figure below.
-
-Here, `q` is a query point and the points `p0`, `p1`, and `p2` are ordered. The returned
-weight is a floating-point value computed at `q` using the points `p`.
+with notations shown in the figure below. Here, `q` is a query point
+and the points `p0`, `p1`, and `p2` are ordered.
 
 \cgalFigureBegin{authalic_weight, authalic.svg}
   Notation used for the authalic weight.
 \cgalFigureEnd
 
 \cgalHeading{Other Formulations}
-- This weight is equal to the `wachspress_weight()`.
-- This weight is a special case of the `three_point_family_weight()`.
+- This weight is equal to the \ref PkgWeightsRefWachspressWeights "Wachspress Weight".
+- This weight is a special case of the \ref PkgWeightsRefThreePointFamilyWeights "Three Point Family Weight".
 
 \tparam GeomTraits
 a model of `AnalyticWeightTraits_2` for 2D points;
 a model of `AnalyticWeightTraits_3` for 3D points
 
 \pre d != 0
-\addtogroup PkgWeightInterfaceRef
+\note The type `FT` is a model of `FieldNumberType`.
+
+\addtogroup PkgWeightsRefAnalytic
 
 
-\cgalPkgDescriptionBegin{Weight Interface, PkgWeightInterfaceRef}
+\defgroup PkgWeightsRefMeanValueWeights Mean Value Weight
+\ingroup PkgWeightsRefAnalytic
+
+\addtogroup PkgWeightsRefAnalytic
+
+
+\defgroup PkgWeightsRefTangentWeights Tangent Weight
+\ingroup PkgWeightsRefAnalytic
+
+\addtogroup PkgWeightsRefAnalytic
+
+
+\defgroup PkgWeightsRefDiscreteHarmonicWeights Discrete Harmonic Weight
+\ingroup PkgWeightsRefAnalytic
+
+\addtogroup PkgWeightsRefAnalytic
+
+
+\defgroup PkgWeightsRefCotangentWeights Cotangent Weight
+\ingroup PkgWeightsRefAnalytic
+
+\addtogroup PkgWeightsRefAnalytic
+
+
+\defgroup PkgWeightsRefBarycentric Barycentric Weights
+\ingroup PkgWeightsRef
+
+Models and functions that can be used to compute barycentric weights with respect
+to polygons. These weights are then normalized in order to obtain barycentric coordinates.
+
+
+\defgroup PkgWeightsRefRegions Weighting Regions
+\ingroup PkgWeightsRef
+
+Models and functions that can be used to compute weighting regions. These weights are
+used to balance other weights.
+
+
+\defgroup PkgWeightsRefUniformRegionWeights Uniform Region Weight
+\ingroup PkgWeightsRefRegions
+
+This weight is always equal to 1.
+
+\tparam GeomTraits
+a model of `AnalyticWeightTraits_2` for 2D points;
+a model of `AnalyticWeightTraits_3` for 3D points
+
+\note The type `FT` is a model of `FieldNumberType`.
+
+\addtogroup PkgWeightsRefRegions
+
+
+\defgroup PkgWeightsRefTriangularRegionWeights Triangular Region Weight
+\ingroup PkgWeightsRefRegions
+
+This weight is the area of the shaded triangle `[p, q, r]` in the figure below.
+
+\cgalFigureBegin{triangular_area, triangular_cell.svg}
+  Notation used for the triangular cell.
+\cgalFigureEnd
+
+\tparam GeomTraits
+a model of `AnalyticWeightTraits_2` for 2D points;
+a model of `AnalyticWeightTraits_3` for 3D points
+
+\note The type `FT` is a model of `FieldNumberType`.
+
+\addtogroup PkgWeightsRefRegions
+
+
+\defgroup PkgWeightsRefBarycentricRegionWeights Barycentric Region Weight
+\ingroup PkgWeightsRefRegions
+
+This weight is the area of the shaded region in the figure below. The region
+is formed by the two midpoints of the edges incident to `q` and the barycenter of
+the triangle `[p, q, r]`.
+
+\cgalFigureBegin{barycentric_area, barycentric_cell.svg}
+  Notation used for the barycentric cell.
+\cgalFigureEnd
+
+\tparam GeomTraits
+a model of `AnalyticWeightTraits_2` for 2D points;
+a model of `AnalyticWeightTraits_3` for 3D points
+
+\note The type `FT` is a model of `FieldNumberType`.
+
+\addtogroup PkgWeightsRefRegions
+
+
+\defgroup PkgWeightsRefVoronoiRegionWeights Voronoi Region Weight
+\ingroup PkgWeightsRefRegions
+
+This weight is the area of the shaded region in the figure below. The region
+is formed by the two midpoints of the edges incident to `q` and the circumcenter of
+the triangle `[p, q, r]`.
+
+\cgalFigureBegin{voronoi_area, voronoi_cell.svg}
+  Notation used for the Voronoi cell.
+\cgalFigureEnd
+
+\tparam GeomTraits
+a model of `AnalyticWeightTraits_2` for 2D points;
+a model of `AnalyticWeightTraits_3` for 3D points
+
+\note The type `FT` is a model of `FieldNumberType`.
+
+\sa \ref PkgWeightsRefMixedVoronoiRegionWeights "Mixed Voronoi Region Weight"
+
+\addtogroup PkgWeightsRefRegions
+
+
+\defgroup PkgWeightsRefMixedVoronoiRegionWeights Mixed Voronoi Region Weight
+\ingroup PkgWeightsRefRegions
+
+This weight is the area of the shaded region in the figure below. The region
+is formed by the two midpoints of the edges incident to `q` and the circumcenter of
+the triangle `[p, q, r]`.
+
+\cgalFigureBegin{mixed_voronoi_area, mixed_voronoi_cell.svg}
+  Notation used for the mixed Voronoi cell.
+\cgalFigureEnd
+
+However, unlike the original \ref PkgWeightsRefVoronoiRegionWeights "Voronoi Region Weight",
+if one of the angles in the triangle `[p, q, r]` is obtuse and the circumcenter vertex of the region
+is outside this triangle, this vertex is moved to the midpoint of the edge `[r, p]` as shown in
+the figure below.
+
+\cgalFigureBegin{mixed_voronoi_area_obtuse, mixed_voronoi_cell_obtuse.svg}
+  The case with the obtuse angle.
+\cgalFigureEnd
+
+\tparam GeomTraits
+a model of `AnalyticWeightTraits_2` for 2D points;
+a model of `AnalyticWeightTraits_3` for 3D points
+
+\note The type `FT` is a model of `FieldNumberType`.
+
+\sa \ref PkgWeightsRefVoronoiRegionWeights "Voronoi Region Weight"
+
+\addtogroup PkgWeightsRefRegions
+
+
+\defgroup PkgWeightsRefUtils Utility Functions
+\ingroup PkgWeightsRef
+
+Different related utility functions.
+
+
+\addtogroup PkgWeightsRef
+
+
+\cgalPkgDescriptionBegin{Weight Interface, PkgWeightsRef}
 \cgalPkgPicture{logo_120x120.png}
 
 \cgalPkgSummaryBegin
@@ -68,7 +234,7 @@ a model of `AnalyticWeightTraits_3` for 3D points
 provides a simple and unified interface to different types of weights. In particular,
 it includes numerous weights with a simple analytic expression, generalized barycentric
 weights, and weighting regions. All weights are available both in 2D and 3D.}
-\cgalPkgManuals{Chapter_Weights, PkgWeightInterfaceRef}
+\cgalPkgManuals{Chapter_Weights, PkgWeightsRef}
 \cgalPkgSummaryEnd
 
 \cgalPkgShortInfoBegin
@@ -88,16 +254,16 @@ weights, and weighting regions. All weights are available both in 2D and 3D.}
 - `AnalyticWeightTraits_3`
 
 ### Analytic %Weights ###
-- `uniform_weight()`
-- `shepard_weight()`
-- `inverse_distance_weight()`
-- `three_point_family_weight()`
-- `wachspress_weight()`
-- `authalic_weight()`
-- `mean_value_weight()`
-- `tangent_weight()`
-- `discrete_harmonic_weight()`
-- `cotangent_weight()`
+- \ref PkgWeightsRefUniformWeights "Uniform Weight"
+- \ref PkgWeightsRefShepardWeights "Shepard Weight"
+- \ref PkgWeightsRefInverseDistanceWeights "Inverse Distance Weight"
+- \ref PkgWeightsRefThreePointFamilyWeights "Three Point Family Weight"
+- \ref PkgWeightsRefWachspressWeights "Wachspress Weight"
+- \ref PkgWeightsRefAuthalicWeights "Authalic Weight"
+- \ref PkgWeightsRefMeanValueWeights "Mean Value Weight"
+- \ref PkgWeightsRefTangentWeights "Tangent Weight"
+- \ref PkgWeightsRefDiscreteHarmonicWeights "Discrete Harmonic Weight"
+- \ref PkgWeightsRefCotangentWeights "Cotangent Weight"
 
 ### Barycentric %Weights ###
 - `Wachspress_weights_2<Polygon, GeomTraits, VertexMap>`
@@ -108,11 +274,11 @@ weights, and weighting regions. All weights are available both in 2D and 3D.}
 - `discrete_harmonic_weights_2()`
 
 ### Weighting Regions ###
-- `uniform_area()`
-- `triangular_area()`
-- `barycentric_area()`
-- `voronoi_area()`
-- `mixed_voronoi_area()`
+- \ref PkgWeightsRefUniformRegionWeights "Uniform Region Weight"
+- \ref PkgWeightsRefTriangularRegionWeights "Triangular Region Weight"
+- \ref PkgWeightsRefBarycentricRegionWeights "Barycentric Region Weight"
+- \ref PkgWeightsRefVoronoiRegionWeights "Voronoi Region Weight"
+- \ref PkgWeightsRefMixedVoronoiRegionWeights "Mixed Voronoi Region Weight"
 */
 
 } /* namespace Weights */

@@ -53,16 +53,16 @@ expression. All weights from this package can be computed analytically. However,
 for better navigation through all available weights and their applications, we distinguish
 three typical groups of weights:
 
-- \ref PkgWeightInterfaceRefWeights "Analytic Weights"
+- \ref PkgWeightsRefAnalytic "Analytic Weights"
 include all basic weights which can be computed for a query point with respect to its local
 neighbors in 2D or 3D, however these neighbors are defined. Usually, the configuration is
 a query point and three other points. These weights return one unique value per query point.
-- \ref PkgWeightInterfaceRefBarycentric "Barycentric Weights"
+- \ref PkgWeightsRefBarycentric "Barycentric Weights"
 include all weights which can be computed for a query point with respect to the vertices
 of a polygon in XY or any other plane. These weights return \f$n\f$ values per query
 point, where \f$n\f$ is the number of polygon vertices. Barycentric weights are also used
 for computing \ref PkgBarycentricCoordinates2 " 2D barycentric coordinates".
-- \ref PkgWeightInterfaceRefRegions "Weighting Regions"
+- \ref PkgWeightsRefRegions "Weighting Regions"
 include all weights which are used to balance other weights but are rarely used on their own.
 Sometimes, such weights are referred as *local averaging regions*. These weights are usually
 lengths, areas, and volumes of 2D and 3D objects.
@@ -137,8 +137,8 @@ the 2D weights, however you need to provide a special projection traits class. T
 shows how to achieve that when using the `Mean_value_weights_2` type of barycentric weights.
 
 You can also use such traits when computing
-\ref PkgWeightInterfaceRefWeights "analytic weights" or
-\ref PkgWeightInterfaceRefRegions "weighting regions".
+\ref PkgWeightsRefAnalytic "analytic weights" or
+\ref PkgWeightsRefRegions "weighting regions".
 
 \cgalExample{Weights/projection_traits.cpp}
 

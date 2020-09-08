@@ -54,7 +54,7 @@ namespace Weights {
   #if defined(DOXYGEN_RUNNING)
 
   /*!
-    \ingroup PkgWeightInterfaceRefWeights
+    \ingroup PkgWeightsRefWeights
 
     \brief computes the Wachspress weight in 2D or 3D.
 
@@ -161,7 +161,7 @@ namespace Weights {
   /// \endcond
 
   /*!
-    \ingroup PkgWeightInterfaceRefBarycentric
+    \ingroup PkgWeightsRefBarycentric
 
     \brief 2D Wachspress weights for polygons.
 
@@ -375,7 +375,7 @@ namespace Weights {
   };
 
   /*!
-    \ingroup PkgWeightInterfaceRefBarycentric
+    \ingroup PkgWeightsRefBarycentric
 
     \brief computes 2D Wachspress weights for polygons.
 
@@ -410,6 +410,7 @@ namespace Weights {
     the beginning of the destination range with the computed weights
 
     \param traits
+    a traits class with geometric objects, predicates, and constructions;
     this parameter can be omitted if the traits class can be deduced from the point type
 
     \return an output iterator to the element in the destination range,

@@ -34,52 +34,54 @@ namespace Weights {
   #if defined(DOXYGEN_RUNNING)
 
   /*!
-    \ingroup PkgWeightInterfaceRefRegions
+    \ingroup PkgWeightsRefMixedVoronoiRegionWeights
 
-    \brief computes the area of the mixed Voronoi cell in 2D or 3D.
-
-    This area is the area of the shaded region in the figure below. The region
-    is formed by the two midpoints of the edges incident to `q` and the circumcenter of
-    the triangle `[p, q, r]`.
-
-    The type `GeomTraits::Point` must be either
-    `GeomTraits::Point_2` or `GeomTraits::Point_3`.
-
-    \cgalFigureBegin{mixed_voronoi_area, mixed_voronoi_cell.svg}
-      Notation used for the mixed Voronoi cell.
-    \cgalFigureEnd
-
-    However, unlike the original `voronoi_area()`, if one of the angles in the triangle
-    `[p, q, r]` is obtuse and the circumcenter vertex of the region is outside this triangle,
-    this vertex is moved to the midpoint of the edge `[r, p]` as shown in the figure below.
-
-    \cgalFigureBegin{mixed_voronoi_area_obtuse, mixed_voronoi_cell_obtuse.svg}
-      The case with the obtuse angle.
-    \cgalFigureEnd
-
-    \tparam GeomTraits
-    a model of `AnalyticWeightTraits_2` or `AnalyticWeightTraits_3`
-
-    \param p
-    the first point
-
-    \param q
-    the second point
-
-    \param r
-    the third point
-
-    \param traits
-    this parameter can be omitted if the traits class can be deduced from the point type
-
-    \sa `voronoi_area()`
+    \brief computes the area of the mixed Voronoi cell in 2D using the points `p`, `q`
+    and `r`, given a traits class `traits` with geometric objects, predicates, and constructions.
   */
   template<typename GeomTraits>
   const typename GeomTraits::FT mixed_voronoi_area(
-    const typename GeomTraits::Point& p,
-    const typename GeomTraits::Point& q,
-    const typename GeomTraits::Point& r,
+    const typename GeomTraits::Point_2& p,
+    const typename GeomTraits::Point_2& q,
+    const typename GeomTraits::Point_2& r,
     const GeomTraits& traits) { }
+
+  /*!
+    \ingroup PkgWeightsRefMixedVoronoiRegionWeights
+
+    \brief computes the area of the mixed Voronoi cell in 3D using the points `p`, `q`
+    and `r`, given a traits class `traits` with geometric objects, predicates, and constructions.
+  */
+  template<typename GeomTraits>
+  const typename GeomTraits::FT mixed_voronoi_area(
+    const typename GeomTraits::Point_3& p,
+    const typename GeomTraits::Point_3& q,
+    const typename GeomTraits::Point_3& r,
+    const GeomTraits& traits) { }
+
+  /*!
+    \ingroup PkgWeightsRefMixedVoronoiRegionWeights
+
+    \brief computes the area of the mixed Voronoi cell in 2D using the points `p`, `q`
+    and `r`, which are parameterized by a `Kernel` K.
+  */
+  template<typename K>
+  const typename K::FT mixed_voronoi_area(
+    const CGAL::Point_2<K>& p,
+    const CGAL::Point_2<K>& q,
+    const CGAL::Point_2<K>& r) { }
+
+  /*!
+    \ingroup PkgWeightsRefMixedVoronoiRegionWeights
+
+    \brief computes the area of the mixed Voronoi cell in 3D using the points `p`, `q`
+    and `r`, which are parameterized by a `Kernel` K.
+  */
+  template<typename K>
+  const typename K::FT mixed_voronoi_area(
+    const CGAL::Point_3<K>& p,
+    const CGAL::Point_3<K>& q,
+    const CGAL::Point_3<K>& r) { }
 
   #endif // DOXYGEN_RUNNING
 
