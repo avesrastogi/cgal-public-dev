@@ -26,11 +26,52 @@ Models and functions that can be used to compute weights, which have a simple an
 \defgroup PkgWeightsRefShepardWeights Shepard Weight
 \ingroup PkgWeightsRefAnalytic
 
+This weight is computed as
+\f$w = \frac{1}{d^a}\f$
+with notations shown in the figure below and \f$a\f$ any real number
+being the power parameter.
+
+Here, the distance is computed between the points `p` and `q`.
+
+\cgalFigureBegin{shepard_weight, shepard.svg}
+  Notation used for the Shepard weight.
+\cgalFigureEnd
+
+\cgalHeading{Specializations}
+- For \f$a = 1\f$, this weight is equal to the \ref PkgWeightsRefInverseDistanceWeights "Inverse Distance Weight".
+
+\tparam GeomTraits
+a model of `AnalyticWeightTraits_2` for 2D points;
+a model of `AnalyticWeightTraits_3` for 3D points
+
+\pre d != 0
+\note The type `FT` is a model of `FieldNumberType`.
+
 \addtogroup PkgWeightsRefAnalytic
 
 
 \defgroup PkgWeightsRefInverseDistanceWeights Inverse Distance Weight
 \ingroup PkgWeightsRefAnalytic
+
+This weight is computed as
+\f$w = \frac{1}{d}\f$
+with notations shown in the figure below.
+
+Here, the distance is computed between the points `p` and `q`.
+
+\cgalFigureBegin{inverse_distance_weight, inverse_distance.svg}
+  Notation used for the inverse distance weight.
+\cgalFigureEnd
+
+\cgalHeading{Other Formulations}
+- This weight is a special case of the \ref PkgWeightsRefShepardWeights "Shepard Weight".
+
+\tparam GeomTraits
+a model of `AnalyticWeightTraits_2` for 2D points;
+a model of `AnalyticWeightTraits_3` for 3D points
+
+\pre d != 0
+\note The type `FT` is a model of `FieldNumberType`.
 
 \addtogroup PkgWeightsRefAnalytic
 
@@ -52,8 +93,9 @@ Models and functions that can be used to compute weights, which have a simple an
 
 This weight is computed as
 \f$w = 2 \frac{\cot\beta + \cot\gamma}{d^2}\f$
-with notations shown in the figure below. Here, `q` is a query point
-and the points `p0`, `p1`, and `p2` are ordered.
+with notations shown in the figure below.
+
+Here, `q` is a query point and the points `p0`, `p1`, and `p2` are ordered.
 
 \cgalFigureBegin{authalic_weight, authalic.svg}
   Notation used for the authalic weight.
@@ -76,6 +118,33 @@ a model of `AnalyticWeightTraits_3` for 3D points
 \defgroup PkgWeightsRefMeanValueWeights Mean Value Weight
 \ingroup PkgWeightsRefAnalytic
 
+This weight is computed as
+\f$w = \pm 2 \sqrt{\frac{2 (d_1 d_2 - D)}{(d d_1 + D_1)(d d_2 + D_2)}}\f$
+with notations shown in the figure below and dot products
+
+\f$D_1 = (p_0 - q) \cdot (p_1 - q)\f$,
+\f$D_2 = (p_1 - q) \cdot (p_2 - q)\f$, and
+\f$D   = (p_0 - q) \cdot (p_2 - q)\f$.
+
+The \f$\pm\f$ sign is a sign of the weight that depends on the configuration.
+
+Here, `q` is a query point and the points `p0`, `p1`, and `p2` are ordered.
+
+\cgalFigureBegin{mean_value_weight, mean_value.svg}
+  Notation used for the mean value weight.
+\cgalFigureEnd
+
+\cgalHeading{Other Formulations}
+- This weight is equal to the \ref PkgWeightsRefTangentWeights "Tangent Weight".
+- This weight is a special case of the \ref PkgWeightsRefThreePointFamilyWeights "Three Point Family Weight".
+
+\tparam GeomTraits
+a model of `AnalyticWeightTraits_2` for 2D points;
+a model of `AnalyticWeightTraits_3` for 3D points
+
+\pre (d * d1 + D1) != 0 && (d * d2 + D2) != 0
+\note The type `FT` is a model of `FieldNumberType`.
+
 \addtogroup PkgWeightsRefAnalytic
 
 
@@ -88,11 +157,52 @@ a model of `AnalyticWeightTraits_3` for 3D points
 \defgroup PkgWeightsRefDiscreteHarmonicWeights Discrete Harmonic Weight
 \ingroup PkgWeightsRefAnalytic
 
+This weight is computed as
+\f$w = \frac{d_2^2 A_1 - d^2 B + d_1^2 A_2}{A_1 A_2}\f$
+with notations shown in the figure below.
+
+Here, `q` is a query point and the points `p0`, `p1`, and `p2` are ordered.
+
+\cgalFigureBegin{discrete_harmonic_weight, discrete_harmonic.svg}
+  Notation used for the discrete harmonic weight.
+\cgalFigureEnd
+
+\cgalHeading{Other Formulations}
+- This weight is equal to the \ref PkgWeightsRefCotangentWeights "Cotangent Weight".
+- This weight is a special case of the \ref PkgWeightsRefThreePointFamilyWeights "Three Point Family Weight".
+
+\tparam GeomTraits
+a model of `AnalyticWeightTraits_2` for 2D points;
+a model of `AnalyticWeightTraits_3` for 3D points
+
+\pre A1 != 0 && A2 != 0
+\note The type `FT` is a model of `FieldNumberType`.
+
 \addtogroup PkgWeightsRefAnalytic
 
 
 \defgroup PkgWeightsRefCotangentWeights Cotangent Weight
 \ingroup PkgWeightsRefAnalytic
+
+This weight is computed as
+\f$w = 2 (\cot\beta + \cot\gamma)\f$
+with notations shown in the figure below.
+
+Here, `q` is a query point and the points `p0`, `p1`, and `p2` are ordered.
+
+\cgalFigureBegin{cotangent_weight, cotangent.svg}
+  Notation used for the cotangent weight.
+\cgalFigureEnd
+
+\cgalHeading{Other Formulations}
+- This weight is equal to the \ref PkgWeightsRefDiscreteHarmonicWeights "Discrete Harmonic Weight".
+- This weight is a special case of the \ref PkgWeightsRefThreePointFamilyWeights "Three Point Family Weight".
+
+\tparam GeomTraits
+a model of `AnalyticWeightTraits_2` for 2D points;
+a model of `AnalyticWeightTraits_3` for 3D points
+
+\note The type `FT` is a model of `FieldNumberType`.
 
 \addtogroup PkgWeightsRefAnalytic
 

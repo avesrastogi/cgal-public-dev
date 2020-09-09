@@ -51,14 +51,12 @@ namespace Weights {
   /// \endcond
 
   /*!
-    \ingroup PkgWeightsRefUtils
+    \ingroup PkgWeightsRefCotangentWeights
 
-    \brief computes the half value of the `cotangent_weight()`.
+    \brief computes the half value of the cotangent weight.
 
     This function constructs the half of the cotangent weight using the precomputed
-    cotangent value.
-
-    The returned value is
+    cotangent value. The returned value is
     \f$2\textbf{cot}\f$.
 
     \tparam FT
@@ -79,51 +77,58 @@ namespace Weights {
   #if defined(DOXYGEN_RUNNING)
 
   /*!
-    \ingroup PkgWeightsRefWeights
+    \ingroup PkgWeightsRefCotangentWeights
 
-    \brief computes the cotangent weight in 2D or 3D.
-
-    The weight is computed as
-    \f$w = 2 (\cot\beta + \cot\gamma)\f$
-    with notations shown in the figure below.
-
-    - This weight is equal to the `discrete_harmonic_weight()`.
-    - This weight is a special case of the `three_point_family_weight()`.
-
-    The type `GeomTraits::Point` must be either
-    `GeomTraits::Point_2` or `GeomTraits::Point_3`.
-
-    \cgalFigureBegin{cotangent_weight, cotangent.svg}
-      Notation used for the cotangent weight.
-    \cgalFigureEnd
-
-    \tparam GeomTraits
-    a model of `AnalyticWeightTraits_2` or `AnalyticWeightTraits_3`
-
-    \param p0
-    the first point
-
-    \param p1
-    the second point
-
-    \param p2
-    the third point
-
-    \param q
-    a query point
-
-    \param traits
-    this parameter can be omitted if the traits class can be deduced from the point type
-
-    \note the points `p0`, `p1`, `p2` are ordered
+    \brief computes the cotangent weight in 2D at `q` using the points `p0`, `p1`,
+    and `p2`, given a traits class `traits` with geometric objects, predicates, and constructions.
   */
   template<typename GeomTraits>
   const typename GeomTraits::FT cotangent_weight(
-    const typename GeomTraits::Point& p0,
-    const typename GeomTraits::Point& p1,
-    const typename GeomTraits::Point& p2,
-    const typename GeomTraits::Point& q,
+    const typename GeomTraits::Point_2& p0,
+    const typename GeomTraits::Point_2& p1,
+    const typename GeomTraits::Point_2& p2,
+    const typename GeomTraits::Point_2& q,
     const GeomTraits& traits) { }
+
+  /*!
+    \ingroup PkgWeightsRefCotangentWeights
+
+    \brief computes the cotangent weight in 3D at `q` using the points `p0`, `p1`,
+    and `p2`, given a traits class `traits` with geometric objects, predicates, and constructions.
+  */
+  template<typename GeomTraits>
+  const typename GeomTraits::FT cotangent_weight(
+    const typename GeomTraits::Point_3& p0,
+    const typename GeomTraits::Point_3& p1,
+    const typename GeomTraits::Point_3& p2,
+    const typename GeomTraits::Point_3& q,
+    const GeomTraits& traits) { }
+
+  /*!
+    \ingroup PkgWeightsRefCotangentWeights
+
+    \brief computes the cotangent weight in 2D at `q` using the points `p0`, `p1`,
+    and `p2`, which are parameterized by a `Kernel` K.
+  */
+  template<typename K>
+  const typename K::FT cotangent_weight(
+    const CGAL::Point_2<K>& p0,
+    const CGAL::Point_2<K>& p1,
+    const CGAL::Point_2<K>& p2,
+    const CGAL::Point_2<K>& q) { }
+
+  /*!
+    \ingroup PkgWeightsRefCotangentWeights
+
+    \brief computes the cotangent weight in 3D at `q` using the points `p0`, `p1`,
+    and `p2`, which are parameterized by a `Kernel` K.
+  */
+  template<typename K>
+  const typename K::FT cotangent_weight(
+    const CGAL::Point_3<K>& p0,
+    const CGAL::Point_3<K>& p1,
+    const CGAL::Point_3<K>& p2,
+    const CGAL::Point_3<K>& q) { }
 
   #endif // DOXYGEN_RUNNING
 

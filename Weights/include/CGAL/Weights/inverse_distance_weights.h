@@ -49,73 +49,104 @@ namespace Weights {
   #if defined(DOXYGEN_RUNNING)
 
   /*!
-    \ingroup PkgWeightsRefWeights
+    \ingroup PkgWeightsRefInverseDistanceWeights
 
-    \brief computes the inverse distance weight in 2D or 3D.
-
-    The weight is computed as
-    \f$w = \frac{1}{d}\f$
-    with notations shown in the figure below.
-
-    This weight is a special case of the `shepard_weight()`.
-
-    The type `GeomTraits::Point` must be either
-    `GeomTraits::Point_2` or `GeomTraits::Point_3`.
-
-    \cgalFigureBegin{inverse_distance_weight, inverse_distance.svg}
-      Notation used for the inverse distance weight.
-    \cgalFigureEnd
-
-    \tparam GeomTraits
-    a model of `AnalyticWeightTraits_2` or `AnalyticWeightTraits_3`
-
-    \param p
-    the first point
-
-    \param q
-    the second point
-
-    \param traits
-    this parameter can be omitted if the traits class can be deduced from the point type
-
-    \pre d != 0
+    \brief computes the inverse distance weight in 2D using the points `p` and `q`,
+    given a traits class `traits` with geometric objects, predicates, and constructions.
   */
   template<typename GeomTraits>
   const typename GeomTraits::FT inverse_distance_weight(
-    const typename GeomTraits::Point&,
-    const typename GeomTraits::Point& p,
-    const typename GeomTraits::Point&,
-    const typename GeomTraits::Point& q,
+    const typename GeomTraits::Point_2&,
+    const typename GeomTraits::Point_2& p,
+    const typename GeomTraits::Point_2&,
+    const typename GeomTraits::Point_2& q,
     const GeomTraits& traits) { }
 
   /*!
-    \ingroup PkgWeightsRefWeights
+    \ingroup PkgWeightsRefInverseDistanceWeights
 
-    \brief computes the inverse distance weight in 2D or 3D.
-
-    This function calls the function `inverse_distance_weight()`.
-
-    \tparam GeomTraits
-    a model of `AnalyticWeightTraits_2` or `AnalyticWeightTraits_3`
-
-    \param p
-    the first point
-
-    \param q
-    the second point
-
-    \param traits
-    this parameter can be omitted if the traits class can be deduced from the point type
-
-    \pre p != q
-
-    \sa `inverse_distance_weight()`
+    \brief computes the inverse distance weight in 3D using the points `p` and `q`,
+    given a traits class `traits` with geometric objects, predicates, and constructions.
   */
   template<typename GeomTraits>
   const typename GeomTraits::FT inverse_distance_weight(
-    const typename GeomTraits::Point& p,
-    const typename GeomTraits::Point& q,
+    const typename GeomTraits::Point_3&,
+    const typename GeomTraits::Point_3& p,
+    const typename GeomTraits::Point_3&,
+    const typename GeomTraits::Point_3& q,
     const GeomTraits& traits) { }
+
+  /*!
+    \ingroup PkgWeightsRefInverseDistanceWeights
+
+    \brief computes the inverse distance weight in 2D using the points `p` and `q`,
+    which are parameterized by a `Kernel` K.
+  */
+  template<typename K>
+  const typename K::FT inverse_distance_weight(
+    const CGAL::Point_2<K>&,
+    const CGAL::Point_2<K>& p,
+    const CGAL::Point_2<K>&,
+    const CGAL::Point_2<K>& q) { }
+
+  /*!
+    \ingroup PkgWeightsRefInverseDistanceWeights
+
+    \brief computes the inverse distance weight in 3D using the points `p` and `q`,
+    which are parameterized by a `Kernel` K.
+  */
+  template<typename K>
+  const typename K::FT inverse_distance_weight(
+    const CGAL::Point_3<K>&,
+    const CGAL::Point_3<K>& p,
+    const CGAL::Point_3<K>&,
+    const CGAL::Point_3<K>& q) { }
+
+  /*!
+    \ingroup PkgWeightsRefInverseDistanceWeights
+
+    \brief computes the inverse distance weight in 2D using the points `p` and `q`,
+    given a traits class `traits` with geometric objects, predicates, and constructions.
+  */
+  template<typename GeomTraits>
+  const typename GeomTraits::FT inverse_distance_weight(
+    const typename GeomTraits::Point_2& p,
+    const typename GeomTraits::Point_2& q,
+    const GeomTraits& traits) { }
+
+  /*!
+    \ingroup PkgWeightsRefInverseDistanceWeights
+
+    \brief computes the inverse distance weight in 3D using the points `p` and `q`,
+    given a traits class `traits` with geometric objects, predicates, and constructions.
+  */
+  template<typename GeomTraits>
+  const typename GeomTraits::FT inverse_distance_weight(
+    const typename GeomTraits::Point_3& p,
+    const typename GeomTraits::Point_3& q,
+    const GeomTraits& traits) { }
+
+  /*!
+    \ingroup PkgWeightsRefInverseDistanceWeights
+
+    \brief computes the inverse distance weight in 2D using the points `p` and `q`,
+    which are parameterized by a `Kernel` K.
+  */
+  template<typename K>
+  const typename K::FT inverse_distance_weight(
+    const CGAL::Point_2<K>& p,
+    const CGAL::Point_2<K>& q) { }
+
+  /*!
+    \ingroup PkgWeightsRefInverseDistanceWeights
+
+    \brief computes the inverse distance weight in 3D using the points `p` and `q`,
+    which are parameterized by a `Kernel` K.
+  */
+  template<typename K>
+  const typename K::FT inverse_distance_weight(
+    const CGAL::Point_3<K>& p,
+    const CGAL::Point_3<K>& q) { }
 
   #endif // DOXYGEN_RUNNING
 

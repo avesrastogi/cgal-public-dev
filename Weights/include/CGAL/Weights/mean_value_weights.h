@@ -82,59 +82,58 @@ namespace Weights {
   #if defined(DOXYGEN_RUNNING)
 
   /*!
-    \ingroup PkgWeightsRefWeights
+    \ingroup PkgWeightsRefMeanValueWeights
 
-    \brief computes the mean value weight in 2D or 3D.
-
-    The weight is computed as
-    \f$w = \pm 2 \sqrt{\frac{2 (d_1 d_2 - D)}{(d d_1 + D_1)(d d_2 + D_2)}}\f$,
-    with notations shown in the figure below and dot products
-
-    \f$D_1 = (p_0 - q) \cdot (p_1 - q)\f$,
-    \f$D_2 = (p_1 - q) \cdot (p_2 - q)\f$, and
-    \f$D   = (p_0 - q) \cdot (p_2 - q)\f$.
-
-    The \f$\pm\f$ sign is a sign of the weight that depends on the configuration.
-
-    - This weight is equal to the `tangent_weight()`.
-    - This weight is a special case of the `three_point_family_weight()`.
-
-    The type `GeomTraits::Point` must be either
-    `GeomTraits::Point_2` or `GeomTraits::Point_3`.
-
-    \cgalFigureBegin{mean_value_weight, mean_value.svg}
-      Notation used for the mean value weight.
-    \cgalFigureEnd
-
-    \tparam GeomTraits
-    a model of `AnalyticWeightTraits_2` or `AnalyticWeightTraits_3`
-
-    \param p0
-    the first point
-
-    \param p1
-    the second point
-
-    \param p2
-    the third point
-
-    \param q
-    a query point
-
-    \param traits
-    this parameter can be omitted if the traits class can be deduced from the point type
-
-    \pre (d * d1 + D1) != 0 && (d * d2 + D2) != 0
-
-    \note the points `p0`, `p1`, `p2` are ordered
+    \brief computes the mean value weight in 2D at `q` using the points `p0`, `p1`,
+    and `p2`, given a traits class `traits` with geometric objects, predicates, and constructions.
   */
   template<typename GeomTraits>
   const typename GeomTraits::FT mean_value_weight(
-    const typename GeomTraits::Point& p0,
-    const typename GeomTraits::Point& p1,
-    const typename GeomTraits::Point& p2,
-    const typename GeomTraits::Point& q,
+    const typename GeomTraits::Point_2& p0,
+    const typename GeomTraits::Point_2& p1,
+    const typename GeomTraits::Point_2& p2,
+    const typename GeomTraits::Point_2& q,
     const GeomTraits& traits) { }
+
+  /*!
+    \ingroup PkgWeightsRefMeanValueWeights
+
+    \brief computes the mean value weight in 3D at `q` using the points `p0`, `p1`,
+    and `p2`, given a traits class `traits` with geometric objects, predicates, and constructions.
+  */
+  template<typename GeomTraits>
+  const typename GeomTraits::FT mean_value_weight(
+    const typename GeomTraits::Point_3& p0,
+    const typename GeomTraits::Point_3& p1,
+    const typename GeomTraits::Point_3& p2,
+    const typename GeomTraits::Point_3& q,
+    const GeomTraits& traits) { }
+
+  /*!
+    \ingroup PkgWeightsRefMeanValueWeights
+
+    \brief computes the mean value weight in 2D at `q` using the points `p0`, `p1`,
+    and `p2`, which are parameterized by a `Kernel` K.
+  */
+  template<typename K>
+  const typename K::FT mean_value_weight(
+    const CGAL::Point_2<K>& p0,
+    const CGAL::Point_2<K>& p1,
+    const CGAL::Point_2<K>& p2,
+    const CGAL::Point_2<K>& q) { }
+
+  /*!
+    \ingroup PkgWeightsRefMeanValueWeights
+
+    \brief computes the mean value weight in 3D at `q` using the points `p0`, `p1`,
+    and `p2`, which are parameterized by a `Kernel` K.
+  */
+  template<typename K>
+  const typename K::FT mean_value_weight(
+    const CGAL::Point_3<K>& p0,
+    const CGAL::Point_3<K>& p1,
+    const CGAL::Point_3<K>& p2,
+    const CGAL::Point_3<K>& q) { }
 
   #endif // DOXYGEN_RUNNING
 

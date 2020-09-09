@@ -57,82 +57,116 @@ namespace Weights {
   #if defined(DOXYGEN_RUNNING)
 
   /*!
-    \ingroup PkgWeightsRefWeights
+    \ingroup PkgWeightsRefShepardWeights
 
-    \brief computes the Shepard weight in 2D or 3D.
-
-    The weight is computed as
-    \f$w = \frac{1}{d^a}\f$
-    with notations shown in the figure below and \f$a\f$ any real number
-    being the power parameter.
-
-    For \f$a = 1\f$ this weight is equal to the `inverse_distance_weight()`.
-
-    The type `GeomTraits::Point` must be either
-    `GeomTraits::Point_2` or `GeomTraits::Point_3`.
-
-    \cgalFigureBegin{shepard_weight, shepard.svg}
-      Notation used for the Shepard weight.
-    \cgalFigureEnd
-
-    \tparam GeomTraits
-    a model of `AnalyticWeightTraits_2` or `AnalyticWeightTraits_3`
-
-    \param p
-    the first point
-
-    \param q
-    the second point
-
-    \param a
-    the power parameter
-
-    \param traits
-    this parameter can be omitted if the traits class can be deduced from the point type
-
-    \pre d != 0
+    \brief computes the Shepard weight in 2D using the points `p` and `q` and the power parameter `a`,
+    given a traits class `traits` with geometric objects, predicates, and constructions.
   */
   template<typename GeomTraits>
   const typename GeomTraits::FT shepard_weight(
-    const typename GeomTraits::Point&,
-    const typename GeomTraits::Point& p,
-    const typename GeomTraits::Point&,
-    const typename GeomTraits::Point& q,
+    const typename GeomTraits::Point_2&,
+    const typename GeomTraits::Point_2& p,
+    const typename GeomTraits::Point_2&,
+    const typename GeomTraits::Point_2& q,
     const typename GeomTraits::FT a,
     const GeomTraits& traits) { }
 
   /*!
-    \ingroup PkgWeightsRefWeights
+    \ingroup PkgWeightsRefShepardWeights
 
-    \brief computes the Shepard weight in 2D or 3D.
-
-    This function calls the function `shepard_weight()`.
-
-    \tparam GeomTraits
-    a model of `AnalyticWeightTraits_2` or `AnalyticWeightTraits_3`
-
-    \param p
-    the first point
-
-    \param q
-    the second point
-
-    \param a
-    the power parameter
-
-    \param traits
-    this parameter can be omitted if the traits class can be deduced from the point type
-
-    \pre p != q
-
-    \sa `shepard_weight()`
+    \brief computes the Shepard weight in 3D using the points `p` and `q` and the power parameter `a`,
+    given a traits class `traits` with geometric objects, predicates, and constructions.
   */
   template<typename GeomTraits>
   const typename GeomTraits::FT shepard_weight(
-    const typename GeomTraits::Point& p,
-    const typename GeomTraits::Point& q,
+    const typename GeomTraits::Point_3&,
+    const typename GeomTraits::Point_3& p,
+    const typename GeomTraits::Point_3&,
+    const typename GeomTraits::Point_3& q,
     const typename GeomTraits::FT a,
     const GeomTraits& traits) { }
+
+  /*!
+    \ingroup PkgWeightsRefShepardWeights
+
+    \brief computes the Shepard weight in 2D using the points `p` and `q`,
+    which are parameterized by a `Kernel` K, and the power parameter `a`, which
+    can be omitted.
+  */
+  template<typename K>
+  const typename K::FT shepard_weight(
+    const CGAL::Point_2<K>&,
+    const CGAL::Point_2<K>& p,
+    const CGAL::Point_2<K>&,
+    const CGAL::Point_2<K>& q,
+    const typename K::FT a = typename K::FT(1)) { }
+
+  /*!
+    \ingroup PkgWeightsRefShepardWeights
+
+    \brief computes the Shepard weight in 3D using the points `p` and `q`,
+    which are parameterized by a `Kernel` K, and the power parameter `a`, which
+    can be omitted.
+  */
+  template<typename K>
+  const typename K::FT shepard_weight(
+    const CGAL::Point_3<K>&,
+    const CGAL::Point_3<K>& p,
+    const CGAL::Point_3<K>&,
+    const CGAL::Point_3<K>& q,
+    const typename K::FT a = typename K::FT(1)) { }
+
+  /*!
+    \ingroup PkgWeightsRefShepardWeights
+
+    \brief computes the Shepard weight in 2D using the points `p` and `q` and the power parameter `a`,
+    given a traits class `traits` with geometric objects, predicates, and constructions.
+  */
+  template<typename GeomTraits>
+  const typename GeomTraits::FT shepard_weight(
+    const typename GeomTraits::Point_2& p,
+    const typename GeomTraits::Point_2& q,
+    const typename GeomTraits::FT a,
+    const GeomTraits& traits) { }
+
+  /*!
+    \ingroup PkgWeightsRefShepardWeights
+
+    \brief computes the Shepard weight in 3D using the points `p` and `q` and the power parameter `a`,
+    given a traits class `traits` with geometric objects, predicates, and constructions.
+  */
+  template<typename GeomTraits>
+  const typename GeomTraits::FT shepard_weight(
+    const typename GeomTraits::Point_3& p,
+    const typename GeomTraits::Point_3& q,
+    const typename GeomTraits::FT a,
+    const GeomTraits& traits) { }
+
+  /*!
+    \ingroup PkgWeightsRefShepardWeights
+
+    \brief computes the Shepard weight in 2D using the points `p` and `q`,
+    which are parameterized by a `Kernel` K, and the power parameter `a`, which
+    can be omitted.
+  */
+  template<typename K>
+  const typename K::FT shepard_weight(
+    const CGAL::Point_2<K>& p,
+    const CGAL::Point_2<K>& q,
+    const typename K::FT a = typename K::FT(1)) { }
+
+  /*!
+    \ingroup PkgWeightsRefShepardWeights
+
+    \brief computes the Shepard weight in 3D using the points `p` and `q`,
+    which are parameterized by a `Kernel` K, and the power parameter `a`, which
+    can be omitted.
+  */
+  template<typename K>
+  const typename K::FT shepard_weight(
+    const CGAL::Point_3<K>& p,
+    const CGAL::Point_3<K>& q,
+    const typename K::FT a = typename K::FT(1)) { }
 
   #endif // DOXYGEN_RUNNING
 
