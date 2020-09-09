@@ -107,7 +107,7 @@ typedef unspecified_type Compute_determinant_2;
 /*!
   A construction object that must provide the function operator:
 
-	`Point_2 operator()(const Point_2& p, const Point_2& q, const Point_2& r)`
+	`%Point_2 operator()(const Point_2& p, const Point_2& q, const Point_2& r)`
 
   that returns the center of the circle passing through the points `p`, `q`, and `r`.
 */
@@ -116,7 +116,7 @@ typedef unspecified_type Construct_circumcenter_2;
 /*!
   A construction object that must provide the function operator:
 
-	`Vector_2 operator()(const Point_2& p, const Point_2& q)`
+	`%Vector_2 operator()(const Point_2& p, const Point_2& q)`
 
   that returns the vector through the points `p` and `q`.
 */
@@ -125,7 +125,7 @@ typedef unspecified_type Construct_vector_2;
 /*!
   A construction object that must provide the function operator:
 
-	`Point_2 operator()(const Point_2& p, const Point_2& q)`
+	`%Point_2 operator()(const Point_2& p, const Point_2& q)`
 
   that returns the midpoint between the points `p` and `q`.
 */
@@ -134,7 +134,7 @@ typedef unspecified_type Construct_midpoint_2;
 /*!
   A construction object that must provide the function operator:
 
-	`Point_2 operator()(const Point_2& p, const Point_2& q, const Point_2& r)`
+	`%Point_2 operator()(const Point_2& p, const Point_2& q, const Point_2& r)`
 
   that returns the centroid of the points `p`, `q`, and `r`.
 */
