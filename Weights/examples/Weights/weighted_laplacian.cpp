@@ -19,9 +19,6 @@ using Mesh = CGAL::Surface_mesh<Point_3>;
 using VD   = boost::graph_traits<Mesh>::vertex_descriptor;
 using HD   = boost::graph_traits<Mesh>::halfedge_descriptor;
 
-using Indices = std::map<VD, std::size_t>;
-using VIMap   = boost::associative_property_map<Indices>;
-
 struct Weight_wrapper {
 
   template<typename PointMap>
@@ -69,7 +66,7 @@ struct Weight_wrapper {
     const auto init = halfedge(v_i, mesh);
     for (const auto he : halfedges_around_target(init, mesh)) {
       assert(v0 == target(he, mesh));
-      if (is_border(he, mesh)) continue;
+      if (is_border(he, mesh)) { continue; }
 
       const auto v1 = source(he, mesh);
       const auto v2 = target(next(he, mesh), mesh);
@@ -85,24 +82,26 @@ struct Weight_wrapper {
 };
 
 void set_laplacian_matrix(
-  const Mesh& mesh, const VIMap& vimap, Matrix& L) {
+  const Mesh& mesh, Matrix& L) {
 
   const Weight_wrapper wrapper;
-  const auto pmap = get(CGAL::vertex_point, mesh);
+  const auto pmap = get(CGAL::vertex_point, mesh); // vertex to point map
+  const auto imap = get(CGAL::vertex_index, mesh); // vertex to index map
 
   // Precompute Voronoi areas.
   std::map<std::size_t, FT> w_i;
-  for (const auto v_i : vertices(mesh))
-    w_i[get(vimap, v_i)] = wrapper.w_i(mesh, v_i, pmap);
+  for (const auto v_i : vertices(mesh)) {
+    w_i[get(imap, v_i)] = wrapper.w_i(mesh, v_i, pmap);
+  }
 
   // Fill the matrix.
   for (const auto he : halfedges(mesh)) {
     const auto vi = source(he, mesh);
     const auto vj = target(he, mesh);
 
-    const std::size_t i = get(vimap, vi);
-    const std::size_t j = get(vimap, vj);
-    if (i > j) continue;
+    const std::size_t i = get(imap, vi);
+    const std::size_t j = get(imap, vj);
+    if (i > j) { continue; }
 
     const FT w_ij = w_i[j] * wrapper.w_ij(mesh, he, pmap);
     L.set_coef(i, j,  w_ij, true);
@@ -129,21 +128,15 @@ int main() {
   mesh.add_face(v1, v0, v2);
   assert(CGAL::is_triangle_mesh(mesh));
 
-  // Create vertex to index map.
-  Indices indices;
-  VIMap vimap(indices);
-  std::size_t n = 0;
-  for (const auto vd : vertices(mesh))
-    put(vimap, vd, n++);
-  assert(n == 5);
-
   // Set discretized Laplacian.
+  const std::size_t n = 5; // we have 5 vertices
   Matrix L(n, n);
-  set_laplacian_matrix(mesh, vimap, L);
+  set_laplacian_matrix(mesh, L);
   std::cout << std::fixed; std::cout << std::showpos;
   for (std::size_t i = 0; i < n; ++i) {
-    for (std::size_t j = 0; j < n; ++j)
+    for (std::size_t j = 0; j < n; ++j) {
       std::cout << L.get_coef(i, j) << " ";
+    }
     std::cout << std::endl;
   }
   return EXIT_SUCCESS;

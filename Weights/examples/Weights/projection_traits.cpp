@@ -30,8 +30,9 @@ int main() {
   CGAL::Weights::mean_value_weights_2(polygon, query, std::back_inserter(weights), ptraits);
 
   std::cout << "2D weights: ";
-  for (const FT weight : weights)
+  for (const FT weight : weights) {
     std::cout << weight << " ";
+  }
   std::cout << std::endl;
 
   return EXIT_SUCCESS;

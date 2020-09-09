@@ -178,7 +178,7 @@ typedef unspecified_type Less_xy_2;
 
 	`Comparison_result operator()(const Point_2& p, const Point_2& q)`
 
-	that compares the Cartesian x-coordinates of the points `p` and `q`.
+	that compares the %Cartesian x-coordinates of the points `p` and `q`.
 */
 typedef unspecified_type Compare_x_2;
 
@@ -187,7 +187,7 @@ typedef unspecified_type Compare_x_2;
 
 	`Comparison_result operator()(const Point_2& p, const Point_2& q)`
 
-	that compares the Cartesian y-coordinates of the points `p` and `q`.
+	that compares the %Cartesian y-coordinates of the points `p` and `q`.
 */
 typedef unspecified_type Compare_y_2;
 

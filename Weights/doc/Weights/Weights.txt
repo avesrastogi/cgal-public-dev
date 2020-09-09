@@ -74,7 +74,7 @@ lengths, areas, and volumes of 2D and 3D objects.
 
 All weights have a simple and unified interface. In particular, all analytic weights take
 a query point and three other points in 2D or 3D and return a unique scalar. They all
-have the same signature and are parameterized by a traits class that can be a model of
+have the same signature and are parameterized by a traits class that must be a model of
 `AnalyticWeightTraits_2` for 2D computations or `AnalyticWeightTraits_3` for 3D computations.
 
 The barycentric weights are parameterized by a traits class of the concept

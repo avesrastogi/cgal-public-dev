@@ -35,29 +35,34 @@ int main() {
 
   // Compute barycentric weights.
   Wachspress wachspress(polygon);
-  for (const Point_2& query : queries)
+  for (const Point_2& query : queries) {
     wachspress(query, std::back_inserter(weights));
+  }
 
   std::cout << "2D weights: " << std::endl;
   for (std::size_t i = 0; i < weights.size(); i += polygon.size()) {
-    for (std::size_t j = 0; j < polygon.size(); ++j)
+    for (std::size_t j = 0; j < polygon.size(); ++j) {
       std::cout << weights[i + j] << " ";
+    }
     std::cout << std::endl;
   }
 
   // Normalize weights in order to get barycentric coordinates.
   for (std::size_t i = 0; i < weights.size(); i += polygon.size()) {
     FT sum = FT(0);
-    for (std::size_t j = 0; j < polygon.size(); ++j)
+    for (std::size_t j = 0; j < polygon.size(); ++j) {
       sum += weights[i + j];
-    for (std::size_t j = 0; j < polygon.size(); ++j)
+    }
+    for (std::size_t j = 0; j < polygon.size(); ++j) {
       coordinates.push_back(weights[i + j] / sum);
+    }
   }
 
   std::cout << "2D coordinates: " << std::endl;
   for (std::size_t i = 0; i < coordinates.size(); i += polygon.size()) {
-    for (std::size_t j = 0; j < polygon.size(); ++j)
+    for (std::size_t j = 0; j < polygon.size(); ++j) {
       std::cout << coordinates[i + j] << " ";
+    }
     std::cout << std::endl;
   }
 

@@ -23,20 +23,24 @@ int main() {
   CGAL::Weights::discrete_harmonic_weights_2(polygon, query, std::back_inserter(weights));
 
   std::cout << "2D weights: ";
-  for (const FT weight : weights)
+  for (const FT weight : weights) {
     std::cout << weight << " ";
+  }
   std::cout << std::endl;
 
   // Normalize weights in order to get barycentric coordinates.
   FT sum = FT(0);
-  for (const FT weight : weights)
+  for (const FT weight : weights) {
     sum += weight;
-  for (const FT weight : weights)
+  }
+  for (const FT weight : weights) {
     coordinates.push_back(weight / sum);
+  }
 
   std::cout << "2D coordinates: ";
-  for (const FT coordinate : coordinates)
+  for (const FT coordinate : coordinates) {
     std::cout << coordinate << " ";
+  }
   std::cout << std::endl;
 
   return EXIT_SUCCESS;
