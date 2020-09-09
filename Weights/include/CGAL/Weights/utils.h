@@ -35,64 +35,108 @@ namespace Weights {
   #if defined(DOXYGEN_RUNNING)
 
   /*!
-    \ingroup PkgWeightsRefUtils
+    \ingroup PkgWeightsRefTangents
 
-    \brief computes the tangent of the angle between 2D or 3D vectors `[q, r]` and `[q, p]`.
-
-    The type `GeomTraits::Point` must be either
-    `GeomTraits::Point_2` or `GeomTraits::Point_3`.
-
-    \tparam GeomTraits
-    a model of `AnalyticWeightTraits_2` or `AnalyticWeightTraits_3`
-
-    \param p
-    the first point
-
-    \param q
-    the second point
-
-    \param r
-    the third point
-
-    \param traits
-    this parameter can be omitted if the traits class can be deduced from the point type
+    \brief computes the tangent of the angle between the vectors `[q, r]` and `[q, p]`
+    using the 2D points `p`, `q` and `r`, given a traits class `traits` with geometric objects,
+    predicates, and constructions.
   */
   template<typename GeomTraits>
   const typename GeomTraits::FT tangent(
-    const typename GeomTraits::Point& p,
-    const typename GeomTraits::Point& q,
-    const typename GeomTraits::Point& r,
+    const typename GeomTraits::Point_2& p,
+    const typename GeomTraits::Point_2& q,
+    const typename GeomTraits::Point_2& r,
     const GeomTraits& traits) { }
 
   /*!
-    \ingroup PkgWeightsRefUtils
+    \ingroup PkgWeightsRefTangents
 
-    \brief computes the cotangent of the angle between 2D or 3D vectors `[q, r]` and `[q, p]`.
+    \brief computes the tangent of the angle between the vectors `[q, r]` and `[q, p]`
+    using the 3D points `p`, `q` and `r`, given a traits class `traits` with geometric objects,
+    predicates, and constructions.
+  */
+  template<typename GeomTraits>
+  const typename GeomTraits::FT tangent(
+    const typename GeomTraits::Point_3& p,
+    const typename GeomTraits::Point_3& q,
+    const typename GeomTraits::Point_3& r,
+    const GeomTraits& traits) { }
 
-    The type `GeomTraits::Point` must be either
-    `GeomTraits::Point_2` or `GeomTraits::Point_3`.
+  /*!
+    \ingroup PkgWeightsRefTangents
 
-    \tparam GeomTraits
-    a model of `AnalyticWeightTraits_2` or `AnalyticWeightTraits_3`
+    \brief computes the tangent of the angle between the vectors `[q, r]` and `[q, p]`
+    using the 2D points `p`, `q` and `r`, which are parameterized by a `Kernel` K.
+  */
+  template<typename K>
+  const typename K::FT tangent(
+    const CGAL::Point_2<K>& p,
+    const CGAL::Point_2<K>& q,
+    const CGAL::Point_2<K>& r) { }
 
-    \param p
-    the first point
+  /*!
+    \ingroup PkgWeightsRefTangents
 
-    \param q
-    the second point
+    \brief computes the tangent of the angle between the vectors `[q, r]` and `[q, p]`
+    using the 3D points `p`, `q` and `r`, which are parameterized by a `Kernel` K.
+  */
+  template<typename K>
+  const typename K::FT tangent(
+    const CGAL::Point_3<K>& p,
+    const CGAL::Point_3<K>& q,
+    const CGAL::Point_3<K>& r) { }
 
-    \param r
-    the third point
+  /*!
+    \ingroup PkgWeightsRefCotangents
 
-    \param traits
-    this parameter can be omitted if the traits class can be deduced from the point type
+    \brief computes the cotangent of the angle between the vectors `[q, r]` and `[q, p]`
+    using the 2D points `p`, `q` and `r`, given a traits class `traits` with geometric objects,
+    predicates, and constructions.
   */
   template<typename GeomTraits>
   const typename GeomTraits::FT cotangent(
-    const typename GeomTraits::Point& p,
-    const typename GeomTraits::Point& q,
-    const typename GeomTraits::Point& r,
+    const typename GeomTraits::Point_2& p,
+    const typename GeomTraits::Point_2& q,
+    const typename GeomTraits::Point_2& r,
     const GeomTraits& traits) { }
+
+  /*!
+    \ingroup PkgWeightsRefCotangents
+
+    \brief computes the cotangent of the angle between the vectors `[q, r]` and `[q, p]`
+    using the 3D points `p`, `q` and `r`, given a traits class `traits` with geometric objects,
+    predicates, and constructions.
+  */
+  template<typename GeomTraits>
+  const typename GeomTraits::FT cotangent(
+    const typename GeomTraits::Point_3& p,
+    const typename GeomTraits::Point_3& q,
+    const typename GeomTraits::Point_3& r,
+    const GeomTraits& traits) { }
+
+  /*!
+    \ingroup PkgWeightsRefCotangents
+
+    \brief computes the cotangent of the angle between the vectors `[q, r]` and `[q, p]`
+    using the 2D points `p`, `q` and `r`, which are parameterized by a `Kernel` K.
+  */
+  template<typename K>
+  const typename K::FT cotangent(
+    const CGAL::Point_2<K>& p,
+    const CGAL::Point_2<K>& q,
+    const CGAL::Point_2<K>& r) { }
+
+  /*!
+    \ingroup PkgWeightsRefCotangents
+
+    \brief computes the cotangent of the angle between the vectors `[q, r]` and `[q, p]`
+    using the 3D points `p`, `q` and `r`, which are parameterized by a `Kernel` K.
+  */
+  template<typename K>
+  const typename K::FT cotangent(
+    const CGAL::Point_3<K>& p,
+    const CGAL::Point_3<K>& q,
+    const CGAL::Point_3<K>& r) { }
 
   #endif // DOXYGEN_RUNNING
 

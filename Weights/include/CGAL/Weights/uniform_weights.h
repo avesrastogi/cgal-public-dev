@@ -34,25 +34,58 @@ namespace Weights {
   #if defined(DOXYGEN_RUNNING)
 
   /*!
-    \ingroup PkgWeightsRefWeights
+    \ingroup PkgWeightsRefUniformWeights
 
-    \brief computes the uniform weight in 2D or 3D.
-
-    This function always returns 1.
-
-    The type `GeomTraits::Point` must be either
-    `GeomTraits::Point_2` or `GeomTraits::Point_3`.
-
-    \tparam GeomTraits
-    a model of `AnalyticWeightTraits_2` or `AnalyticWeightTraits_3`
+    \brief this function always returns 1, given four points in 2D and a traits class
+    with geometric objects, predicates, and constructions.
   */
   template<typename GeomTraits>
   const typename GeomTraits::FT uniform_weight(
-    const typename GeomTraits::Point&,
-    const typename GeomTraits::Point&,
-    const typename GeomTraits::Point&,
-    const typename GeomTraits::Point&,
+    const typename GeomTraits::Point_2&,
+    const typename GeomTraits::Point_2&,
+    const typename GeomTraits::Point_2&,
+    const typename GeomTraits::Point_2&,
     const GeomTraits&) { }
+
+  /*!
+    \ingroup PkgWeightsRefUniformWeights
+
+    \brief this function always returns 1, given four points in 3D and a traits class
+    with geometric objects, predicates, and constructions.
+  */
+  template<typename GeomTraits>
+  const typename GeomTraits::FT uniform_weight(
+    const typename GeomTraits::Point_3&,
+    const typename GeomTraits::Point_3&,
+    const typename GeomTraits::Point_3&,
+    const typename GeomTraits::Point_3&,
+    const GeomTraits&) { }
+
+  /*!
+    \ingroup PkgWeightsRefUniformWeights
+
+    \brief this function always returns 1, given four points in 2D, which are
+    parameterized by a `Kernel` K.
+  */
+  template<typename K>
+  const typename K::FT uniform_weight(
+    const CGAL::Point_2<K>&,
+    const CGAL::Point_2<K>&,
+    const CGAL::Point_2<K>&,
+    const CGAL::Point_2<K>&) { }
+
+  /*!
+    \ingroup PkgWeightsRefUniformWeights
+
+    \brief this function always returns 1, given four points in 3D, which are
+    parameterized by a `Kernel` K.
+  */
+  template<typename K>
+  const typename K::FT uniform_weight(
+    const CGAL::Point_3<K>&,
+    const CGAL::Point_3<K>&,
+    const CGAL::Point_3<K>&,
+    const CGAL::Point_3<K>&) { }
 
   #endif // DOXYGEN_RUNNING
 
@@ -105,11 +138,9 @@ namespace Weights {
   /// \endcond
 
   /*!
-    \ingroup PkgWeightsRefWeights
+    \ingroup PkgWeightsRefUniformWeights
 
-    \brief computes the uniform weight.
-
-    This function always returns 1.
+    \brief this function always returns 1.
   */
   double uniform_weight() {
     return 1.0;

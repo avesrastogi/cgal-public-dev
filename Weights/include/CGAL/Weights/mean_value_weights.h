@@ -214,7 +214,7 @@ namespace Weights {
   /// \endcond
 
   /*!
-    \ingroup PkgWeightsRefBarycentric
+    \ingroup PkgWeightsRefBarycentricMeanValueWeights
 
     \brief 2D mean value weights for polygons.
 
@@ -459,7 +459,7 @@ namespace Weights {
   };
 
   /*!
-    \ingroup PkgWeightsRefBarycentric
+    \ingroup PkgWeightsRefBarycentricMeanValueWeights
 
     \brief computes 2D mean value weights for polygons.
 

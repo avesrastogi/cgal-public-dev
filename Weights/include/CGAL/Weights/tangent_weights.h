@@ -90,14 +90,12 @@ namespace Weights {
   /// \endcond
 
   /*!
-    \ingroup PkgWeightsRefUtils
+    \ingroup PkgWeightsRefTangentWeights
 
     \brief computes the tangent of the half angle.
 
     This function computes the tangent of the half angle using the precomputed
-    distance, area, and dot product values.
-
-    The returned value is
+    distance, area, and dot product values. The returned value is
     \f$\frac{2\textbf{A}}{\textbf{d}\textbf{l} + \textbf{D}}\f$.
 
     \tparam FT
@@ -127,14 +125,12 @@ namespace Weights {
   }
 
   /*!
-    \ingroup PkgWeightsRefUtils
+    \ingroup PkgWeightsRefTangentWeights
 
-    \brief computes the half value of the `tangent_weight()`.
+    \brief computes the half value of the tangent weight.
 
     This function constructs the half of the tangent weight using the precomputed
-    half angle tangent and distance values.
-
-    The returned value is
+    half angle tangent and distance values. The returned value is
     \f$\frac{2\textbf{tan05}}{\textbf{d}}\f$.
 
     \tparam FT
@@ -159,14 +155,12 @@ namespace Weights {
   }
 
   /*!
-    \ingroup PkgWeightsRefUtils
+    \ingroup PkgWeightsRefTangentWeights
 
-    \brief computes the half value of the `tangent_weight()`.
+    \brief computes the half value of the tangent weight.
 
     This function constructs the half of the tangent weight using the precomputed
-    distance, area, and dot product values.
-
-    The returned value is
+    distance, area, and dot product values. The returned value is
     \f$\frac{2\textbf{t}}{\textbf{d}}\f$ where
     \f$\textbf{t} = \frac{2\textbf{A}}{\textbf{d}\textbf{l} + \textbf{D}}\f$.
 
@@ -200,58 +194,58 @@ namespace Weights {
   #if defined(DOXYGEN_RUNNING)
 
   /*!
-    \ingroup PkgWeightsRefWeights
+    \ingroup PkgWeightsRefTangentWeights
 
-    \brief computes the tangent weight in 2D or 3D.
-
-    The weight is computed as
-    \f$w = 2 \frac{t_1 + t_2}{d}\f$, where
-    \f$t_1 = \frac{2 A_1}{d d_1 + D_1}\f$ and
-    \f$t_2 = \frac{2 A_2}{d d_2 + D_2}\f$
-    with notations shown in the figure below and dot products
-
-    \f$D_1 = (p_0 - q) \cdot (p_1 - q)\f$ and
-    \f$D_2 = (p_1 - q) \cdot (p_2 - q)\f$.
-
-    - This weight is equal to the `mean_value_weight()`.
-    - This weight is a special case of the `three_point_family_weight()`.
-
-    The type `GeomTraits::Point` must be either
-    `GeomTraits::Point_2` or `GeomTraits::Point_3`.
-
-    \cgalFigureBegin{tangent_weight, tangent.svg}
-      Notation used for the tangent weight.
-    \cgalFigureEnd
-
-    \tparam GeomTraits
-    a model of `AnalyticWeightTraits_2` or `AnalyticWeightTraits_3`
-
-    \param p0
-    the first point
-
-    \param p1
-    the second point
-
-    \param p2
-    the third point
-
-    \param q
-    a query point
-
-    \param traits
-    this parameter can be omitted if the traits class can be deduced from the point type
-
-    \pre (d * d1 + D1) != 0 && (d * d2 + D2) != 0 && d != 0
-
-    \note the points `p0`, `p1`, `p2` are ordered
+    \brief computes the tangent weight in 2D at `q` using the points `p0`, `p1`,
+    and `p2`, given a traits class `traits` with geometric objects, predicates, and constructions.
   */
   template<typename GeomTraits>
   const typename GeomTraits::FT tangent_weight(
-    const typename GeomTraits::Point& p0,
-    const typename GeomTraits::Point& p1,
-    const typename GeomTraits::Point& p2,
-    const typename GeomTraits::Point& q,
+    const typename GeomTraits::Point_2& p0,
+    const typename GeomTraits::Point_2& p1,
+    const typename GeomTraits::Point_2& p2,
+    const typename GeomTraits::Point_2& q,
     const GeomTraits& traits) { }
+
+  /*!
+    \ingroup PkgWeightsRefTangentWeights
+
+    \brief computes the tangent weight in 3D at `q` using the points `p0`, `p1`,
+    and `p2`, given a traits class `traits` with geometric objects, predicates, and constructions.
+  */
+  template<typename GeomTraits>
+  const typename GeomTraits::FT tangent_weight(
+    const typename GeomTraits::Point_3& p0,
+    const typename GeomTraits::Point_3& p1,
+    const typename GeomTraits::Point_3& p2,
+    const typename GeomTraits::Point_3& q,
+    const GeomTraits& traits) { }
+
+  /*!
+    \ingroup PkgWeightsRefTangentWeights
+
+    \brief computes the tangent weight in 2D at `q` using the points `p0`, `p1`,
+    and `p2`, which are parameterized by a `Kernel` K.
+  */
+  template<typename K>
+  const typename K::FT tangent_weight(
+    const CGAL::Point_2<K>& p0,
+    const CGAL::Point_2<K>& p1,
+    const CGAL::Point_2<K>& p2,
+    const CGAL::Point_2<K>& q) { }
+
+  /*!
+    \ingroup PkgWeightsRefTangentWeights
+
+    \brief computes the tangent weight in 3D at `q` using the points `p0`, `p1`,
+    and `p2`, which are parameterized by a `Kernel` K.
+  */
+  template<typename K>
+  const typename K::FT tangent_weight(
+    const CGAL::Point_3<K>& p0,
+    const CGAL::Point_3<K>& p1,
+    const CGAL::Point_3<K>& p2,
+    const CGAL::Point_3<K>& q) { }
 
   #endif // DOXYGEN_RUNNING
 

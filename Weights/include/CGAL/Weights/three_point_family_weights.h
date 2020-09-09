@@ -69,64 +69,66 @@ namespace Weights {
   #if defined(DOXYGEN_RUNNING)
 
   /*!
-    \ingroup PkgWeightsRefWeights
+    \ingroup PkgWeightsRefThreePointFamilyWeights
 
-    \brief computes the three point family weight in 2D or 3D.
-
-    The weight is computed as
-    \f$w = \frac{d_2^a A_1 - d^a B + d_1^a A_2}{A_1 A_2}\f$
-    with notations shown in the figure below and \f$a\f$ any real number
-    being the power parameter.
-
-    For \f$a = 0\f$ this weight is equal to the
-    `wachspress_weight()` and `authalic_weight()`.
-
-    For \f$a = 1\f$ this weight is equal to the
-    `mean_value_weight()` and `tangent_weight()`.
-
-    For \f$a = 2\f$ this weight is equal to the
-    `discrete_harmonic_weight()` and `cotangent_weight()`.
-
-    The type `GeomTraits::Point` must be either
-    `GeomTraits::Point_2` or `GeomTraits::Point_3`.
-
-    \cgalFigureBegin{three_point_family_weight, three_point_family.svg}
-      Notation used for the three point family weight.
-    \cgalFigureEnd
-
-    \tparam GeomTraits
-    a model of `AnalyticWeightTraits_2` or `AnalyticWeightTraits_3`
-
-    \param p0
-    the first point
-
-    \param p1
-    the second point
-
-    \param p2
-    the third point
-
-    \param q
-    a query point
-
-    \param a
-    the power parameter
-
-    \param traits
-    this parameter can be omitted if the traits class can be deduced from the point type
-
-    \pre A1 != 0 && A2 != 0
-
-    \note the points `p0`, `p1`, `p2` are ordered
+    \brief computes the three-point family weight in 2D at `q` using the points `p0`, `p1`,
+    and `p2` and the power parameter `a`, given a traits class `traits` with geometric objects,
+    predicates, and constructions.
   */
   template<typename GeomTraits>
   const typename GeomTraits::FT three_point_family_weight(
-    const typename GeomTraits::Point& p0,
-    const typename GeomTraits::Point& p1,
-    const typename GeomTraits::Point& p2,
-    const typename GeomTraits::Point& q,
+    const typename GeomTraits::Point_2& p0,
+    const typename GeomTraits::Point_2& p1,
+    const typename GeomTraits::Point_2& p2,
+    const typename GeomTraits::Point_2& q,
     const typename GeomTraits::FT a,
     const GeomTraits& traits) { }
+
+  /*!
+    \ingroup PkgWeightsRefThreePointFamilyWeights
+
+    \brief computes the three-point family weight in 3D at `q` using the points `p0`, `p1`,
+    and `p2` and the power parameter `a`, given a traits class `traits` with geometric objects,
+    predicates, and constructions.
+  */
+  template<typename GeomTraits>
+  const typename GeomTraits::FT three_point_family_weight(
+    const typename GeomTraits::Point_3& p0,
+    const typename GeomTraits::Point_3& p1,
+    const typename GeomTraits::Point_3& p2,
+    const typename GeomTraits::Point_3& q,
+    const typename GeomTraits::FT a,
+    const GeomTraits& traits) { }
+
+  /*!
+    \ingroup PkgWeightsRefThreePointFamilyWeights
+
+    \brief computes the three-point family weight in 2D at `q` using the points `p0`, `p1`,
+    and `p2`, which are parameterized by a `Kernel` K, and the power parameter `a`, which
+    can be omitted.
+  */
+  template<typename K>
+  const typename K::FT three_point_family_weight(
+    const CGAL::Point_2<K>& p0,
+    const CGAL::Point_2<K>& p1,
+    const CGAL::Point_2<K>& p2,
+    const CGAL::Point_2<K>& q,
+    const typename K::FT a = typename K::FT(1)) { }
+
+  /*!
+    \ingroup PkgWeightsRefThreePointFamilyWeights
+
+    \brief computes the three-point family weight in 3D at `q` using the points `p0`, `p1`,
+    and `p2`, which are parameterized by a `Kernel` K, and the power parameter `a`, which
+    can be omitted.
+  */
+  template<typename K>
+  const typename K::FT three_point_family_weight(
+    const CGAL::Point_3<K>& p0,
+    const CGAL::Point_3<K>& p1,
+    const CGAL::Point_3<K>& p2,
+    const CGAL::Point_3<K>& q,
+    const typename K::FT a = typename K::FT(1)) { }
 
   #endif // DOXYGEN_RUNNING
 

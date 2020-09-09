@@ -30,8 +30,10 @@ using the *cotangent weights*:
 where \f$w_i = \frac{1}{2A_i}\f$ and \f$w_{ij} = \cot\beta_{ij} + \cot\gamma_{ij}\f$
 and \f$A_i\f$ is a *local averaging domain*.
 
-Here, the weights \f$w_{ij}\f$ can be computed using the `cotangent_weight()` and the
-local averaging domain can be computed using the `mixed_voronoi_area()`. The
+Here, the weights \f$w_{ij}\f$ can be computed using the
+\ref PkgWeightsRefCotangentWeights "cotangent weight" and the
+local averaging domain can be computed using the
+\ref PkgWeightsRefMixedVoronoiRegionWeights "mixed Voronoi region weight". The
 algorithm above smooths the mesh geometry that leads to a smoother version of the
 original mesh. The full example of the discretized *Laplacian* for all vertices
 of a triangle mesh can be found \ref Weights_Examples_WeightedLaplacian "here".

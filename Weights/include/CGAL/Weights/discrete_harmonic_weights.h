@@ -176,7 +176,7 @@ namespace Weights {
   /// \endcond
 
   /*!
-    \ingroup PkgWeightsRefBarycentric
+    \ingroup PkgWeightsRefBarycentricDiscreteHarmonicWeights
 
     \brief 2D discrete harmonic weights for polygons.
 
@@ -399,7 +399,7 @@ namespace Weights {
   };
 
   /*!
-    \ingroup PkgWeightsRefBarycentric
+    \ingroup PkgWeightsRefBarycentricDiscreteHarmonicWeights
 
     \brief computes 2D discrete harmonic weights for polygons.
 

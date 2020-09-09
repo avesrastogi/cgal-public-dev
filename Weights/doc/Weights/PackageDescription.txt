@@ -20,6 +20,14 @@ Models and functions that can be used to compute weights, which have a simple an
 \defgroup PkgWeightsRefUniformWeights Uniform Weight
 \ingroup PkgWeightsRefAnalytic
 
+This weight is always equal to 1.
+
+\tparam GeomTraits
+a model of `AnalyticWeightTraits_2` for 2D points;
+a model of `AnalyticWeightTraits_3` for 3D points
+
+\note The type `FT` is a model of `FieldNumberType`.
+
 \addtogroup PkgWeightsRefAnalytic
 
 
@@ -79,11 +87,61 @@ a model of `AnalyticWeightTraits_3` for 3D points
 \defgroup PkgWeightsRefThreePointFamilyWeights Three Point Family Weight
 \ingroup PkgWeightsRefAnalytic
 
+This weight is computed as
+\f$w = \frac{d_2^a A_1 - d^a B + d_1^a A_2}{A_1 A_2}\f$
+with notations shown in the figure below and \f$a\f$ any real number
+being the power parameter.
+
+Here, `q` is a query point and the points `p0`, `p1`, and `p2` are ordered.
+
+\cgalFigureBegin{three_point_family_weight, three_point_family.svg}
+  Notation used for the three point family weight.
+\cgalFigureEnd
+
+\cgalHeading{Specializations}
+- For \f$a = 0\f$, this weight is equal to the
+\ref PkgWeightsRefWachspressWeights "Wachspress Weight" and
+\ref PkgWeightsRefAuthalicWeights "Authalic Weight".
+- For \f$a = 1\f$, this weight is equal to the
+\ref PkgWeightsRefMeanValueWeights "Mean Value Weight" and
+\ref PkgWeightsRefTangentWeights "Tangent Weight".
+- For \f$a = 2\f$, this weight is equal to the
+\ref PkgWeightsRefDiscreteHarmonicWeights "Discrete Harmonic Weight" and
+\ref PkgWeightsRefCotangentWeights "Cotangent Weight".
+
+\tparam GeomTraits
+a model of `AnalyticWeightTraits_2` for 2D points;
+a model of `AnalyticWeightTraits_3` for 3D points
+
+\pre A1 != 0 && A2 != 0
+\note The type `FT` is a model of `FieldNumberType`.
+
 \addtogroup PkgWeightsRefAnalytic
 
 
 \defgroup PkgWeightsRefWachspressWeights Wachspress Weight
 \ingroup PkgWeightsRefAnalytic
+
+This weight is computed as
+\f$w = \frac{C}{A_1 A_2}\f$
+with notations shown in the figure below.
+
+Here, `q` is a query point and the points `p0`, `p1`, and `p2` are ordered.
+
+\cgalFigureBegin{wachspress_weight, wachspress.svg}
+  Notation used for the Wachspress weight.
+\cgalFigureEnd
+
+\cgalHeading{Other Formulations}
+- This weight is equal to the \ref PkgWeightsRefAuthalicWeights "Authalic Weight".
+- This weight is a special case of the \ref PkgWeightsRefThreePointFamilyWeights "Three Point Family Weight".
+
+\tparam GeomTraits
+a model of `AnalyticWeightTraits_2` for 2D points;
+a model of `AnalyticWeightTraits_3` for 3D points
+
+\pre A1 != 0 && A2 != 0
+\note The type `FT` is a model of `FieldNumberType`.
 
 \addtogroup PkgWeightsRefAnalytic
 
@@ -151,6 +209,32 @@ a model of `AnalyticWeightTraits_3` for 3D points
 \defgroup PkgWeightsRefTangentWeights Tangent Weight
 \ingroup PkgWeightsRefAnalytic
 
+This weight is computed as
+\f$w = 2 \frac{t_1 + t_2}{d}\f$, where
+\f$t_1 = \frac{2 A_1}{d d_1 + D_1}\f$ and
+\f$t_2 = \frac{2 A_2}{d d_2 + D_2}\f$
+with notations shown in the figure below and dot products
+
+\f$D_1 = (p_0 - q) \cdot (p_1 - q)\f$ and
+\f$D_2 = (p_1 - q) \cdot (p_2 - q)\f$.
+
+Here, `q` is a query point and the points `p0`, `p1`, and `p2` are ordered.
+
+\cgalFigureBegin{tangent_weight, tangent.svg}
+  Notation used for the tangent weight.
+\cgalFigureEnd
+
+\cgalHeading{Other Formulations}
+- This weight is equal to the \ref PkgWeightsRefMeanValueWeights "Mean Value Weight".
+- This weight is a special case of the \ref PkgWeightsRefThreePointFamilyWeights "Three Point Family Weight".
+
+\tparam GeomTraits
+a model of `AnalyticWeightTraits_2` for 2D points;
+a model of `AnalyticWeightTraits_3` for 3D points
+
+\pre (d * d1 + D1) != 0 && (d * d2 + D2) != 0 && d != 0
+\note The type `FT` is a model of `FieldNumberType`.
+
 \addtogroup PkgWeightsRefAnalytic
 
 
@@ -212,6 +296,33 @@ a model of `AnalyticWeightTraits_3` for 3D points
 
 Models and functions that can be used to compute barycentric weights with respect
 to polygons. These weights are then normalized in order to obtain barycentric coordinates.
+
+
+\defgroup PkgWeightsRefBarycentricWachspressWeights Wachspress Weights
+\ingroup PkgWeightsRefBarycentric
+
+Wachspress weights, which can be computed for a query point with respect to the
+vertices of a strictly convex polygon.
+
+\addtogroup PkgWeightsRefBarycentric
+
+
+\defgroup PkgWeightsRefBarycentricMeanValueWeights Mean Value Weights
+\ingroup PkgWeightsRefBarycentric
+
+Mean value weights, which can be computed for a query point with respect to the
+vertices of a simple polygon.
+
+\addtogroup PkgWeightsRefBarycentric
+
+
+\defgroup PkgWeightsRefBarycentricDiscreteHarmonicWeights Discrete Harmonic Weights
+\ingroup PkgWeightsRefBarycentric
+
+Discrete Harmonic weights, which can be computed for a query point with respect to the
+vertices of a strictly convex polygon.
+
+\addtogroup PkgWeightsRefBarycentric
 
 
 \defgroup PkgWeightsRefRegions Weighting Regions
@@ -332,6 +443,36 @@ a model of `AnalyticWeightTraits_3` for 3D points
 Different related utility functions.
 
 
+\defgroup PkgWeightsRefTangents Tangent
+\ingroup PkgWeightsRefUtils
+
+Given three points `p`, `q`, and `r`, these functions compute the tangent of
+the angle `[p, q, r]` in 2D or 3D.
+
+\tparam GeomTraits
+a model of `AnalyticWeightTraits_2` for 2D points;
+a model of `AnalyticWeightTraits_3` for 3D points
+
+\note The type `FT` is a model of `FieldNumberType`.
+
+\addtogroup PkgWeightsRefUtils
+
+
+\defgroup PkgWeightsRefCotangents Cotangent
+\ingroup PkgWeightsRefUtils
+
+Given three points `p`, `q`, and `r`, these functions compute the cotangent of
+the angle `[p, q, r]` in 2D or 3D.
+
+\tparam GeomTraits
+a model of `AnalyticWeightTraits_2` for 2D points;
+a model of `AnalyticWeightTraits_3` for 3D points
+
+\note The type `FT` is a model of `FieldNumberType`.
+
+\addtogroup PkgWeightsRefUtils
+
+
 \addtogroup PkgWeightsRef
 
 
@@ -376,12 +517,9 @@ weights, and weighting regions. All weights are available both in 2D and 3D.}
 - \ref PkgWeightsRefCotangentWeights "Cotangent Weight"
 
 ### Barycentric %Weights ###
-- `Wachspress_weights_2<Polygon, GeomTraits, VertexMap>`
-- `wachspress_weights_2()`
-- `Mean_value_weights_2<Polygon, GeomTraits, VertexMap>`
-- `mean_value_weights_2()`
-- `Discrete_harmonic_weights_2<Polygon, GeomTraits, VertexMap>`
-- `discrete_harmonic_weights_2()`
+- \ref PkgWeightsRefBarycentricWachspressWeights "Wachspress Weights"
+- \ref PkgWeightsRefBarycentricMeanValueWeights "Mean Value Weights"
+- \ref PkgWeightsRefBarycentricDiscreteHarmonicWeights "Discrete Harmonic Weights"
 
 ### Weighting Regions ###
 - \ref PkgWeightsRefUniformRegionWeights "Uniform Region Weight"
