@@ -52,13 +52,13 @@ namespace Barycentric_coordinates {
     Internally, the package \ref PkgMesh2 is used. See it for more details.
 
     \tparam Polygon
-    must be a model of `ConstRange` whose iterator type is `RandomAccessIterator`.
+    a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
     \tparam GeomTraits
-    must be a model of `BarycentricTraits_2`.
+    a model of `BarycentricTraits_2`
 
     \tparam VertexMap
-    must be a `ReadablePropertyMap` whose key type is `Polygon::value_type` and
+    a model of `ReadablePropertyMap` whose key type is `Polygon::value_type` and
     value type is `Point_2`. The default is `CGAL::Identity_property_map`.
 
     \cgalModels `DiscretizedDomain_2`
@@ -112,14 +112,14 @@ namespace Barycentric_coordinates {
       \brief initializes all internal data structures.
 
       \param polygon
-      An instance of `Polygon` with the vertices of a simple polygon.
+      an instance of `Polygon` with the vertices of a simple polygon
 
       \param traits
-      An instance of `GeomTraits`. The default initialization is provided.
+      an instance of `GeomTraits` with geometric traits. The default initialization is provided.
 
       \param vertex_map
-      An instance of `VertexMap` that maps a vertex from `polygon`
-      to `Point_2`. The default is the identity property map.
+      an instance of `VertexMap` that maps a vertex from `polygon`
+      to `Point_2`. The default initialization is provided.
 
       \pre polygon.size() >= 3
       \pre polygon is simple
@@ -147,12 +147,12 @@ namespace Barycentric_coordinates {
       the last k vertices are the vertices generated in the interior part of the polygon.
 
       \param max_edge_length
-      An upper bound on the length of the longest edge. See `Delaunay_mesh_size_criteria_2`
-      for more details.
+      an upper bound on the length of the longest edge.
+      See `Delaunay_mesh_size_criteria_2` for more details.
 
       \param list_of_seeds
-      Contains seed points indicating, which parts of the input polygon
-      should be partitioned and subdivided.
+      contains seed points indicating, which parts of the input polygon
+      should be partitioned and subdivided
     */
     void create(
       const FT max_edge_length,
@@ -173,18 +173,18 @@ namespace Barycentric_coordinates {
     /*!
       \brief computes barycenters of all generated triangles.
 
-      \tparam OutputIterator
-      the dereferenced output iterator type must be convertible to `Point_2`.
+      \tparam OutIterator
+      a model of `OutputIterator` whose value type is `Point_2`
 
       \param b_begin
-      The beginning of the destination range with the computed barycenters.
+      the beginning of the destination range with the computed barycenters
 
       \return an output iterator to the element in the destination range,
       one past the last barycenter stored
     */
-    template<typename OutputIterator>
-    OutputIterator barycenters(
-      OutputIterator b_begin) const {
+    template<typename OutIterator>
+    OutIterator barycenters(
+      OutIterator b_begin) const {
 
       const std::size_t num_faces = get_number_of_faces();
       if (num_faces == 0) return b_begin;
@@ -193,10 +193,10 @@ namespace Barycentric_coordinates {
       fh != m_cdt.finite_faces_end(); ++fh) {
         if (!fh->is_in_domain()) continue;
 
-        const Point_2 b = CGAL::barycenter(
-        fh->vertex(0)->point(), FT(1),
-        fh->vertex(1)->point(), FT(1),
-        fh->vertex(2)->point(), FT(1));
+        const Point_2 b = CGAL::centroid(
+        fh->vertex(0)->point(),
+        fh->vertex(1)->point(),
+        fh->vertex(2)->point());
         *(b_begin++) = b;
       }
       return b_begin;
@@ -221,7 +221,7 @@ namespace Barycentric_coordinates {
       This function implements `DiscretizedDomain_2::vertex()`.
 
       \param query_index
-      An index of the requested vertex.
+      an index of the requested vertex
 
       \pre query_index >= 0 && query_index < number_of_vertices()
     */
@@ -240,7 +240,7 @@ namespace Barycentric_coordinates {
       This function implements `DiscretizedDomain_2::is_on_boundary()`.
 
       \param query_index
-      An index of the query vertex.
+      an index of the query vertex
 
       \pre query_index >= 0 && query_index < number_of_vertices()
     */
@@ -259,11 +259,11 @@ namespace Barycentric_coordinates {
       This function implements `DiscretizedDomain_2::operator()()`.
 
       \param query_index
-      An index of the query vertex.
+      an index of the query vertex
 
       \param neighbors
-      Stores indices of the vertices, which from the one-ring neighborhood
-      of the query vertex.
+      stores indices of the vertices, which from the one-ring neighborhood
+      of the query vertex
 
       \pre query_index >= 0 && query_index < number_of_vertices()
     */
@@ -285,11 +285,11 @@ namespace Barycentric_coordinates {
       This function implements `DiscretizedDomain_2::locate()`.
 
       \param query
-      A query point.
+      a query point
 
       \param triangle
-      Stores indices of the vertices, which form a triangle, that contains
-      the query point.
+      stores indices of the vertices, which form a triangle, that contains
+      the query point
     */
     void locate(
       const Point_2& query,

@@ -80,6 +80,15 @@ typedef unspecified_type Compute_scalar_product_2;
 */
 typedef unspecified_type Compute_determinant_2;
 
+/*!
+  A construction object that must provide the function operator:
+
+	`%Vector_2 operator()(const Point_2& p, const Point_2& q)`
+
+  that returns the vector through the points `p` and `q`.
+*/
+typedef unspecified_type Construct_vector_2;
+
 /// @}
 
 /// \name 2D Generalized Predicates

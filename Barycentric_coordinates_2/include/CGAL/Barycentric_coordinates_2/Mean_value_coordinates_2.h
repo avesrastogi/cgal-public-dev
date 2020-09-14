@@ -55,13 +55,13 @@ namespace Barycentric_coordinates {
     computed analytically. See more details in the user manual \ref compute_mv_coord "here".
 
     \tparam Polygon
-    must be a model of `ConstRange` whose iterator type is `RandomAccessIterator`.
+    a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
     \tparam GeomTraits
-    must be a model of `BarycentricTraits_2`.
+    a model of `BarycentricTraits_2`
 
     \tparam VertexMap
-    must be a `ReadablePropertyMap` whose key type is `Polygon::value_type` and
+    a model of `ReadablePropertyMap` whose key type is `Polygon::value_type` and
     value type is `Point_2`. The default is `CGAL::Identity_property_map`.
   */
   template<
@@ -82,6 +82,7 @@ namespace Barycentric_coordinates {
 
     using Vector_2 = typename GeomTraits::Vector_2;
     using Area_2 = typename GeomTraits::Compute_area_2;
+    using Construct_vector_2 = typename GeomTraits::Construct_vector_2;
     using Squared_length_2 = typename GeomTraits::Compute_squared_length_2;
     using Scalar_product_2 = typename GeomTraits::Compute_scalar_product_2;
     using Get_sqrt = internal::Get_sqrt<GeomTraits>;
@@ -109,18 +110,18 @@ namespace Barycentric_coordinates {
       for 2D query points.
 
       \param polygon
-      An instance of `Polygon` with the vertices of a simple polygon.
+      an instance of `Polygon` with the vertices of a simple polygon
 
       \param policy
-      One of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
+      one of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
       The default is `CGAL::Barycentric_coordinates::Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
 
       \param traits
-      An instance of `GeomTraits`. The default initialization is provided.
+      an instance of `GeomTraits` with geometric traits. The default initialization is provided.
 
       \param vertex_map
-      An instance of `VertexMap` that maps a vertex from `polygon`
-      to `Point_2`. The default is the identity property map.
+      an instance of `VertexMap` that maps a vertex from `polygon`
+      to `Point_2`. The default initialization is provided.
 
       \pre polygon.size() >= 3
       \pre polygon is simple
@@ -136,6 +137,7 @@ namespace Barycentric_coordinates {
     m_traits(traits),
     m_vertex_map(vertex_map),
     m_area_2(m_traits.compute_area_2_object()),
+    m_construct_vector_2(m_traits.construct_vector_2_object()),
     m_squared_length_2(m_traits.compute_squared_length_2_object()),
     m_scalar_product_2(m_traits.compute_scalar_product_2_object()),
     m_sqrt(Get_sqrt::sqrt_object(m_traits)),
@@ -163,22 +165,22 @@ namespace Barycentric_coordinates {
 
       The number of returned weights equals to the number of polygon vertices.
 
-      \tparam OutputIterator
-      the dereferenced output iterator type must be convertible to `FT`.
+      \tparam OutIterator
+      a model of `OutputIterator` whose value type is `FT`
 
       \param query
-      A query point.
+      a query point
 
       \param w_begin
-      The beginning of the destination range with the computed weights.
+      the beginning of the destination range with the computed weights
 
       \return an output iterator to the element in the destination range,
       one past the last weight stored
     */
-    template<typename OutputIterator>
-    OutputIterator weights(
+    template<typename OutIterator>
+    OutIterator weights(
       const Point_2& query,
-      OutputIterator w_begin) {
+      OutIterator w_begin) {
 
       const bool normalize = false;
       return compute(query, w_begin, normalize);
@@ -196,22 +198,22 @@ namespace Barycentric_coordinates {
       \f$n\f$ is the number of polygon vertices, the query point \f$q\f$ can be obtained
       as \f$q = \sum_{i = 1}^{n}b_ip_i\f$, where \f$p_i\f$ are the polygon vertices.
 
-      \tparam OutputIterator
-      the dereferenced output iterator type must be convertible to `FT`.
+      \tparam OutIterator
+      a model of `OutputIterator` whose value type is `FT`
 
       \param query
-      A query point.
+      a query point
 
       \param c_begin
-      The beginning of the destination range with the computed coordinates.
+      the beginning of the destination range with the computed coordinates
 
       \return an output iterator to the element in the destination range,
       one past the last coordinate stored
     */
-    template<typename OutputIterator>
-    OutputIterator operator()(
+    template<typename OutIterator>
+    OutIterator operator()(
       const Point_2& query,
-      OutputIterator c_begin) {
+      OutIterator c_begin) {
 
       const bool normalize = true;
       return compute(query, c_begin, normalize);
@@ -226,7 +228,9 @@ namespace Barycentric_coordinates {
     const Computation_policy_2 m_computation_policy;
     const GeomTraits m_traits;
     const VertexMap m_vertex_map;
+
     const Area_2 m_area_2;
+    const Construct_vector_2 m_construct_vector_2;
     const Squared_length_2 m_squared_length_2;
     const Scalar_product_2 m_scalar_product_2;
     const Sqrt m_sqrt;
@@ -341,7 +345,7 @@ namespace Barycentric_coordinates {
       const auto& p2 = get(m_vertex_map, *(m_polygon.begin() + 1));
       const auto& pn = get(m_vertex_map, *(m_polygon.begin() + (n - 1)));
 
-      s[0] = p1 - query;
+      s[0] = m_construct_vector_2(query, p1);
       r[0] = m_sqrt(m_squared_length_2(s[0]));
 
       // Compute areas A and B following the notation from [1] (see Figure 2).
@@ -354,7 +358,7 @@ namespace Barycentric_coordinates {
         const auto& pi1 = get(m_vertex_map, *(m_polygon.begin() + (i + 0)));
         const auto& pi2 = get(m_vertex_map, *(m_polygon.begin() + (i + 1)));
 
-        s[i] = pi1 - query;
+        s[i] = m_construct_vector_2(query, pi1);
         r[i] = m_sqrt(m_squared_length_2(s[i]));
 
         A[i] = m_area_2(pi1, pi2, query);
@@ -362,7 +366,7 @@ namespace Barycentric_coordinates {
       }
 
       const auto& pm = get(m_vertex_map, *(m_polygon.begin() + (n - 2)));
-      s[n - 1] = pn - query;
+      s[n - 1] = m_construct_vector_2(query, pn);
       r[n - 1] = m_sqrt(m_squared_length_2(s[n - 1]));
 
       A[n - 1] = m_area_2(pn, p1, query);

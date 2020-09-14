@@ -50,26 +50,26 @@ namespace Barycentric_coordinates {
     and \f$p_1\f$, it is projected onto this line, and only then the coordinates are
     computed. See more details in the user manual \ref compute_seg_coord "here".
 
-    \tparam OutputIterator
-    the dereferenced output iterator type must be convertible to `GeomTraits::FT`.
+    \tparam OutIterator
+    a model of `OutputIterator` whose value type is `GeomTraits::FT`
 
     \tparam GeomTraits
-    must be a model of `BarycentricTraits_2`.
+    a model of `BarycentricTraits_2`
 
     \param p0
-    The first vertex of a segment.
+    the first vertex of a segment
 
     \param p1
-    The second vertex of a segment.
+    the second vertex of a segment
 
     \param query
-    A query point.
+    a query point
 
     \param c_begin
-    The beginning of the destination range with the computed coordinates.
+    the beginning of the destination range with the computed coordinates
 
     \param traits
-    An instance of `GeomTraits`.
+    an instance of `GeomTraits` with geometric traits
 
     \return an output iterator to the element in the destination range,
     one past the last coordinate stored
@@ -77,13 +77,13 @@ namespace Barycentric_coordinates {
     \pre p0 != p1
   */
   template<
-  typename OutputIterator,
+  typename OutIterator,
   typename GeomTraits>
-  OutputIterator segment_coordinates_2(
+  OutIterator segment_coordinates_2(
     const typename GeomTraits::Point_2& p0,
     const typename GeomTraits::Point_2& p1,
     const typename GeomTraits::Point_2& query,
-    OutputIterator c_begin,
+    OutIterator c_begin,
     const GeomTraits& traits) {
 
     return internal::linear_coordinates_2(
@@ -108,22 +108,22 @@ namespace Barycentric_coordinates {
     This function infers a traits class from the `Point_2` class.
 
     \tparam Point_2
-    must be a point type.
+    a point type
 
-    \tparam OutputIterator
-    the dereferenced output iterator type must be convertible to `Kernel_traits<Point_2>::Kernel::FT`.
+    \tparam OutIterator
+    a model of `OutputIterator` whose value type is `GeomTraits::FT`
 
     \param p0
-    The first vertex of a segment.
+    the first vertex of a segment
 
     \param p1
-    The second vertex of a segment.
+    the second vertex of a segment
 
     \param query
-    A query point.
+    a query point
 
     \param c_begin
-    The beginning of the destination range with the computed coordinates.
+    the beginning of the destination range with the computed coordinates
 
     \return an output iterator to the element in the destination range,
     one past the last coordinate stored
@@ -132,16 +132,17 @@ namespace Barycentric_coordinates {
   */
   template<
   typename Point_2,
-  typename OutputIterator>
-  OutputIterator segment_coordinates_2(
+  typename OutIterator>
+  OutIterator segment_coordinates_2(
     const Point_2& p0,
     const Point_2& p1,
     const Point_2& query,
-    OutputIterator c_begin) {
+    OutIterator c_begin) {
 
     using GeomTraits = typename Kernel_traits<Point_2>::Kernel;
+    const GeomTraits traits;
     return segment_coordinates_2(
-      p0, p1, query, c_begin, GeomTraits());
+      p0, p1, query, c_begin, traits);
   }
 
   /*!
@@ -159,19 +160,19 @@ namespace Barycentric_coordinates {
     computed. See more details in the user manual \ref compute_seg_coord "here".
 
     \tparam GeomTraits
-    must be a model of `BarycentricTraits_2`.
+    a model of `BarycentricTraits_2`
 
     \param p0
-    The first vertex of a segment.
+    the first vertex of a segment
 
     \param p1
-    The second vertex of a segment.
+    the second vertex of a segment
 
     \param query
-    A query point.
+    a query point
 
     \param traits
-    An instance of `GeomTraits`.
+    an instance of `GeomTraits` with geometric traits
 
     \return a pair `std::pair<GeomTraits::FT, GeomTraits::FT>`
     with the computed coordinates
@@ -214,16 +215,16 @@ namespace Barycentric_coordinates {
     This function infers a traits class from the `Point_2` class.
 
     \tparam Point_2
-    must be a point type.
+    a point type
 
     \param p0
-    The first vertex of a segment.
+    the first vertex of a segment
 
     \param p1
-    The second vertex of a segment.
+    the second vertex of a segment
 
     \param query
-    A query point.
+    a query point
 
     \return a pair `std::pair<FT, FT>` with the computed coordinates, where
     `FT = Kernel_traits<Point_2>::Kernel::FT`
@@ -240,8 +241,9 @@ namespace Barycentric_coordinates {
     const Point_2& query) {
 
     using GeomTraits = typename Kernel_traits<Point_2>::Kernel;
+    const GeomTraits traits;
     return segment_coordinates_in_pair_2(
-      p0, p1, query, GeomTraits());
+      p0, p1, query, traits);
   }
 
   /*!
@@ -258,29 +260,29 @@ namespace Barycentric_coordinates {
     point \f$q\f$ can be obtained as \f$q = b_0p_0 + b_1p_1 + b_2p_2\f$. See more details
     in the user manual \ref compute_tri_coord "here".
 
-    \tparam OutputIterator
-    the dereferenced output iterator type must be convertible to `GeomTraits::FT`.
+    \tparam OutIterator
+    a model of `OutputIterator` whose value type is `GeomTraits::FT`
 
     \tparam GeomTraits
-    must be a model of `BarycentricTraits_2`.
+    a model of `BarycentricTraits_2`
 
     \param p0
-    The first vertex of a triangle.
+    the first vertex of a triangle
 
     \param p1
-    The second vertex of a triangle.
+    the second vertex of a triangle
 
     \param p2
-    The third vertex of a triangle.
+    the third vertex of a triangle
 
     \param query
-    A query point.
+    a query point
 
     \param c_begin
-    The beginning of the destination range with the computed coordinates.
+    the beginning of the destination range with the computed coordinates
 
     \param traits
-    An instance of `GeomTraits`.
+    an instance of `GeomTraits` with geometric traits
 
     \return an output iterator to the element in the destination range,
     one past the last coordinate stored
@@ -288,14 +290,14 @@ namespace Barycentric_coordinates {
     \pre area_2(p0, p1, p2) != 0
   */
   template<
-  typename OutputIterator,
+  typename OutIterator,
   typename GeomTraits>
-  OutputIterator triangle_coordinates_2(
+  OutIterator triangle_coordinates_2(
     const typename GeomTraits::Point_2& p0,
     const typename GeomTraits::Point_2& p1,
     const typename GeomTraits::Point_2& p2,
     const typename GeomTraits::Point_2& query,
-    OutputIterator c_begin,
+    OutIterator c_begin,
     const GeomTraits& traits) {
 
     return internal::planar_coordinates_2(
@@ -319,25 +321,25 @@ namespace Barycentric_coordinates {
     This function infers a traits class from the `Point_2` class.
 
     \tparam Point_2
-    must be a point type.
+    a point type
 
-    \tparam OutputIterator
-    the dereferenced output iterator type must be convertible to `Kernel_traits<Point_2>::Kernel::FT`.
+    \tparam OutIterator
+    a model of `OutputIterator` whose value type is `GeomTraits::FT`
 
     \param p0
-    The first vertex of a triangle.
+    the first vertex of a triangle
 
     \param p1
-    The second vertex of a triangle.
+    the second vertex of a triangle
 
     \param p2
-    The third vertex of a triangle.
+    the third vertex of a triangle
 
     \param query
-    A query point.
+    a query point
 
     \param c_begin
-    The beginning of the destination range with the computed coordinates.
+    the beginning of the destination range with the computed coordinates
 
     \return an output iterator to the element in the destination range,
     one past the last coordinate stored
@@ -346,17 +348,18 @@ namespace Barycentric_coordinates {
   */
   template<
   typename Point_2,
-  typename OutputIterator>
-  OutputIterator triangle_coordinates_2(
+  typename OutIterator>
+  OutIterator triangle_coordinates_2(
     const Point_2& p0,
     const Point_2& p1,
     const Point_2& p2,
     const Point_2& query,
-    OutputIterator c_begin) {
+    OutIterator c_begin) {
 
     using GeomTraits = typename Kernel_traits<Point_2>::Kernel;
+    const GeomTraits traits;
     return triangle_coordinates_2(
-      p0, p1, p2, query, c_begin, GeomTraits());
+      p0, p1, p2, query, c_begin, traits);
   }
 
   /*!
@@ -373,22 +376,22 @@ namespace Barycentric_coordinates {
     in the user manual \ref compute_tri_coord "here".
 
     \tparam GeomTraits
-    must be a model of `BarycentricTraits_2`.
+    a model of `BarycentricTraits_2`
 
     \param p0
-    The first vertex of a triangle.
+    the first vertex of a triangle
 
     \param p1
-    The second vertex of a triangle.
+    the second vertex of a triangle
 
     \param p2
-    The third vertex of a triangle.
+    the third vertex of a triangle
 
     \param query
-    A query point.
+    a query point
 
     \param traits
-    An instance of `GeomTraits`.
+    an instance of `GeomTraits` with geometric traits
 
     \return a tuple `std::tuple<GeomTraits::FT, GeomTraits::FT, GeomTraits::FT>`
     with the computed coordinates
@@ -432,19 +435,19 @@ namespace Barycentric_coordinates {
     This function infers a traits class from the `Point_2` class.
 
     \tparam Point_2
-    must be a point type.
+    a point type
 
     \param p0
-    The first vertex of a triangle.
+    the first vertex of a triangle
 
     \param p1
-    The second vertex of a triangle.
+    the second vertex of a triangle
 
     \param p2
-    The third vertex of a triangle.
+    the third vertex of a triangle
 
     \param query
-    A query point.
+    a query point
 
     \return a tuple `std::tuple<FT, FT, FT>` with the computed coordinates, where
     `FT = Kernel_traits<Point_2>::Kernel::FT`
@@ -463,8 +466,9 @@ namespace Barycentric_coordinates {
     const Point_2& query) {
 
     using GeomTraits = typename Kernel_traits<Point_2>::Kernel;
+    const GeomTraits traits;
     return triangle_coordinates_in_tuple_2(
-      p0, p1, p2, query, GeomTraits());
+      p0, p1, p2, query, traits);
   }
 
   /*!
@@ -485,33 +489,33 @@ namespace Barycentric_coordinates {
     Internally, `CGAL::Barycentric_coordinates::segment_coordinates_2()` are used.
 
     \tparam PointRange
-    must be a model of `ConstRange` whose iterator type is `RandomAccessIterator`.
+    a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
-    \tparam OutputIterator
-    the dereferenced output iterator type must be convertible to `GeomTraits::FT`.
+    \tparam OutIterator
+    a model of `OutputIterator` whose value type is `GeomTraits::FT`
 
     \tparam GeomTraits
-    must be a model of `BarycentricTraits_2`.
+    a model of `BarycentricTraits_2`
 
     \tparam VertexMap
-    must be a `ReadablePropertyMap` whose key type is `PointRange::value_type` and
-    value type is `GeomTraits::Point_2`.
+    a model of `ReadablePropertyMap` whose key type is `PointRange::value_type` and
+    value type is `GeomTraits::Point_2`
 
     \param polygon
-    An instance of `PointRange` with 2D points, which form a simple polygon.
+    an instance of `PointRange` with 2D points, which form a simple polygon
 
     \param query
-    A query point.
+    a query point
 
     \param c_begin
-    The beginning of the destination range with the computed coordinates.
+    the beginning of the destination range with the computed coordinates
 
     \param traits
-    An instance of `GeomTraits`.
+    an instance of `GeomTraits` with geometric traits
 
     \param vertex_map
-    An instance of `VertexMap` that maps a vertex from `polygon`
-    to `GeomTraits::Point_2`.
+    an instance of `VertexMap` that maps a vertex from `polygon`
+    to `GeomTraits::Point_2`
 
     \return an output iterator to the element in the destination range,
     one past the last coordinate stored + the flag indicating whether the
@@ -521,13 +525,13 @@ namespace Barycentric_coordinates {
   */
   template<
   typename PointRange,
-  typename OutputIterator,
+  typename OutIterator,
   typename GeomTraits,
   typename VertexMap>
-  std::pair<OutputIterator, bool> boundary_coordinates_2(
+  std::pair<OutIterator, bool> boundary_coordinates_2(
     const PointRange& polygon,
     const typename GeomTraits::Point_2& query,
-    OutputIterator c_begin,
+    OutIterator c_begin,
     const GeomTraits& traits,
     const VertexMap vertex_map) {
 
@@ -564,30 +568,30 @@ namespace Barycentric_coordinates {
     This function infers a traits class from the `Point_2` class.
 
     \tparam PointRange
-    must be a model of `ConstRange` whose iterator type is `RandomAccessIterator`.
+    a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
     \tparam Point_2
-    must be a point type.
+    a point type
 
-    \tparam OutputIterator
-    the dereferenced output iterator type must be convertible to `Kernel_traits<Point_2>::Kernel::FT`.
+    \tparam OutIterator
+    a model of `OutputIterator` whose value type is `GeomTraits::FT`
 
     \tparam VertexMap
-    must be a `ReadablePropertyMap` whose key type is `PointRange::value_type` and
+    a model of `ReadablePropertyMap` whose key type is `PointRange::value_type` and
     value type is `Point_2`. The default is `CGAL::Identity_property_map`.
 
     \param polygon
-    An instance of `PointRange` with 2D points, which form a simple polygon.
+    an instance of `PointRange` with 2D points, which form a simple polygon
 
     \param query
-    A query point.
+    a query point
 
     \param c_begin
-    The beginning of the destination range with the computed coordinates.
+    the beginning of the destination range with the computed coordinates
 
     \param vertex_map
-    An instance of `VertexMap` that maps a vertex from `polygon`
-    to `Point_2`. The default is the identity property map.
+    an instance of `VertexMap` that maps a vertex from `polygon`
+    to `Point_2`. The default initialization is provided.
 
     \return an output iterator to the element in the destination range,
     one past the last coordinate stored + the flag indicating whether the
@@ -598,17 +602,18 @@ namespace Barycentric_coordinates {
   template<
   typename PointRange,
   typename Point_2,
-  typename OutputIterator,
+  typename OutIterator,
   typename VertexMap = CGAL::Identity_property_map<Point_2> >
-  std::pair<OutputIterator, bool> boundary_coordinates_2(
+  std::pair<OutIterator, bool> boundary_coordinates_2(
     const PointRange& polygon,
     const Point_2& query,
-    OutputIterator c_begin,
+    OutIterator c_begin,
     const VertexMap vertex_map = VertexMap()) {
 
     using GeomTraits = typename Kernel_traits<Point_2>::Kernel;
+    const GeomTraits traits;
     return boundary_coordinates_2(
-      polygon, query, c_begin, GeomTraits(), vertex_map);
+      polygon, query, c_begin, traits, vertex_map);
   }
 
   /*!
@@ -628,28 +633,28 @@ namespace Barycentric_coordinates {
     it is allocated only once, which is much more efficient.
 
     \tparam PointRange
-    must be a model of `ConstRange` whose iterator type is `RandomAccessIterator`.
+    a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
-    \tparam OutputIterator
-    the dereferenced output iterator type must be convertible to `GeomTraits::FT`.
+    \tparam OutIterator
+    a model of `OutputIterator` whose value type is `GeomTraits::FT`
 
     \tparam GeomTraits
-    must be a model of `BarycentricTraits_2`.
+    a model of `BarycentricTraits_2`
 
     \param polygon
-    An instance of `PointRange` with 2D points, which form a strictly convex polygon.
+    an instance of `PointRange` with 2D points, which form a strictly convex polygon
 
     \param query
-    A query point.
+    a query point
 
     \param w_begin
-    The beginning of the destination range with the computed weights.
+    the beginning of the destination range with the computed weights
 
     \param traits
-    An instance of `GeomTraits`.
+    an instance of `GeomTraits` with geometric traits
 
     \param policy
-    One of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
+    one of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
     The default is `CGAL::Barycentric_coordinates::Computation_policy_2::FAST_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
@@ -661,12 +666,12 @@ namespace Barycentric_coordinates {
   */
   template<
   typename PointRange,
-  typename OutputIterator,
+  typename OutIterator,
   typename GeomTraits>
-  OutputIterator wachspress_weights_2(
+  OutIterator wachspress_weights_2(
     const PointRange& polygon,
     const typename GeomTraits::Point_2& query,
-    OutputIterator w_begin,
+    OutIterator w_begin,
     const GeomTraits& traits,
     const Computation_policy_2 policy =
     Computation_policy_2::FAST_WITH_EDGE_CASES) {
@@ -695,22 +700,22 @@ namespace Barycentric_coordinates {
     This function infers a traits class from the `Point_2` class.
 
     \tparam PointRange
-    must be a model of `ConstRange` whose iterator type is `RandomAccessIterator`.
+    a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
-    \tparam OutputIterator
-    the dereferenced output iterator type must be convertible to `Kernel_traits<Point_2>::Kernel::FT`.
+    \tparam OutIterator
+    a model of `OutputIterator` whose value type is `GeomTraits::FT`
 
     \param polygon
-    An instance of `PointRange` with 2D points, which form a strictly convex polygon.
+    an instance of `PointRange` with 2D points, which form a strictly convex polygon
 
     \param query
-    A query point.
+    a query point
 
     \param w_begin
-    The beginning of the destination range with the computed weights.
+    the beginning of the destination range with the computed weights
 
     \param policy
-    One of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
+    one of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
     The default is `CGAL::Barycentric_coordinates::Computation_policy_2::FAST_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
@@ -723,17 +728,18 @@ namespace Barycentric_coordinates {
   template<
   typename PointRange,
   typename Point_2,
-  typename OutputIterator>
-  OutputIterator wachspress_weights_2(
+  typename OutIterator>
+  OutIterator wachspress_weights_2(
     const PointRange& polygon,
     const Point_2& query,
-    OutputIterator w_begin,
+    OutIterator w_begin,
     const Computation_policy_2 policy =
     Computation_policy_2::FAST_WITH_EDGE_CASES) {
 
     using GeomTraits = typename Kernel_traits<Point_2>::Kernel;
+    const GeomTraits traits;
     return wachspress_weights_2(
-      polygon, query, w_begin, GeomTraits(), policy);
+      polygon, query, w_begin, traits, policy);
   }
 
   /*!
@@ -753,28 +759,28 @@ namespace Barycentric_coordinates {
     it is allocated only once, which is much more efficient.
 
     \tparam PointRange
-    must be a model of `ConstRange` whose iterator type is `RandomAccessIterator`.
+    a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
-    \tparam OutputIterator
-    the dereferenced output iterator type must be convertible to `GeomTraits::FT`.
+    \tparam OutIterator
+    a model of `OutputIterator` whose value type is `GeomTraits::FT`
 
     \tparam GeomTraits
-    must be a model of `BarycentricTraits_2`.
+    a model of `BarycentricTraits_2`
 
     \param polygon
-    An instance of `PointRange` with 2D points, which form a strictly convex polygon.
+    an instance of `PointRange` with 2D points, which form a strictly convex polygon
 
     \param query
-    A query point.
+    a query point
 
     \param c_begin
-    The beginning of the destination range with the computed coordinates.
+    the beginning of the destination range with the computed coordinates
 
     \param traits
-    An instance of `GeomTraits`.
+    an instance of `GeomTraits` with geometric traits
 
     \param policy
-    One of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
+    one of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
     The default is `CGAL::Barycentric_coordinates::Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
@@ -786,12 +792,12 @@ namespace Barycentric_coordinates {
   */
   template<
   typename PointRange,
-  typename OutputIterator,
+  typename OutIterator,
   typename GeomTraits>
-  OutputIterator wachspress_coordinates_2(
+  OutIterator wachspress_coordinates_2(
     const PointRange& polygon,
     const typename GeomTraits::Point_2& query,
-    OutputIterator c_begin,
+    OutIterator c_begin,
     const GeomTraits& traits,
     const Computation_policy_2 policy =
     Computation_policy_2::PRECISE_WITH_EDGE_CASES) {
@@ -820,22 +826,22 @@ namespace Barycentric_coordinates {
     This function infers a traits class from the `Point_2` class.
 
     \tparam PointRange
-    must be a model of `ConstRange` whose iterator type is `RandomAccessIterator`.
+    a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
-    \tparam OutputIterator
-    the dereferenced output iterator type must be convertible to `Kernel_traits<Point_2>::Kernel::FT`.
+    \tparam OutIterator
+    a model of `OutputIterator` whose value type is `GeomTraits::FT`
 
     \param polygon
-    An instance of `PointRange` with 2D points, which form a strictly convex polygon.
+    an instance of `PointRange` with 2D points, which form a strictly convex polygon
 
     \param query
-    A query point.
+    a query point
 
     \param c_begin
-    The beginning of the destination range with the computed coordinates.
+    the beginning of the destination range with the computed coordinates
 
     \param policy
-    One of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
+    one of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
     The default is `CGAL::Barycentric_coordinates::Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
@@ -848,17 +854,18 @@ namespace Barycentric_coordinates {
   template<
   typename PointRange,
   typename Point_2,
-  typename OutputIterator>
-  OutputIterator wachspress_coordinates_2(
+  typename OutIterator>
+  OutIterator wachspress_coordinates_2(
     const PointRange& polygon,
     const Point_2& query,
-    OutputIterator c_begin,
+    OutIterator c_begin,
     const Computation_policy_2 policy =
     Computation_policy_2::PRECISE_WITH_EDGE_CASES) {
 
     using GeomTraits = typename Kernel_traits<Point_2>::Kernel;
+    const GeomTraits traits;
     return wachspress_coordinates_2(
-      polygon, query, c_begin, GeomTraits(), policy);
+      polygon, query, c_begin, traits, policy);
   }
 
   /*!
@@ -878,28 +885,28 @@ namespace Barycentric_coordinates {
     it is allocated only once, which is much more efficient.
 
     \tparam PointRange
-    must be a model of `ConstRange` whose iterator type is `RandomAccessIterator`.
+    a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
-    \tparam OutputIterator
-    the dereferenced output iterator type must be convertible to `GeomTraits::FT`.
+    \tparam OutIterator
+    a model of `OutputIterator` whose value type is `GeomTraits::FT`
 
     \tparam GeomTraits
-    must be a model of `BarycentricTraits_2`.
+    a model of `BarycentricTraits_2`
 
     \param polygon
-    An instance of `PointRange` with 2D points, which form a strictly convex polygon.
+    an instance of `PointRange` with 2D points, which form a strictly convex polygon
 
     \param query
-    A query point.
+    a query point
 
     \param w_begin
-    The beginning of the destination range with the computed weights.
+    the beginning of the destination range with the computed weights
 
     \param traits
-    An instance of `GeomTraits`.
+    an instance of `GeomTraits` with geometric traits
 
     \param policy
-    One of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
+    one of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
     The default is `CGAL::Barycentric_coordinates::Computation_policy_2::FAST_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
@@ -911,12 +918,12 @@ namespace Barycentric_coordinates {
   */
   template<
   typename PointRange,
-  typename OutputIterator,
+  typename OutIterator,
   typename GeomTraits>
-  OutputIterator discrete_harmonic_weights_2(
+  OutIterator discrete_harmonic_weights_2(
     const PointRange& polygon,
     const typename GeomTraits::Point_2& query,
-    OutputIterator w_begin,
+    OutIterator w_begin,
     const GeomTraits& traits,
     const Computation_policy_2 policy =
     Computation_policy_2::FAST_WITH_EDGE_CASES) {
@@ -945,22 +952,22 @@ namespace Barycentric_coordinates {
     This function infers a traits class from the `Point_2` class.
 
     \tparam PointRange
-    must be a model of `ConstRange` whose iterator type is `RandomAccessIterator`.
+    a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
-    \tparam OutputIterator
-    the dereferenced output iterator type must be convertible to `Kernel_traits<Point_2>::Kernel::FT`.
+    \tparam OutIterator
+    a model of `OutputIterator` whose value type is `GeomTraits::FT`
 
     \param polygon
-    An instance of `PointRange` with 2D points, which form a strictly convex polygon.
+    an instance of `PointRange` with 2D points, which form a strictly convex polygon
 
     \param query
-    A query point.
+    a query point
 
     \param w_begin
-    The beginning of the destination range with the computed weights.
+    the beginning of the destination range with the computed weights
 
     \param policy
-    One of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
+    one of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
     The default is `CGAL::Barycentric_coordinates::Computation_policy_2::FAST_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
@@ -973,17 +980,18 @@ namespace Barycentric_coordinates {
   template<
   typename PointRange,
   typename Point_2,
-  typename OutputIterator>
-  OutputIterator discrete_harmonic_weights_2(
+  typename OutIterator>
+  OutIterator discrete_harmonic_weights_2(
     const PointRange& polygon,
     const Point_2& query,
-    OutputIterator w_begin,
+    OutIterator w_begin,
     const Computation_policy_2 policy =
     Computation_policy_2::FAST_WITH_EDGE_CASES) {
 
     using GeomTraits = typename Kernel_traits<Point_2>::Kernel;
+    const GeomTraits traits;
     return discrete_harmonic_weights_2(
-      polygon, query, w_begin, GeomTraits(), policy);
+      polygon, query, w_begin, traits, policy);
   }
 
   /*!
@@ -1003,28 +1011,28 @@ namespace Barycentric_coordinates {
     it is allocated only once, which is much more efficient.
 
     \tparam PointRange
-    must be a model of `ConstRange` whose iterator type is `RandomAccessIterator`.
+    a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
-    \tparam OutputIterator
-    the dereferenced output iterator type must be convertible to `GeomTraits::FT`.
+    \tparam OutIterator
+    a model of `OutputIterator` whose value type is `GeomTraits::FT`
 
     \tparam GeomTraits
-    must be a model of `BarycentricTraits_2`.
+    a model of `BarycentricTraits_2`
 
     \param polygon
-    An instance of `PointRange` with 2D points, which form a strictly convex polygon.
+    an instance of `PointRange` with 2D points, which form a strictly convex polygon
 
     \param query
-    A query point.
+    a query point
 
     \param c_begin
-    The beginning of the destination range with the computed coordinates.
+    the beginning of the destination range with the computed coordinates
 
     \param traits
-    An instance of `GeomTraits`.
+    an instance of `GeomTraits` with geometric traits
 
     \param policy
-    One of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
+    one of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
     The default is `CGAL::Barycentric_coordinates::Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
@@ -1036,12 +1044,12 @@ namespace Barycentric_coordinates {
   */
   template<
   typename PointRange,
-  typename OutputIterator,
+  typename OutIterator,
   typename GeomTraits>
-  OutputIterator discrete_harmonic_coordinates_2(
+  OutIterator discrete_harmonic_coordinates_2(
     const PointRange& polygon,
     const typename GeomTraits::Point_2& query,
-    OutputIterator c_begin,
+    OutIterator c_begin,
     const GeomTraits& traits,
     const Computation_policy_2 policy =
     Computation_policy_2::PRECISE_WITH_EDGE_CASES) {
@@ -1070,22 +1078,22 @@ namespace Barycentric_coordinates {
     This function infers a traits class from the `Point_2` class.
 
     \tparam PointRange
-    must be a model of `ConstRange` whose iterator type is `RandomAccessIterator`.
+    a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
-    \tparam OutputIterator
-    the dereferenced output iterator type must be convertible to `Kernel_traits<Point_2>::Kernel::FT`.
+    \tparam OutIterator
+    a model of `OutputIterator` whose value type is `GeomTraits::FT`
 
     \param polygon
-    An instance of `PointRange` with 2D points, which form a strictly convex polygon.
+    an instance of `PointRange` with 2D points, which form a strictly convex polygon
 
     \param query
-    A query point.
+    a query point
 
     \param c_begin
-    The beginning of the destination range with the computed coordinates.
+    the beginning of the destination range with the computed coordinates
 
     \param policy
-    One of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
+    one of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
     The default is `CGAL::Barycentric_coordinates::Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
@@ -1098,17 +1106,18 @@ namespace Barycentric_coordinates {
   template<
   typename PointRange,
   typename Point_2,
-  typename OutputIterator>
-  OutputIterator discrete_harmonic_coordinates_2(
+  typename OutIterator>
+  OutIterator discrete_harmonic_coordinates_2(
     const PointRange& polygon,
     const Point_2& query,
-    OutputIterator c_begin,
+    OutIterator c_begin,
     const Computation_policy_2 policy =
     Computation_policy_2::PRECISE_WITH_EDGE_CASES) {
 
     using GeomTraits = typename Kernel_traits<Point_2>::Kernel;
+    const GeomTraits traits;
     return discrete_harmonic_coordinates_2(
-      polygon, query, c_begin, GeomTraits(), policy);
+      polygon, query, c_begin, traits, policy);
   }
 
   /*!
@@ -1128,28 +1137,28 @@ namespace Barycentric_coordinates {
     it is allocated only once, which is much more efficient.
 
     \tparam PointRange
-    must be a model of `ConstRange` whose iterator type is `RandomAccessIterator`.
+    a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
-    \tparam OutputIterator
-    the dereferenced output iterator type must be convertible to `GeomTraits::FT`.
+    \tparam OutIterator
+    a model of `OutputIterator` whose value type is `GeomTraits::FT`
 
     \tparam GeomTraits
-    must be a model of `BarycentricTraits_2`.
+    a model of `BarycentricTraits_2`
 
     \param polygon
-    An instance of `PointRange` with 2D points, which form a simple polygon.
+    an instance of `PointRange` with 2D points, which form a simple polygon
 
     \param query
-    A query point.
+    a query point
 
     \param w_begin
-    The beginning of the destination range with the computed weights.
+    the beginning of the destination range with the computed weights
 
     \param traits
-    An instance of `GeomTraits`.
+    an instance of `GeomTraits` with geometric traits
 
     \param policy
-    One of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
+    one of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
     The default is `CGAL::Barycentric_coordinates::Computation_policy_2::FAST_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
@@ -1160,12 +1169,12 @@ namespace Barycentric_coordinates {
   */
   template<
   typename PointRange,
-  typename OutputIterator,
+  typename OutIterator,
   typename GeomTraits>
-  OutputIterator mean_value_weights_2(
+  OutIterator mean_value_weights_2(
     const PointRange& polygon,
     const typename GeomTraits::Point_2& query,
-    OutputIterator w_begin,
+    OutIterator w_begin,
     const GeomTraits& traits,
     const Computation_policy_2 policy =
     Computation_policy_2::FAST_WITH_EDGE_CASES) {
@@ -1194,22 +1203,22 @@ namespace Barycentric_coordinates {
     This function infers a traits class from the `Point_2` class.
 
     \tparam PointRange
-    must be a model of `ConstRange` whose iterator type is `RandomAccessIterator`.
+    a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
-    \tparam OutputIterator
-    the dereferenced output iterator type must be convertible to `Kernel_traits<Point_2>::Kernel::FT`.
+    \tparam OutIterator
+    a model of `OutputIterator` whose value type is `GeomTraits::FT`
 
     \param polygon
-    An instance of `PointRange` with 2D points, which form a simple polygon.
+    an instance of `PointRange` with 2D points, which form a simple polygon
 
     \param query
-    A query point.
+    a query point
 
     \param w_begin
-    The beginning of the destination range with the computed weights.
+    the beginning of the destination range with the computed weights
 
     \param policy
-    One of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
+    one of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
     The default is `CGAL::Barycentric_coordinates::Computation_policy_2::FAST_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
@@ -1221,17 +1230,18 @@ namespace Barycentric_coordinates {
   template<
   typename PointRange,
   typename Point_2,
-  typename OutputIterator>
-  OutputIterator mean_value_weights_2(
+  typename OutIterator>
+  OutIterator mean_value_weights_2(
     const PointRange& polygon,
     const Point_2& query,
-    OutputIterator w_begin,
+    OutIterator w_begin,
     const Computation_policy_2 policy =
     Computation_policy_2::FAST_WITH_EDGE_CASES) {
 
     using GeomTraits = typename Kernel_traits<Point_2>::Kernel;
+    const GeomTraits traits;
     return mean_value_weights_2(
-      polygon, query, w_begin, GeomTraits(), policy);
+      polygon, query, w_begin, traits, policy);
   }
 
   /*!
@@ -1251,28 +1261,28 @@ namespace Barycentric_coordinates {
     it is allocated only once, which is much more efficient.
 
     \tparam PointRange
-    must be a model of `ConstRange` whose iterator type is `RandomAccessIterator`.
+    a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
-    \tparam OutputIterator
-    the dereferenced output iterator type must be convertible to `GeomTraits::FT`.
+    \tparam OutIterator
+    a model of `OutputIterator` whose value type is `GeomTraits::FT`
 
     \tparam GeomTraits
-    must be a model of `BarycentricTraits_2`.
+    a model of `BarycentricTraits_2`
 
     \param polygon
-    An instance of `PointRange` with 2D points, which form a simple polygon.
+    an instance of `PointRange` with 2D points, which form a simple polygon
 
     \param query
-    A query point.
+    a query point
 
     \param c_begin
-    The beginning of the destination range with the computed coordinates.
+    the beginning of the destination range with the computed coordinates
 
     \param traits
-    An instance of `GeomTraits`.
+    an instance of `GeomTraits` with geometric traits
 
     \param policy
-    One of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
+    one of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
     The default is `CGAL::Barycentric_coordinates::Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
@@ -1283,12 +1293,12 @@ namespace Barycentric_coordinates {
   */
   template<
   typename PointRange,
-  typename OutputIterator,
+  typename OutIterator,
   typename GeomTraits>
-  OutputIterator mean_value_coordinates_2(
+  OutIterator mean_value_coordinates_2(
     const PointRange& polygon,
     const typename GeomTraits::Point_2& query,
-    OutputIterator c_begin,
+    OutIterator c_begin,
     const GeomTraits& traits,
     const Computation_policy_2 policy =
     Computation_policy_2::PRECISE_WITH_EDGE_CASES) {
@@ -1317,22 +1327,22 @@ namespace Barycentric_coordinates {
     This function infers a traits class from the `Point_2` class.
 
     \tparam PointRange
-    must be a model of `ConstRange` whose iterator type is `RandomAccessIterator`.
+    a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
-    \tparam OutputIterator
-    the dereferenced output iterator type must be convertible to `Kernel_traits<Point_2>::Kernel::FT`.
+    \tparam OutIterator
+    a model of `OutputIterator` whose value type is `GeomTraits::FT`
 
     \param polygon
-    An instance of `PointRange` with 2D points, which form a simple polygon.
+    an instance of `PointRange` with 2D points, which form a simple polygon
 
     \param query
-    A query point.
+    a query point
 
     \param c_begin
-    The beginning of the destination range with the computed coordinates.
+    the beginning of the destination range with the computed coordinates
 
     \param policy
-    One of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
+    one of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
     The default is `CGAL::Barycentric_coordinates::Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
@@ -1344,17 +1354,18 @@ namespace Barycentric_coordinates {
   template<
   typename PointRange,
   typename Point_2,
-  typename OutputIterator>
-  OutputIterator mean_value_coordinates_2(
+  typename OutIterator>
+  OutIterator mean_value_coordinates_2(
     const PointRange& polygon,
     const Point_2& query,
-    OutputIterator c_begin,
+    OutIterator c_begin,
     const Computation_policy_2 policy =
     Computation_policy_2::PRECISE_WITH_EDGE_CASES) {
 
     using GeomTraits = typename Kernel_traits<Point_2>::Kernel;
+    const GeomTraits traits;
     return mean_value_coordinates_2(
-      polygon, query, c_begin, GeomTraits(), policy);
+      polygon, query, c_begin, traits, policy);
   }
 
 } // namespace Barycentric_coordinates

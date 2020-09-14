@@ -1,4 +1,4 @@
-// Copyright (c) 2019 INRIA Sophia-Antipolis (France).
+// Copyright (c) 2020 GeometryFactory SARL (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org).
@@ -20,51 +20,107 @@
 // Author(s)     : Dmitry Anisimov, David Bommes, Kai Hormann, Pierre Alliez
 //
 
-#ifndef CGAL_GENERALIZED_MEAN_VALUE_WEIGHTS_2_H
-#define CGAL_GENERALIZED_MEAN_VALUE_WEIGHTS_2_H
+#ifndef CGAL_MEAN_VALUE_WEIGHTS_2_H
+#define CGAL_MEAN_VALUE_WEIGHTS_2_H
 
 #include <CGAL/license/Barycentric_coordinates_2.h>
 
 // Internal includes.
 #include <CGAL/Barycentric_coordinates_2/internal/utils_2.h>
 
-// [1] Reference: "K. Hormann and M. Floater.
-// Mean value coordinates for arbitrary planar polygons.
-// ACM Transactions on Graphics, 25(4):1424-1441, 2006.".
-
 namespace CGAL {
 namespace Barycentric_coordinates {
 namespace internal {
 
+  /*!
+    \ingroup PkgWeightsRefBarycentricMeanValueWeights
+
+    \brief 2D mean value weights for polygons.
+
+    This class implements 2D mean value weights ( \cite cgal:bc:hf-mvcapp-06,
+    \cite cgal:bc:fhk-gcbcocp-06, \cite cgal:f-mvc-03 ), which can be computed
+    at any point inside and outside a simple polygon.
+
+    Mean value weights are well-defined inside and outside a simple polygon and are
+    non-negative in the kernel of a star-shaped polygon. These weights are computed
+    analytically using the formulation from the `tangent_weight()`.
+
+    \tparam Polygon
+    a model of `ConstRange` whose iterator type is `RandomAccessIterator`
+
+    \tparam GeomTraits
+    a model of `AnalyticWeightTraits_2`
+
+    \tparam VertexMap
+    a model of `ReadablePropertyMap` whose key type is `Polygon::value_type` and
+    value type is `Point_2`. The default is `CGAL::Identity_property_map`.
+
+    \cgalModels `BarycentricWeights_2`
+  */
   template<
   typename Polygon,
   typename GeomTraits,
-  typename VertexMap>
+  typename VertexMap = CGAL::Identity_property_map<typename GeomTraits::Point_2> >
   class Mean_value_weights_2 {
 
   public:
+
+    /// \name Types
+    /// @{
+
+    /// \cond SKIP_IN_MANUAL
     using Polygon_ = Polygon;
     using GT = GeomTraits;
     using Vertex_map = VertexMap;
 
     using Vector_2 = typename GeomTraits::Vector_2;
     using Area_2 = typename GeomTraits::Compute_area_2;
+    using Construct_vector_2 = typename GeomTraits::Construct_vector_2;
     using Squared_length_2 = typename GeomTraits::Compute_squared_length_2;
     using Scalar_product_2 = typename GeomTraits::Compute_scalar_product_2;
-    using Get_sqrt = CGAL::Barycentric_coordinates::internal::Get_sqrt<GeomTraits>;
+    using Get_sqrt = internal::Get_sqrt<GeomTraits>;
     using Sqrt = typename Get_sqrt::Sqrt;
+    /// \endcond
 
-    using FT = typename GeomTraits::FT;
-    using Point_2 = typename GeomTraits::Point_2;
+    /// Number type.
+    typedef typename GeomTraits::FT FT;
 
+    /// Point type.
+    typedef typename GeomTraits::Point_2 Point_2;
+
+    /// @}
+
+    /// \name Initialization
+    /// @{
+
+    /*!
+      \brief initializes all internal data structures.
+
+      This class implements the behavior of mean value weights
+      for 2D query points inside simple polygons.
+
+      \param polygon
+      an instance of `Polygon` with the vertices of a simple polygon
+
+      \param traits
+      an instance of `GeomTraits` with geometric traits. The default initialization is provided.
+
+      \param vertex_map
+      an instance of `VertexMap` that maps a vertex from `polygon`
+      to `Point_2`. The default initialization is provided.
+
+      \pre polygon.size() >= 3
+      \pre polygon is simple
+    */
     Mean_value_weights_2(
       const Polygon& polygon,
-      const GeomTraits traits,
-      const VertexMap vertex_map) :
+      const GeomTraits traits = GeomTraits(),
+      const VertexMap vertex_map = VertexMap()) :
     m_polygon(polygon),
     m_traits(traits),
     m_vertex_map(vertex_map),
     m_area_2(m_traits.compute_area_2_object()),
+    m_construct_vector_2(m_traits.construct_vector_2_object()),
     m_squared_length_2(m_traits.compute_squared_length_2_object()),
     m_scalar_product_2(m_traits.compute_scalar_product_2_object()),
     m_sqrt(Get_sqrt::sqrt_object(m_traits))  {
@@ -76,15 +132,53 @@ namespace internal {
       resize();
     }
 
-    template<typename OutputIterator>
-    OutputIterator operator()(
+    /// @}
+
+    /// \name Access
+    /// @{
+
+    /*!
+      \brief computes 2D mean value weights.
+
+      This function fills a destination range with 2D mean value weights computed at
+      the `query` point with respect to the vertices of the input polygon.
+
+      The number of computed weights equals to the number of polygon vertices.
+
+      \tparam OutIterator
+      a model of `OutputIterator` whose value type is `FT`
+
+      \param query
+      a query point
+
+      \param w_begin
+      the beginning of the destination range with the computed weights
+
+      \return an output iterator to the element in the destination range,
+      one past the last weight stored
+    */
+    template<typename OutIterator>
+    OutIterator operator()(
       const Point_2& query,
-      OutputIterator weights,
+      OutIterator w_begin) {
+
+      const bool normalize = false;
+      return operator()(query, w_begin, normalize);
+    }
+
+    /// @}
+
+    /// \cond SKIP_IN_MANUAL
+    template<typename OutIterator>
+    OutIterator operator()(
+      const Point_2& query,
+      OutIterator weights,
       const bool normalize) {
 
       return optimal_weights(
         query, weights, normalize);
     }
+    /// \endcond
 
   private:
 
@@ -93,6 +187,7 @@ namespace internal {
     const GeomTraits m_traits;
     const VertexMap m_vertex_map;
     const Area_2 m_area_2;
+    const Construct_vector_2 m_construct_vector_2;
     const Squared_length_2 m_squared_length_2;
     const Scalar_product_2 m_scalar_product_2;
     const Sqrt m_sqrt;
@@ -126,7 +221,7 @@ namespace internal {
       // Compute vectors s following the pseudo-code in the Figure 10 from [1].
       for (std::size_t i = 0; i < n; ++i) {
         const auto& pi = get(m_vertex_map, *(m_polygon.begin() + i));
-        s[i] = pi - query;
+        s[i] = m_construct_vector_2(query, pi);
       }
 
       // Compute lengths r, areas A, and dot products D following the pseudo-code
@@ -156,23 +251,23 @@ namespace internal {
       // - http://www.inf.usi.ch/hormann/nsfworkshop/presentations/Hormann.pdf
       for (std::size_t i = 0; i < n - 1; ++i) {
         CGAL_assertion((r[i] * r[i + 1] + D[i]) != FT(0));
-        t[i] = A[i] / (r[i] * r[i + 1] + D[i]);
+        t[i] = FT(2) * A[i] / (r[i] * r[i + 1] + D[i]);
       }
 
       CGAL_assertion((r[n - 1] * r[0] + D[n - 1]) != FT(0));
-      t[n - 1] = A[n - 1] / (r[n - 1] * r[0] + D[n - 1]);
+      t[n - 1] = FT(2) * A[n - 1] / (r[n - 1] * r[0] + D[n - 1]);
 
       // Compute mean value weights using the same pseudo-code as before.
       CGAL_assertion(r[0] != FT(0));
-      w[0] = (t[n - 1] + t[0]) / r[0];
+      w[0] = FT(2) * (t[n - 1] + t[0]) / r[0];
 
       for (std::size_t i = 1; i < n - 1; ++i) {
         CGAL_assertion(r[i] != FT(0));
-        w[i] = (t[i - 1] + t[i]) / r[i];
+        w[i] = FT(2) * (t[i - 1] + t[i]) / r[i];
       }
 
       CGAL_assertion(r[n - 1] != FT(0));
-      w[n - 1] = (t[n - 2] + t[n - 1]) / r[n - 1];
+      w[n - 1] = FT(2) * (t[n - 2] + t[n - 1]) / r[n - 1];
 
       // Normalize if necessary.
       if (normalize)
@@ -189,4 +284,4 @@ namespace internal {
 } // namespace Barycentric_coordinates
 } // namespace CGAL
 
-#endif // CGAL_GENERALIZED_MEAN_VALUE_WEIGHTS_2_H
+#endif // CGAL_MEAN_VALUE_WEIGHTS_2_H

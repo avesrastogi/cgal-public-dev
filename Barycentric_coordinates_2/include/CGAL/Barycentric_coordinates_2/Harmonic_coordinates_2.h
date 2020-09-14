@@ -62,17 +62,17 @@ namespace Barycentric_coordinates {
     in the user manual \ref compute_hm_coord "here".
 
     \tparam Polygon
-    must be a model of `ConstRange` whose iterator type is `RandomAccessIterator`.
+    a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
     \tparam Domain
-    must be a model of `DiscretizedDomain_2`. For the moment, we only support domains
+    a model of `DiscretizedDomain_2`. For the moment, we only support domains
     whose partition's finite elements are triangles.
 
     \tparam GeomTraits
-    must be a model of `BarycentricTraits_2`.
+    a model of `BarycentricTraits_2`
 
     \tparam VertexMap
-    must be a `ReadablePropertyMap` whose key type is `Polygon::value_type` and
+    a model of `ReadablePropertyMap` whose key type is `Polygon::value_type` and
     value type is `Point_2`. The default is `CGAL::Identity_property_map`.
   */
   template<
@@ -101,7 +101,7 @@ namespace Barycentric_coordinates {
     typedef typename GeomTraits::Point_2 Point_2;
 
     /// \cond SKIP_IN_MANUAL
-    using Vector_2 = typename GeomTraits::Vector_2;
+    using Construct_vector_2 = typename GeomTraits::Construct_vector_2;
 
     using VectorFT  = Eigen::Matrix<FT, Eigen::Dynamic, Eigen::Dynamic>;
     using MatrixFT  = Eigen::SparseMatrix<FT>;
@@ -121,17 +121,17 @@ namespace Barycentric_coordinates {
       for 2D query points.
 
       \param domain
-      An instance of `Domain` with a partition of the interior part of a simple polygon.
+      an instance of `Domain` with a partition of the interior part of a simple polygon
 
       \param polygon
-      An instance of `Polygon` with the vertices of a simple polygon.
+      an instance of `Polygon` with the vertices of a simple polygon
 
       \param traits
-      An instance of `GeomTraits`. The default initialization is provided.
+      an instance of `GeomTraits` with geometric traits. The default initialization is provided.
 
       \param vertex_map
-      An instance of `VertexMap` that maps a vertex from `polygon`
-      to `Point_2`. The default is the identity property map.
+      an instance of `VertexMap` that maps a vertex from `polygon`
+      to `Point_2`. The default initialization is provided.
 
       \pre polygon.size() >= 3
       \pre polygon is simple
@@ -144,7 +144,8 @@ namespace Barycentric_coordinates {
     m_polygon(polygon),
     m_domain(domain),
     m_traits(traits),
-    m_vertex_map(vertex_map) {
+    m_vertex_map(vertex_map),
+    m_construct_vector_2(m_traits.construct_vector_2_object()) {
 
       CGAL_precondition(
         polygon.size() >= 3);
@@ -175,22 +176,22 @@ namespace Barycentric_coordinates {
       \f$n\f$ is the number of polygon vertices, the query point \f$q\f$ can be obtained
       as \f$q = \sum_{i = 1}^{n}b_ip_i\f$, where \f$p_i\f$ are the polygon vertices.
 
-      \tparam OutputIterator
-      the dereferenced output iterator type must be convertible to `FT`.
+      \tparam OutIterator
+      a model of `OutputIterator` whose value type is `FT`
 
       \param query
-      A query point.
+      a query point
 
       \param c_begin
-      The beginning of the destination range with the computed coordinates.
+      the beginning of the destination range with the computed coordinates
 
       \return an output iterator to the element in the destination range,
       one past the last coordinate stored
     */
-    template<typename OutputIterator>
-    OutputIterator operator()(
+    template<typename OutIterator>
+    OutIterator operator()(
       const Point_2& query,
-      OutputIterator c_begin) {
+      OutIterator c_begin) {
 
       CGAL_precondition(
         m_setup_is_called &&
@@ -265,24 +266,24 @@ namespace Barycentric_coordinates {
       the index `query_index` can be obtained as \f$q = \sum_{i = 1}^{n}b_ip_i\f$,
       where \f$p_i\f$ are the polygon vertices.
 
-      \tparam OutputIterator
-      the dereferenced output iterator type must be convertible to `FT`.
+      \tparam OutIterator
+      a model of `OutputIterator` whose value type is `FT`
 
       \param query_index
-      A domain's vertex index.
+      a domain's vertex index
 
       \param c_begin
-      The beginning of the destination range with the computed coordinates.
+      the beginning of the destination range with the computed coordinates
 
       \return an output iterator to the element in the destination range,
       one past the last coordinate stored
 
       \pre query >= 0 && query < domain.number_of_vertices()
     */
-    template<typename OutputIterator>
-    OutputIterator operator()(
+    template<typename OutIterator>
+    OutIterator operator()(
       const std::size_t query_index,
-      OutputIterator c_begin) {
+      OutIterator c_begin) {
 
       CGAL_precondition(
         m_setup_is_called &&
@@ -430,6 +431,8 @@ namespace Barycentric_coordinates {
     const GeomTraits m_traits;
     const VertexMap m_vertex_map;
 
+    const Construct_vector_2 m_construct_vector_2;
+
     // Indices of the finite element.
     std::vector<std::size_t> m_element;
 
@@ -556,12 +559,12 @@ namespace Barycentric_coordinates {
             const auto& p1 = m_domain.vertex(neighbors[j]);
             const auto& p2 = m_domain.vertex(neighbors[jp]);
 
-            Vector_2 s1 = query - p1;
-            Vector_2 s2 = p2 - p1;
+            auto s1 = m_construct_vector_2(p1, query);
+            auto s2 = m_construct_vector_2(p1, p2);
             alpha_cot.push_back(internal::cotangent_2(s2, s1, m_traits));
 
-            s1 = p1 - p2;
-            s2 = query - p2;
+            s1 = m_construct_vector_2(p2, p1);
+            s2 = m_construct_vector_2(p2, query);
             beta_cot.push_back(internal::cotangent_2(s2, s1, m_traits));
           }
 

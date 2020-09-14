@@ -29,12 +29,6 @@
 #include <set>
 #include <map>
 #include <list>
-#include <string>
-#include <memory>
-#include <vector>
-#include <utility>
-#include <iterator>
-#include <iostream>
 #include <sstream>
 #include <fstream>
 #include <tuple>
@@ -43,27 +37,13 @@
 #include <boost/mpl/has_xxx.hpp>
 #include <boost/optional/optional.hpp>
 
-// CGAL includes.
-#include <CGAL/utils.h>
-#include <CGAL/barycenter.h>
-#include <CGAL/assertions.h>
-#include <CGAL/number_utils.h>
-#include <CGAL/property_map.h>
-#include <CGAL/Polygon_2_algorithms.h>
-
 // Internal includes.
 #include <CGAL/Barycentric_coordinates_2/barycentric_enum_2.h>
+#include <CGAL/Barycentric_coordinates_2/internal/polygon_utils_2.h>
 
 namespace CGAL {
 namespace Barycentric_coordinates {
 namespace internal {
-
-  enum class Edge_case {
-
-    EXTERIOR = 0, // exterior part of the polygon
-    BOUNDARY = 1, // boundary part of the polygon
-    INTERIOR = 2  // interior part of the polygon
-  };
 
   enum class Query_point_location {
 
@@ -81,18 +61,6 @@ namespace internal {
 
     // Location is unspecified. Leads to all coordinates being set to zero.
     UNSPECIFIED = 4
-  };
-
-  enum class Polygon_type {
-
-    // Concave polygon = non-convex polygon.
-    CONCAVE = 0,
-
-    // This is a convex polygon with collinear vertices.
-    WEAKLY_CONVEX = 1,
-
-    // This is a convex polygon without collinear vertices.
-    STRICTLY_CONVEX = 2
   };
 
   template<typename GeomTraits>
@@ -145,22 +113,6 @@ namespace internal {
 
     for (std::size_t i = 0; i < n; ++i)
       *(output++) = 0;
-  }
-
-  template<typename FT>
-  void normalize(std::vector<FT>& values) {
-
-    FT sum = FT(0);
-    for (const FT value : values)
-      sum += value;
-
-    CGAL_assertion(sum != FT(0));
-    if (sum == FT(0))
-      return;
-
-    const FT inv_sum = FT(1) / sum;
-    for (FT& value : values)
-      value *= inv_sum;
   }
 
   template<
@@ -259,11 +211,11 @@ namespace internal {
     const VertexMap vertex_map) {
 
     using FT = typename GeomTraits::FT;
-    using Vector_2 = typename GeomTraits::Vector_2;
 
     const auto cross_product_2 = traits.compute_determinant_2_object();
     const auto scalar_product_2 = traits.compute_scalar_product_2_object();
     const auto squared_distance_2 = traits.compute_squared_distance_2_object();
+    const auto construct_vector_2 = traits.construct_vector_2_object();
 
     CGAL_precondition(polygon.size() >= 3);
     const std::size_t n = polygon.size();
@@ -282,8 +234,8 @@ namespace internal {
       const std::size_t ip = (i + 1) % n;
       const auto& p2 = get(vertex_map, *(polygon.begin() + ip));
 
-      const Vector_2 s1 = Vector_2(query, p1);
-      const Vector_2 s2 = Vector_2(query, p2);
+      const auto s1 = construct_vector_2(query, p1);
+      const auto s2 = construct_vector_2(query, p2);
 
       const FT A = half * cross_product_2(s1, s2);
       const FT D = scalar_product_2(s1, s2);
@@ -329,309 +281,6 @@ namespace internal {
       }
     }
     return boost::none;
-  }
-
-  // This function is taken from the Polygon_2_algorithms.h header.
-  // But it is updated to support property maps.
-  template<
-  class Point_2,
-  class Orientation_2,
-  class CompareX_2>
-  int which_side_in_slab(
-    const Point_2& query,
-    const Point_2& low,
-    const Point_2& high,
-    const Orientation_2& orientation_2,
-    const CompareX_2& compare_x_2) {
-
-    const auto low_x_comp_res = compare_x_2(query, low);
-    const auto high_x_comp_res = compare_x_2(query, high);
-    if (low_x_comp_res == CGAL::SMALLER) {
-      if (high_x_comp_res == CGAL::SMALLER)
-          return -1;
-    } else {
-      switch (high_x_comp_res) {
-        case CGAL::LARGER: return 1;
-        case CGAL::SMALLER: break;
-        case CGAL::EQUAL: return (low_x_comp_res == CGAL::EQUAL) ? 0 : 1;
-      }
-    }
-    switch (orientation_2(low, query, high)) {
-      case CGAL::LEFT_TURN:  return  1;
-      case CGAL::RIGHT_TURN: return -1;
-      default: return 0;
-    }
-  }
-
-  // This function is taken from the Polygon_2_algorithms.h header.
-  // But it is updated to support property maps.
-  template<
-  typename Polygon,
-  typename GeomTraits,
-  typename VertexMap>
-  Edge_case bounded_side_2(
-    const Polygon& polygon,
-    const typename GeomTraits::Point_2& query,
-    const GeomTraits& traits,
-    const VertexMap vertex_map) {
-
-    const auto first = polygon.begin();
-    const auto last  = polygon.end();
-
-    auto curr = first;
-    if (curr == last)
-      return Edge_case::EXTERIOR;
-
-    auto next = curr; ++next;
-    if (next == last)
-      return Edge_case::EXTERIOR;
-
-    const auto compare_x_2 = traits.compare_x_2_object();
-    const auto compare_y_2 = traits.compare_y_2_object();
-    const auto orientation_2 = traits.orientation_2_object();
-
-    bool is_inside = false;
-    auto curr_y_comp_res = compare_y_2(get(vertex_map, *curr), query);
-
-    // Check if the segment (curr, next) intersects
-    // the ray { (t, query.y()) | t >= query.x() }.
-    do {
-      const auto& currp = get(vertex_map, *curr);
-      const auto& nextp = get(vertex_map, *next);
-
-      auto next_y_comp_res = compare_y_2(nextp, query);
-      switch (curr_y_comp_res) {
-        case CGAL::SMALLER:
-          switch (next_y_comp_res) {
-            case CGAL::SMALLER:
-              break;
-            case CGAL::EQUAL:
-              switch (compare_x_2(query, nextp)) {
-                case CGAL::SMALLER: is_inside = !is_inside; break;
-                case CGAL::EQUAL:   return Edge_case::BOUNDARY;
-                case CGAL::LARGER:  break;
-              }
-              break;
-            case CGAL::LARGER:
-              switch (which_side_in_slab(
-                query, currp, nextp, orientation_2, compare_x_2)) {
-                case -1: is_inside = !is_inside; break;
-                case  0: return Edge_case::BOUNDARY;
-              }
-              break;
-          }
-          break;
-        case CGAL::EQUAL:
-          switch (next_y_comp_res) {
-            case CGAL::SMALLER:
-              switch (compare_x_2(query, currp)) {
-                case CGAL::SMALLER: is_inside = !is_inside; break;
-                case CGAL::EQUAL:   return Edge_case::BOUNDARY;
-                case CGAL::LARGER:  break;
-              }
-              break;
-            case CGAL::EQUAL:
-              switch (compare_x_2(query, currp)) {
-                case CGAL::SMALLER:
-                  if (compare_x_2(query, nextp) != CGAL::SMALLER)
-                      return Edge_case::BOUNDARY;
-                  break;
-                case CGAL::EQUAL: return Edge_case::BOUNDARY;
-                case CGAL::LARGER:
-                  if (compare_x_2(query, nextp) != CGAL::LARGER)
-                      return Edge_case::BOUNDARY;
-                  break;
-              }
-              break;
-            case CGAL::LARGER:
-              if (compare_x_2(query, currp) == CGAL::EQUAL) {
-                return Edge_case::BOUNDARY;
-              }
-              break;
-          }
-          break;
-        case CGAL::LARGER:
-          switch (next_y_comp_res) {
-            case CGAL::SMALLER:
-              switch (which_side_in_slab(
-                query, nextp, currp, orientation_2, compare_x_2)) {
-                case -1: is_inside = !is_inside; break;
-                case  0: return Edge_case::BOUNDARY;
-              }
-              break;
-            case CGAL::EQUAL:
-              if (compare_x_2(query, nextp) == CGAL::EQUAL) {
-                return Edge_case::BOUNDARY;
-              }
-              break;
-            case CGAL::LARGER:
-              break;
-          }
-          break;
-      }
-
-      curr = next;
-      curr_y_comp_res = next_y_comp_res;
-      ++next;
-      if (next == last) next = first;
-    }
-    while (curr != first);
-    return is_inside ? Edge_case::INTERIOR : Edge_case::EXTERIOR;
-  }
-
-  template<
-  typename Polygon,
-  typename GeomTraits,
-  typename VertexMap>
-  boost::optional< std::pair<Query_point_location, std::size_t> >
-  locate_wrt_polygon_2(
-    const Polygon& polygon,
-    const typename GeomTraits::Point_2& query,
-    const GeomTraits& traits,
-    const VertexMap vertex_map) {
-
-    const Edge_case type = bounded_side_2(
-      polygon, query, traits, vertex_map);
-
-    // Locate point with respect to different polygon locations.
-    switch (type) {
-      case Edge_case::INTERIOR:
-        return std::make_pair(Query_point_location::ON_BOUNDED_SIDE, std::size_t(-1));
-      case Edge_case::EXTERIOR:
-        return std::make_pair(Query_point_location::ON_UNBOUNDED_SIDE, std::size_t(-1));
-      case Edge_case::BOUNDARY:
-        return get_edge_index_exact(polygon, query, traits, vertex_map);
-      default:
-        return std::make_pair(Query_point_location::UNSPECIFIED, std::size_t(-1));
-    }
-    return boost::none;
-  }
-
-  // This function is taken from the Polygon_2_algorithms.h header.
-  // But it is updated to support property maps.
-  template<
-  typename Polygon,
-  typename GeomTraits,
-  typename VertexMap>
-  bool is_convex_2(
-    const Polygon& polygon,
-    const GeomTraits& traits,
-    const VertexMap vertex_map) {
-
-    auto first = polygon.begin();
-    const auto last  = polygon.end();
-
-    auto prev = first;
-    if (prev == last) return true;
-
-    auto curr = prev; ++curr;
-    if (curr == last) return true;
-
-    auto next = curr; ++next;
-    if (next == last) return true;
-
-    const auto equal_2 = traits.equal_2_object();
-
-    while (equal_2(
-      get(vertex_map, *prev),
-      get(vertex_map, *curr))) {
-      curr = next; ++next;
-      if (next == last) return true;
-    }
-
-    const auto less_xy_2 = traits.less_xy_2_object();
-    const auto orientation_2 = traits.orientation_2_object();
-
-    bool has_clockwise_triplets = false;
-    bool has_counterclockwise_triplets = false;
-    bool order = less_xy_2(
-      get(vertex_map, *prev), get(vertex_map, *curr));
-    int num_order_changes = 0;
-
-    do {
-    switch_orient:
-      switch (orientation_2(
-        get(vertex_map, *prev),
-        get(vertex_map, *curr),
-        get(vertex_map, *next))) {
-
-        case CGAL::CLOCKWISE:
-          has_clockwise_triplets = true;
-          break;
-        case CGAL::COUNTERCLOCKWISE:
-          has_counterclockwise_triplets = true;
-          break;
-        case CGAL::ZERO: {
-          if (equal_2(
-            get(vertex_map, *curr),
-            get(vertex_map, *next))) {
-
-            if (next == first) {
-              first = curr;
-            }
-            ++next;
-            if (next == last)
-              next = first;
-            goto switch_orient;
-          }
-          break;
-        }
-      }
-
-      const bool new_order = less_xy_2(
-        get(vertex_map, *curr),
-        get(vertex_map, *next));
-      if (order != new_order) num_order_changes++;
-      if (num_order_changes > 2)
-        return false;
-      if (has_clockwise_triplets && has_counterclockwise_triplets)
-        return false;
-
-      prev = curr;
-      curr = next;
-      ++next;
-      if (next == last) next = first;
-      order = new_order;
-    } while (prev != first);
-    return true;
-  }
-
-  template<
-  typename Polygon,
-  typename GeomTraits,
-  typename VertexMap>
-  Polygon_type polygon_type_2(
-    const Polygon& polygon,
-    const GeomTraits& traits,
-    const VertexMap vertex_map) {
-
-    using Point_2 = typename GeomTraits::Point_2;
-    const auto collinear_2 = traits.collinear_2_object();
-    CGAL_precondition(polygon.size() >= 3);
-
-    // First, test the polygon on convexity.
-    if (is_convex_2(polygon, traits, vertex_map)) {
-
-      // Test all the consequent triplets of polygon vertices on collinearity.
-      // In case we find at least one, return WEAKLY_CONVEX polygon.
-      const std::size_t n = polygon.size();
-      for (std::size_t i = 0; i < n; ++i) {
-        const auto& p1 = get(vertex_map, *(polygon.begin() + i));
-
-        const std::size_t im = (i + n - 1) % n;
-        const std::size_t ip = (i + 1) % n;
-
-        const auto& p0 = get(vertex_map, *(polygon.begin() + im));
-        const auto& p2 = get(vertex_map, *(polygon.begin() + ip));
-
-        if (collinear_2(p0, p1, p2))
-          return Polygon_type::WEAKLY_CONVEX;
-      }
-      // Otherwise, return STRICTLY_CONVEX polygon.
-      return Polygon_type::STRICTLY_CONVEX;
-    }
-    // Otherwise, return CONCAVE polygon.
-    return Polygon_type::CONCAVE;
   }
 
   template<
@@ -727,6 +376,34 @@ namespace internal {
     return std::make_pair(coordinates, false);
   }
 
+  template<
+  typename Polygon,
+  typename GeomTraits,
+  typename VertexMap>
+  boost::optional< std::pair<Query_point_location, std::size_t> >
+  locate_wrt_polygon_2(
+    const Polygon& polygon,
+    const typename GeomTraits::Point_2& query,
+    const GeomTraits& traits,
+    const VertexMap vertex_map) {
+
+    const Edge_case type = bounded_side_2(
+      polygon, query, traits, vertex_map);
+
+    // Locate point with respect to different polygon locations.
+    switch (type) {
+      case Edge_case::INTERIOR:
+        return std::make_pair(Query_point_location::ON_BOUNDED_SIDE, std::size_t(-1));
+      case Edge_case::EXTERIOR:
+        return std::make_pair(Query_point_location::ON_UNBOUNDED_SIDE, std::size_t(-1));
+      case Edge_case::BOUNDARY:
+        return get_edge_index_exact(polygon, query, traits, vertex_map);
+      default:
+        return std::make_pair(Query_point_location::UNSPECIFIED, std::size_t(-1));
+    }
+    return boost::none;
+  }
+
   // Do we need it at all? Can we use DH weights inside Harmonic coordinates?
   template<typename GeomTraits>
   typename GeomTraits::FT cotangent_2(
@@ -744,28 +421,6 @@ namespace internal {
     const FT cot_denominator = CGAL::abs(det);
     CGAL_assertion(cot_denominator != FT(0));
     return dot / cot_denominator;
-  }
-
-  // This function is taken from the Polygon_2_algorithms.h header.
-  // But it is updated to support property maps.
-  template<
-  typename Polygon,
-  typename GeomTraits,
-  typename VertexMap>
-  bool is_simple_2(
-    const Polygon& polygon,
-    const GeomTraits& traits,
-    const VertexMap vertex_map) {
-
-    const auto first = polygon.begin();
-    const auto last = polygon.end();
-    if (first == last) return true;
-
-    std::vector<typename GeomTraits::Point_2> poly;
-    poly.reserve(polygon.size());
-    for (const auto& vertex : polygon)
-      poly.push_back(get(vertex_map, vertex));
-    return CGAL::is_simple_2(poly.begin(), poly.end(), traits);
   }
 
 } // namespace internal

@@ -1,4 +1,4 @@
-// Copyright (c) 2019 INRIA Sophia-Antipolis (France).
+// Copyright (c) 2020 GeometryFactory SARL (France).
 // All rights reserved.
 //
 // This file is part of CGAL (www.cgal.org).
@@ -20,42 +20,96 @@
 // Author(s)     : Dmitry Anisimov, David Bommes, Kai Hormann, Pierre Alliez
 //
 
-#ifndef CGAL_GENERALIZED_WACHSPRESS_WEIGHTS_2_H
-#define CGAL_GENERALIZED_WACHSPRESS_WEIGHTS_2_H
+#ifndef CGAL_WACHSPRESS_WEIGHTS_2_H
+#define CGAL_WACHSPRESS_WEIGHTS_2_H
 
 #include <CGAL/license/Barycentric_coordinates_2.h>
 
 // Internal includes.
 #include <CGAL/Barycentric_coordinates_2/internal/utils_2.h>
 
-// [1] Reference: "M. S. Floater, K. Hormann, and G. Kos.
-// A general construction of barycentric coordinates over convex polygons.
-// Advances in Computational Mathematics, 24(1-4):311-331, 2006.".
-
 namespace CGAL {
 namespace Barycentric_coordinates {
 namespace internal {
 
+  /*!
+    \ingroup PkgWeightsRefBarycentricWachspressWeights
+
+    \brief 2D Wachspress weights for polygons.
+
+    This class implements 2D Wachspress weights ( \cite cgal:bc:fhk-gcbcocp-06,
+    \cite cgal:bc:mlbd-gbcip-02, \cite cgal:bc:w-rfeb-75 ), which can be computed
+    at any point inside a strictly convex polygon.
+
+    Wachspress weights are well-defined and non-negative inside a strictly convex polygon.
+    The weights are computed analytically using the formulation from the `wachspress_weight()`.
+
+    \tparam Polygon
+    a model of `ConstRange` whose iterator type is `RandomAccessIterator`
+
+    \tparam GeomTraits
+    a model of `AnalyticWeightTraits_2`
+
+    \tparam VertexMap
+    a model of `ReadablePropertyMap` whose key type is `Polygon::value_type` and
+    value type is `Point_2`. The default is `CGAL::Identity_property_map`.
+
+    \cgalModels `BarycentricWeights_2`
+  */
   template<
   typename Polygon,
   typename GeomTraits,
-  typename VertexMap>
+  typename VertexMap = CGAL::Identity_property_map<typename GeomTraits::Point_2> >
   class Wachspress_weights_2 {
 
   public:
+
+    /// \name Types
+    /// @{
+
+    /// \cond SKIP_IN_MANUAL
     using Polygon_ = Polygon;
     using GT = GeomTraits;
     using Vertex_map = VertexMap;
 
     using Area_2 = typename GeomTraits::Compute_area_2;
+    /// \endcond
 
-    using FT = typename GeomTraits::FT;
-    using Point_2 = typename GeomTraits::Point_2;
+    /// Number type.
+    typedef typename GeomTraits::FT FT;
 
+    /// Point type.
+    typedef typename GeomTraits::Point_2 Point_2;
+
+    /// @}
+
+    /// \name Initialization
+    /// @{
+
+    /*!
+      \brief initializes all internal data structures.
+
+      This class implements the behavior of Wachspress weights
+      for 2D query points inside strictly convex polygons.
+
+      \param polygon
+      an instance of `Polygon` with the vertices of a strictly convex polygon
+
+      \param traits
+      an instance of `GeomTraits` with geometric traits. The default initialization is provided.
+
+      \param vertex_map
+      an instance of `VertexMap` that maps a vertex from `polygon`
+      to `Point_2`. The default initialization is provided.
+
+      \pre polygon.size() >= 3
+      \pre polygon is simple
+      \pre polygon is strictly convex
+    */
     Wachspress_weights_2(
       const Polygon& polygon,
-      const GeomTraits traits,
-      const VertexMap vertex_map) :
+      const GeomTraits traits = GeomTraits(),
+      const VertexMap vertex_map = VertexMap()) :
     m_polygon(polygon),
     m_traits(traits),
     m_vertex_map(vertex_map),
@@ -71,15 +125,53 @@ namespace internal {
       resize();
     }
 
-    template<typename OutputIterator>
-    OutputIterator operator()(
+    /// @}
+
+    /// \name Access
+    /// @{
+
+    /*!
+      \brief computes 2D Wachspress weights.
+
+      This function fills a destination range with 2D Wachspress weights computed
+      at the `query` point with respect to the vertices of the input polygon.
+
+      The number of computed weights equals to the number of polygon vertices.
+
+      \tparam OutIterator
+      a model of `OutputIterator` whose value type is `FT`
+
+      \param query
+      a query point
+
+      \param w_begin
+      the beginning of the destination range with the computed weights
+
+      \return an output iterator to the element in the destination range,
+      one past the last weight stored
+    */
+    template<typename OutIterator>
+    OutIterator operator()(
       const Point_2& query,
-      OutputIterator weights,
+      OutIterator w_begin) {
+
+      const bool normalize = false;
+      return operator()(query, w_begin, normalize);
+    }
+
+    /// @}
+
+    /// \cond SKIP_IN_MANUAL
+    template<typename OutIterator>
+    OutIterator operator()(
+      const Point_2& query,
+      OutIterator w_begin,
       const bool normalize) {
 
       return optimal_weights(
-        query, weights, normalize);
+        query, w_begin, normalize);
     }
+    /// \endcond
 
   private:
 
@@ -158,4 +250,4 @@ namespace internal {
 } // namespace Barycentric_coordinates
 } // namespace CGAL
 
-#endif // CGAL_GENERALIZED_WACHSPRESS_WEIGHTS_2_H
+#endif // CGAL_WACHSPRESS_WEIGHTS_2_H

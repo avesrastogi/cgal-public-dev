@@ -50,13 +50,13 @@ namespace Barycentric_coordinates {
     computed analytically. See more details in the user manual \ref compute_dh_coord "here".
 
     \tparam Polygon
-    must be a model of `ConstRange` whose iterator type is `RandomAccessIterator`.
+    a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
     \tparam GeomTraits
-    must be a model of `BarycentricTraits_2`.
+    a model of `BarycentricTraits_2`
 
     \tparam VertexMap
-    must be a `ReadablePropertyMap` whose key type is `Polygon::value_type` and
+    a model of `ReadablePropertyMap` whose key type is `Polygon::value_type` and
     value type is `Point_2`. The default is `CGAL::Identity_property_map`.
   */
   template<
@@ -100,18 +100,18 @@ namespace Barycentric_coordinates {
       for 2D query points.
 
       \param polygon
-      An instance of `Polygon` with the vertices of a strictly convex polygon.
+      an instance of `Polygon` with the vertices of a strictly convex polygon
 
       \param policy
-      One of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
+      one of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
       The default is `CGAL::Barycentric_coordinates::Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
 
       \param traits
-      An instance of `GeomTraits`. The default initialization is provided.
+      an instance of `GeomTraits` with geometric traits. The default initialization is provided.
 
       \param vertex_map
-      An instance of `VertexMap` that maps a vertex from `polygon`
-      to `Point_2`. The default is the identity property map.
+      an instance of `VertexMap` that maps a vertex from `polygon`
+      to `Point_2`. The default initialization is provided.
 
       \pre polygon.size() >= 3
       \pre polygon is simple
@@ -156,22 +156,22 @@ namespace Barycentric_coordinates {
 
       The number of returned weights equals to the number of polygon vertices.
 
-      \tparam OutputIterator
-      the dereferenced output iterator type must be convertible to `FT`.
+      \tparam OutIterator
+      a model of `OutputIterator` whose value type is `FT`
 
       \param query
-      A query point.
+      a query point
 
       \param w_begin
-      The beginning of the destination range with the computed weights.
+      the beginning of the destination range with the computed weights
 
       \return an output iterator to the element in the destination range,
       one past the last weight stored
     */
-    template<typename OutputIterator>
-    OutputIterator weights(
+    template<typename OutIterator>
+    OutIterator weights(
       const Point_2& query,
-      OutputIterator w_begin) {
+      OutIterator w_begin) {
 
       const bool normalize = false;
       return compute(query, w_begin, normalize);
@@ -189,22 +189,22 @@ namespace Barycentric_coordinates {
       \f$n\f$ is the number of polygon vertices, the query point \f$q\f$ can be obtained
       as \f$q = \sum_{i = 1}^{n}b_ip_i\f$, where \f$p_i\f$ are the polygon vertices.
 
-      \tparam OutputIterator
-      the dereferenced output iterator type must be convertible to `FT`.
+      \tparam OutIterator
+      a model of `OutputIterator` whose value type is `FT`
 
       \param query
-      A query point.
+      a query point
 
       \param c_begin
-      The beginning of the destination range with the computed coordinates.
+      the beginning of the destination range with the computed coordinates
 
       \return an output iterator to the element in the destination range,
       one past the last coordinate stored
     */
-    template<typename OutputIterator>
-    OutputIterator operator()(
+    template<typename OutIterator>
+    OutIterator operator()(
       const Point_2& query,
-      OutputIterator c_begin) {
+      OutIterator c_begin) {
 
       const bool normalize = true;
       return compute(query, c_begin, normalize);
@@ -219,6 +219,7 @@ namespace Barycentric_coordinates {
     const Computation_policy_2 m_computation_policy;
     const GeomTraits m_traits;
     const VertexMap m_vertex_map;
+
     const Area_2 m_area_2;
     const Squared_distance_2 m_squared_distance_2;
 
