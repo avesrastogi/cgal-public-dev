@@ -17,7 +17,7 @@
 // SPDX-License-Identifier: GPL-3.0+
 //
 //
-// Author(s)     : Dmitry Anisimov
+// Author(s)     : Dmitry Anisimov, David Bommes, Kai Hormann, Pierre Alliez
 //
 
 #ifndef CGAL_MEAN_VALUE_WEIGHTS_H
@@ -256,6 +256,7 @@ namespace Weights {
 
     using Vector_2 = typename GeomTraits::Vector_2;
     using Area_2 = typename GeomTraits::Compute_area_2;
+    using Construct_vector_2 = typename GeomTraits::Construct_vector_2;
     using Squared_length_2 = typename GeomTraits::Compute_squared_length_2;
     using Scalar_product_2 = typename GeomTraits::Compute_scalar_product_2;
     using Get_sqrt = internal::Get_sqrt<GeomTraits>;
@@ -300,6 +301,7 @@ namespace Weights {
     m_traits(traits),
     m_vertex_map(vertex_map),
     m_area_2(m_traits.compute_area_2_object()),
+    m_construct_vector_2(m_traits.construct_vector_2_object()),
     m_squared_length_2(m_traits.compute_squared_length_2_object()),
     m_scalar_product_2(m_traits.compute_scalar_product_2_object()),
     m_sqrt(Get_sqrt::sqrt_object(m_traits))  {
@@ -366,6 +368,7 @@ namespace Weights {
     const GeomTraits m_traits;
     const VertexMap m_vertex_map;
     const Area_2 m_area_2;
+    const Construct_vector_2 m_construct_vector_2;
     const Squared_length_2 m_squared_length_2;
     const Scalar_product_2 m_scalar_product_2;
     const Sqrt m_sqrt;
@@ -399,7 +402,7 @@ namespace Weights {
       // Compute vectors s following the pseudo-code in the Figure 10 from [1].
       for (std::size_t i = 0; i < n; ++i) {
         const auto& pi = get(m_vertex_map, *(m_polygon.begin() + i));
-        s[i] = pi - query;
+        s[i] = m_construct_vector_2(query, pi);
       }
 
       // Compute lengths r, areas A, and dot products D following the pseudo-code

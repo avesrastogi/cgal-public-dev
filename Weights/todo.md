@@ -16,9 +16,12 @@ Later:
 * Try to combine mvc and dhc in the orbifold parameterization. Not sure if this is necessary.
 * Mention that tangent_weight_3 uses positive areas (no distortions) and can be used only for PMP, while mean_value_weight_2/3 e.g. can have different signs/distortions for 2D and 3D versions due to the flattening of the 3D region.
 * Fix all other packages with respect to the new interface.
+* Change the triangle in all region figures to the one with the obtuse angle.
+* Check memory leaking.
 
 To do now:
 * What happens with WP/MV/DH weights on the polygon boundary?
 * There are never any preconditions (will everything be fine with degenerate positions) in your functions?
 * Add a vertex/point map to free functions. See barycentric coordinates.
 * Types Polygon -> VertexRange.
+* Check if this code works with the Projection_traits_xy class. E.g. the latter does not have the object Construct_centroid_2.

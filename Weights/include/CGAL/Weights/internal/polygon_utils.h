@@ -45,6 +45,26 @@ namespace CGAL {
 namespace Weights {
 namespace internal {
 
+  enum class Edge_case {
+
+    EXTERIOR = 0, // exterior part of the polygon
+    BOUNDARY = 1, // boundary part of the polygon
+    INTERIOR = 2  // interior part of the polygon
+  };
+
+  // Polygon type enum.
+  enum class Polygon_type {
+
+    // Concave polygon = non-convex polygon.
+    CONCAVE = 0,
+
+    // This is a convex polygon with collinear vertices.
+    WEAKLY_CONVEX = 1,
+
+    // This is a convex polygon without collinear vertices.
+    STRICTLY_CONVEX = 2
+  };
+
   // Normalize values.
   template<typename FT>
   void normalize(std::vector<FT>& values) {
@@ -62,18 +82,153 @@ namespace internal {
       value *= inv_sum;
   }
 
-  // Polygon type enum.
-  enum class Polygon_type {
+  // This function is taken from the Polygon_2_algorithms.h header.
+  // But it is updated to support property maps.
+  template<
+  class Point_2,
+  class Orientation_2,
+  class CompareX_2>
+  int which_side_in_slab(
+    const Point_2& query,
+    const Point_2& low,
+    const Point_2& high,
+    const Orientation_2& orientation_2,
+    const CompareX_2& compare_x_2) {
 
-    // Concave polygon = non-convex polygon.
-    CONCAVE = 0,
+    const auto low_x_comp_res = compare_x_2(query, low);
+    const auto high_x_comp_res = compare_x_2(query, high);
+    if (low_x_comp_res == CGAL::SMALLER) {
+      if (high_x_comp_res == CGAL::SMALLER)
+        return -1;
+    } else {
+      switch (high_x_comp_res) {
+        case CGAL::LARGER: return 1;
+        case CGAL::SMALLER: break;
+        case CGAL::EQUAL: return (low_x_comp_res == CGAL::EQUAL) ? 0 : 1;
+      }
+    }
+    switch (orientation_2(low, query, high)) {
+      case CGAL::LEFT_TURN:  return  1;
+      case CGAL::RIGHT_TURN: return -1;
+      default: return 0;
+    }
+  }
 
-    // This is a convex polygon with collinear vertices.
-    WEAKLY_CONVEX = 1,
+  // This function is taken from the Polygon_2_algorithms.h header.
+  // But it is updated to support property maps.
+  template<
+  typename Polygon,
+  typename GeomTraits,
+  typename VertexMap>
+  Edge_case bounded_side_2(
+    const Polygon& polygon,
+    const typename GeomTraits::Point_2& query,
+    const GeomTraits& traits,
+    const VertexMap vertex_map) {
 
-    // This is a convex polygon without collinear vertices.
-    STRICTLY_CONVEX = 2
-  };
+    const auto first = polygon.begin();
+    const auto last  = polygon.end();
+
+    auto curr = first;
+    if (curr == last)
+      return Edge_case::EXTERIOR;
+
+    auto next = curr; ++next;
+    if (next == last)
+      return Edge_case::EXTERIOR;
+
+    const auto compare_x_2 = traits.compare_x_2_object();
+    const auto compare_y_2 = traits.compare_y_2_object();
+    const auto orientation_2 = traits.orientation_2_object();
+
+    bool is_inside = false;
+    auto curr_y_comp_res = compare_y_2(get(vertex_map, *curr), query);
+
+    // Check if the segment (curr, next) intersects
+    // the ray { (t, query.y()) | t >= query.x() }.
+    do {
+      const auto& currp = get(vertex_map, *curr);
+      const auto& nextp = get(vertex_map, *next);
+
+      auto next_y_comp_res = compare_y_2(nextp, query);
+      switch (curr_y_comp_res) {
+        case CGAL::SMALLER:
+          switch (next_y_comp_res) {
+            case CGAL::SMALLER:
+              break;
+            case CGAL::EQUAL:
+              switch (compare_x_2(query, nextp)) {
+                case CGAL::SMALLER: is_inside = !is_inside; break;
+                case CGAL::EQUAL:   return Edge_case::BOUNDARY;
+                case CGAL::LARGER:  break;
+              }
+              break;
+            case CGAL::LARGER:
+              switch (which_side_in_slab(
+                query, currp, nextp, orientation_2, compare_x_2)) {
+                case -1: is_inside = !is_inside; break;
+                case  0: return Edge_case::BOUNDARY;
+              }
+              break;
+          }
+          break;
+        case CGAL::EQUAL:
+          switch (next_y_comp_res) {
+            case CGAL::SMALLER:
+              switch (compare_x_2(query, currp)) {
+                case CGAL::SMALLER: is_inside = !is_inside; break;
+                case CGAL::EQUAL:   return Edge_case::BOUNDARY;
+                case CGAL::LARGER:  break;
+              }
+              break;
+            case CGAL::EQUAL:
+              switch (compare_x_2(query, currp)) {
+                case CGAL::SMALLER:
+                  if (compare_x_2(query, nextp) != CGAL::SMALLER)
+                    return Edge_case::BOUNDARY;
+                  break;
+                case CGAL::EQUAL: return Edge_case::BOUNDARY;
+                case CGAL::LARGER:
+                  if (compare_x_2(query, nextp) != CGAL::LARGER)
+                    return Edge_case::BOUNDARY;
+                  break;
+              }
+              break;
+            case CGAL::LARGER:
+              if (compare_x_2(query, currp) == CGAL::EQUAL) {
+                return Edge_case::BOUNDARY;
+              }
+              break;
+          }
+          break;
+        case CGAL::LARGER:
+          switch (next_y_comp_res) {
+            case CGAL::SMALLER:
+              switch (which_side_in_slab(
+                query, nextp, currp, orientation_2, compare_x_2)) {
+                case -1: is_inside = !is_inside; break;
+                case  0: return Edge_case::BOUNDARY;
+              }
+              break;
+            case CGAL::EQUAL:
+              if (compare_x_2(query, nextp) == CGAL::EQUAL) {
+                return Edge_case::BOUNDARY;
+              }
+              break;
+            case CGAL::LARGER:
+              break;
+          }
+          break;
+      }
+
+      curr = next;
+      curr_y_comp_res = next_y_comp_res;
+      ++next;
+      if (next == last) next = first;
+    }
+    while (curr != first);
+    return is_inside ? Edge_case::INTERIOR : Edge_case::EXTERIOR;
+  }
 
   // This function is taken from the Polygon_2_algorithms.h header.
   // But it is updated to support property maps.
@@ -164,6 +319,28 @@ namespace internal {
     return true;
   }
 
+  // This function is taken from the Polygon_2_algorithms.h header.
+  // But it is updated to support property maps.
+  template<
+  typename Polygon,
+  typename GeomTraits,
+  typename VertexMap>
+  bool is_simple_2(
+    const Polygon& polygon,
+    const GeomTraits traits,
+    const VertexMap vertex_map) {
+
+    const auto first = polygon.begin();
+    const auto last = polygon.end();
+    if (first == last) return true;
+
+    std::vector<typename GeomTraits::Point_2> poly;
+    poly.reserve(polygon.size());
+    for (const auto& vertex : polygon)
+      poly.push_back(get(vertex_map, vertex));
+    return CGAL::is_simple_2(poly.begin(), poly.end(), traits);
+  }
+
   template<
   typename Polygon,
   typename GeomTraits,
@@ -200,28 +377,6 @@ namespace internal {
     }
     // Otherwise, return CONCAVE polygon.
     return Polygon_type::CONCAVE;
-  }
-
-  // This function is taken from the Polygon_2_algorithms.h header.
-  // But it is updated to support property maps.
-  template<
-  typename Polygon,
-  typename GeomTraits,
-  typename VertexMap>
-  bool is_simple_2(
-    const Polygon& polygon,
-    const GeomTraits traits,
-    const VertexMap vertex_map) {
-
-    const auto first = polygon.begin();
-    const auto last = polygon.end();
-    if (first == last) return true;
-
-    std::vector<typename GeomTraits::Point_2> poly;
-    poly.reserve(polygon.size());
-    for (const auto& vertex : polygon)
-      poly.push_back(get(vertex_map, vertex));
-    return CGAL::is_simple_2(poly.begin(), poly.end(), traits);
   }
 
 } // namespace internal
