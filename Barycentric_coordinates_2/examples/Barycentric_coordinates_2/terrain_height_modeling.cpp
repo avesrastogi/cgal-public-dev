@@ -21,7 +21,7 @@ using Point_with_coordinate = std::pair<Point, FT>;
 int main() {
 
   // Construct a polygon that bounds a three-dimensional terrain.
-  // Note that z-coordinate of each vertex represents the height function.
+  // Note that the z-coordinate of each vertex represents the height function.
   // Projection in 2D is performed automatically by the Projection traits class.
   const std::vector<Point> polygon = {
     Point(0.03, 0.05, 0.00), Point(0.07, 0.04, 0.02), Point(0.10, 0.04, 0.04),

@@ -10,10 +10,14 @@ namespace CGAL {
 
 \section gbc_introduction Introduction
 
+Barycentric coordinates are widely used in computer graphics and computational mechanics
+to determine a position of a point in the plane with respect to a triangle. These coordinates
+have been later generalized to support simple polygons in 2D and polyhedra in 3D.
+
 This package offers an efficient and robust implementation of 2D generalized barycentric
-coordinates defined for simple 2D polygons. If coordinates with respect to multivariate
-scattered points instead of a polygon are required, please refer to natural neighbor
-coordinates from the package \ref chapinterpolation "2D and Surface Function Interpolation".
+coordinates defined for simple polygons in the plane. If coordinates with respect to multivariate
+scattered points instead of a polygon are required, please refer to natural neighbor coordinates
+from the package \ref chapinterpolation "2D and Surface Function Interpolation".
 
 In particular, this package includes an implementation of \ref wp_example "Wachspress",
 \ref dh_example "discrete harmonic", \ref mv_example "mean value", and \ref hm_example "harmonic"
@@ -42,7 +46,7 @@ they can be evaluated analytically at any point inside the polygon.
 For all analytic coordinates, we provide two algorithms. One has a linear time complexity,
 but may suffer imprecisions near the polygon boundary, while the second one is precise
 but has a quadratic time complexity. The user can choose the preferred algorithm by
-specifying a `CGAL::Barycentric_coordinates::Computation_policy_2`.
+specifying a computation policy `CGAL::Barycentric_coordinates::Computation_policy_2`.
 
 All analytic barycentric coordinates for polygons can be computed either by instantiating a class
 or through one of the free functions. Harmonic coordinates can be computed only by
@@ -53,12 +57,12 @@ For more information see the \ref PkgBarycentricCoordinates2Ref "Reference Manua
 Any point in the plane may be taken as a query point. However, we do not recommend using
 Wachspress and discrete harmonic coordinates with query points outside the closure
 of a polygon, because they are not well-defined for some of these points. The same holds
-for harmonic coordinates, which are not defined at any point outside the polygon. For more
+for harmonic coordinates, which are not defined everywhere outside the polygon. For more
 information see Section \ref gbc_degeneracies.
 
 The output of the computation is a set of coordinate values at the given query point
 with respect to the polygon vertices. That means that the number of returned coordinates
-per query point equals to the number of polygon vertices. The ordering of the coordinates
+per query point equates the number of polygon vertices. The ordering of the coordinates
 is the same as the ordering of polygon vertices.
 
 All class and function templates are parameterized by a traits class, which is a model
@@ -84,7 +88,7 @@ table below for some advise.
 <td class="markdownTableBodyCenter">All</td>
 <td class="markdownTableBodyCenter">2D non-degenerate segments</td>
 <td class="markdownTableBodyCenter">Yes</td>
-<td class="markdownTableBodyCenter">Any on the supporting line</td>
+<td class="markdownTableBodyCenter">Everywhere on the supporting line</td>
 <td class="markdownTableBodyCenter">+++</td>
 </tr>
 <tr class="markdownTableBody">
@@ -92,7 +96,7 @@ table below for some advise.
 <td class="markdownTableBodyCenter">All</td>
 <td class="markdownTableBodyCenter">2D non-degenerate triangles</td>
 <td class="markdownTableBodyCenter">Yes</td>
-<td class="markdownTableBodyCenter">Any on the plane</td>
+<td class="markdownTableBodyCenter">Everywhere in 2D</td>
 <td class="markdownTableBodyCenter">+++</td>
 </tr>
 <tr class="markdownTableBody">
@@ -100,7 +104,7 @@ table below for some advise.
 <td class="markdownTableBodyCenter">May be negative</td>
 <td class="markdownTableBodyCenter">Strongly convex polygons</td>
 <td class="markdownTableBodyCenter">Yes</td>
-<td class="markdownTableBodyCenter">Any inside the polygon</td>
+<td class="markdownTableBodyCenter">Everywhere inside the polygon</td>
 <td class="markdownTableBodyCenter">++</td>
 </tr>
 <tr class="markdownTableBody">
@@ -108,7 +112,7 @@ table below for some advise.
 <td class="markdownTableBodyCenter">All</td>
 <td class="markdownTableBodyCenter">Strongly convex polygons</td>
 <td class="markdownTableBodyCenter">Yes</td>
-<td class="markdownTableBodyCenter">Any inside the polygon</td>
+<td class="markdownTableBodyCenter">Everywhere inside the polygon</td>
 <td class="markdownTableBodyCenter">++</td>
 </tr>
 <tr class="markdownTableBody">
@@ -116,7 +120,7 @@ table below for some advise.
 <td class="markdownTableBodyCenter">May be negative</td>
 <td class="markdownTableBodyCenter">Simple polygons</td>
 <td class="markdownTableBodyCenter">Yes</td>
-<td class="markdownTableBodyCenter">Any on the plane</td>
+<td class="markdownTableBodyCenter">Everywhere in 2D</td>
 <td class="markdownTableBodyCenter">++</td>
 </tr>
 <tr class="markdownTableBody">
@@ -124,10 +128,14 @@ table below for some advise.
 <td class="markdownTableBodyCenter">All</td>
 <td class="markdownTableBodyCenter">Simple polygons</td>
 <td class="markdownTableBodyCenter">No</td>
-<td class="markdownTableBodyCenter">Any inside the polygon</td>
+<td class="markdownTableBodyCenter">Everywhere inside the polygon</td>
 <td class="markdownTableBodyCenter">+</td>
 </tr>
 </table>
+
+/note This is the second version of the package with the modified and improved API.
+The package still supports the old API. See more details \ref depr_example "here".
+
 
 \section gbc_examples Examples
 
@@ -137,7 +145,7 @@ with a basic usage of different barycentric components.
 
 \subsection seg_example Segment Coordinates
 
-This example shows the use of the global function `CGAL::Barycentric_coordinates::segment_coordinates_2()`.
+This example illustrates the use of the global function `CGAL::Barycentric_coordinates::segment_coordinates_2()`.
 We compute coordinates at three green points along the segment \f$[v_0, v_1]\f$ and at two blue points outside this segment
 but along its supporting line. The symmetry of the query points helps recognizing errors that
 may have occurred during construction of the example. The used `Kernel` is exact.
@@ -198,12 +206,12 @@ Example's point pattern.
 
 \subsection mv_example Mean Value Coordinates
 
-This is an example that shows how to compute mean value coordinates for a set of green points
+This is an example that illustrates how to compute mean value coordinates for a set of green points
 in a star-shaped polygon. We note that this type of coordinates is well-defined for such a concave polygon
-while Wachspress and discrete harmonic coordinates are not. However, it may give negative
+while Wachspress and discrete harmonic coordinates are not. However, it may yield negative
 coordinate values for points outside <a href="https://en.wikipedia.org/wiki/Star-shaped_polygon">the polygon's kernel</a>
 (shown in red). We speed up the computation using the linear time complexity algorithm by specifying
-the policy `CGAL::Barycentric_coordinates::Computation_policy_2`. The used `Kernel` is inexact.
+a computation policy `CGAL::Barycentric_coordinates::Computation_policy_2`. The used `Kernel` is inexact.
 
 \anchor mv_coord_example
 \cgalFigureBegin{mv_example, mv_coord_example.svg}
@@ -214,11 +222,11 @@ Example's point pattern.
 
 
 \subsection hm_example Harmonic Coordinates
-This example shows how to \ref terrain_triangulation_fig "discretize" the interior part
+This example illustrates how to \ref terrain_triangulation_fig "discretize" the interior part
 of the \ref terrain_example_fig "polygon" and compute harmonic coordinates at the vertices
-of the discretized domain, which is a Delaunay triangulation in our case. Once computed,
+of the discretized domain, which is represented by a 2D Delaunay triangulation. Once computed,
 harmonic coordinate functions can be evaluated at any point in the closure of the polygon.
-To show that, we compute the barycenter of each triangle and evaluate harmonic coordinates
+To illustrate such an evaluation, we compute the barycenter of each triangle and evaluate harmonic coordinates
 at this barycenter. Since harmonic coordinates can only be approximated, the used `Kernel` is inexact.
 
 \anchor hm_coord_example
@@ -227,11 +235,11 @@ at this barycenter. Since harmonic coordinates can only be approximated, the use
 
 \subsection height_inter_example Height Interpolation for Terrain Modeling
 
-This is an advanced example that shows how to use generalized barycentric coordinates
+This is an advanced example that illustrates how to use generalized barycentric coordinates
 for height interpolation with applications to terrain modeling. It also shows how to use
 a non-default traits class with our package instead of a `Kernel` traits class.
 Suppose we know the boundary of three-dimensional piece of terrain that can be represented
-as a polygon with several three-dimensional vertices, where the third dimension gives
+as a polygon with several three-dimensional vertices, where the third dimension indicates
 the corresponding height. The task is to propagate the height from the known sample points
 on the boundary to the polygon's interior. This gives an approximate estimation of
 the terrain's surface in this region.
@@ -275,7 +283,7 @@ Example's point pattern.
 
 
 \subsection depr_example Deprecated Coordinates
-This example shows how to quickly update the code in order to use the deprecated
+This example illustrates how to quickly update the code in order to use the deprecated
 version of mean value coordinates that is the version below 5.2. Basically, one
 needs to add the suffix `_depr` to the namespace and include the corresponding
 deprecated headers. The used `Kernel` is inexact and the used coordinates are
@@ -311,9 +319,9 @@ The segment coordinate function with respect to the vertex \f$v_0\f$.
 Segment coordinates can be computed exactly if an exact number type is chosen.
 The segment itself, with respect to which we compute coordinates, must be non-degenerate.
 If both conditions are satisfied, then the computation never fails. However, to compute coordinates,
-the user must be sure about the query point being exactly on the line \f$L\f$ supporting the segment.
+the user must ensure that the query point lies exactly on the line \f$L\f$ supporting the segment.
 Since in many applications this is not the case, and a query point may lie very close but not exactly on this line,
-the class provides a solution to remedy this situation.
+we provide a solution to remedy this situation.
 
 \cgalFigureBegin{seg_coord_projection, seg_coord_projection.svg}
 The orthogonal projection \f$p'\f$ of the vector \f$p\f$ (green) onto the vector \f$q\f$ (red).
@@ -323,12 +331,12 @@ Suppose that some query point \f$v\f$ does not lie exactly on the line \f$L\f$,
 but is some distance \f$d\f$ away as shown in the figure above. If we want to compute
 the segment coordinate \f$b_1(v)\f$ with respect to the vertex \f$v_1\f$, we first find the
 orthogonal projection \f$p'\f$ of the vector \f$p\f$ onto the vector \f$q\f$ and
-then normalize it by the length of \f$q\f$. This gives the segment coordinate \f$b_1(v') = b_1(v)\f$
+then normalize it by the length of \f$q\f$. This yields the segment coordinate \f$b_1(v') = b_1(v)\f$
 if \f$v\f$ lies exactly on the line. The other segment coordinate \f$b_0(v')\f$ that is equal
 to \f$b_0(v)\f$ when \f$v\f$ is on the line \f$L\f$ is computed the same way but with the
 projection of the vector \f$\vec{vv_1}\f$.
 
-\b Warning: do not abuse the feature described above, because it does not give correct
+\b Warning: do not abuse the feature described above, because it does not yield correct
 segment coordinates for the point \f$v\f$ but rather those for \f$v'\f$. Moreover, segment
 coordinates for a point \f$v\f$, which does not lie exactly on the line \f$L\f$, do not exist.
 But if the non-zero distance \f$d\f$ is due to some numerical instability when computing the
@@ -365,7 +373,7 @@ Notation for triangle coordinates.
 
 These coordinates can be computed exactly if an exact number type is chosen, for any query point in the plane
 and with respect to any non-degenerate triangle. No special cases are handled. The computation always
-gives the correct result. The notion of correctness depends on the precision of the used number type.
+yields the correct result. The notion of correctness depends on the precision of the used number type.
 Note that for exterior points some coordinate values will be negative.
 
 
@@ -378,7 +386,7 @@ these coordinates are computed exactly and no false result is expected. For exte
 the coordinates can also be computed but not everywhere (see below for more details). For inexact number types,
 the resulting precision of the computation is due to the involved algorithm and a chosen number type.
 In the following paragraph, we discuss two available algorithms for computing Wachspress coordinates
-when an inexact number type is used. The chosen algorithm is defined by
+when an inexact number type is used. The chosen algorithm is specified by a computation policy
 `CGAL::Barycentric_coordinates::Computation_policy_2`.
 
 \anchor wp_polygon
@@ -406,15 +414,15 @@ To fix the problem, we modify the weights \f$w_i\f$ as
 \f$\bar{w}_i = C_i\prod_{j\not=i-1,i} A_j\f$.
 </center>
 
-After the normalization as above, this gives us the precise algorithm to compute Wachspress coordinates
+After the above normalization, this gives us the precise algorithm to compute Wachspress coordinates
 but with \f$O(n^2)\f$ performance only. The max speed \f$O(n)\f$ algorithm uses the standard
-weights \f$w_i\f$. Note that mathematically this modification does not change the coordinates. But you should
+weights \f$w_i\f$. Note that mathematically this modification does not change the coordinates. One should
 be cautious when using the unnormalized Wachspress weights. In that case, you must choose the
 \f$O(n)\f$ type.
 
 It is known that for strictly convex polygons the denominator's zero set of the
 Wachspress coordinates (\f$W^{wp} = 0~\f$) is a curve, which (in many cases) lies quite
-far away from the polygon. Speaking precisely, it interpolates the intersection points of
+far away from the polygon. More specifically, it interpolates the intersection points of
 the supporting lines of the polygon edges. Therefore, the computation of Wachspress coordinates
 outside the polygon is possible only at points that do not belong to this curve.
 
@@ -430,7 +438,7 @@ Zero set (red) of the Wachspress coordinates' denominator \f$W^{wp}\f$ for a non
 
 Discrete harmonic coordinates have the same requirements as Wachspress coordinates.
 They are well-defined in the closure of any <em>strictly convex polygon</em> and,
-if an exact number type is chosen, they are computed exactly. But, unlike Wachspress basis functions,
+if an exact number type is chosen, they are computed exactly. However, and unlike Wachspress basis functions,
 these coordinates are not necessarily positive. In particular, the weight \f$w_i\f$ is positive
 if and only if \f$\alpha+\beta < \pi\f$ (see the figure below for notation). For inexact number types,
 the precision of the computation is due to the involved algorithm and a chosen number type. Again,
@@ -462,10 +470,10 @@ To fix the problem, similarly to the previous subsection, we modify the weights 
 \f$\bar{w}_i = (r_{i+1}^2A_{i-1}-r_i^2B_i+r_{i-1}^2A_i)\prod_{j\not=i-1,i} A_j\f$.
 </center>
 
-After the normalization as above, this gives the precise algorithm to compute discrete harmonic coordinates
+After the above normalization, this yields the precise algorithm to compute discrete harmonic coordinates
 but with \f$O(n^2)\f$ performance only. The max speed \f$O(n)\f$ algorithm uses the standard
 weights \f$w_i\f$. Again, mathematically this modification does not change the coordinates,
-but you should be cautious when using the unnormalized discrete harmonic weights. In that case,
+one should be cautious when using the unnormalized discrete harmonic weights. In that case,
 you must choose the \f$O(n)\f$ type.
 
 \b Warning: as for Wachspress coordinates, we do not recommend using discrete harmonic coordinates
@@ -493,7 +501,7 @@ of the computation with exact number types will depend only on the precision of 
 Notation for mean value coordinates.
 \cgalFigureEnd
 
-For these coordinates, we also have two algorithms: one is of max precision and one is of max speed.
+For these coordinates, we provide two algorithms: one is of max precision and one is of max speed.
 The first one works everywhere in the plane, and the precision of the computation depends only
 on the chosen number type, including the remarks above. This algorithm is based on the following weight
 formula from \cgalCite{cgal:bc:f-wmvc-14}
@@ -503,9 +511,9 @@ formula from \cgalCite{cgal:bc:f-wmvc-14}
 where \f$\qquad r_i = \|d_i\|.\f$
 </center>
 
-Since \f$\bar{w}_i\f$ is always positive, we have to append to it the proper sign \f$\sigma_i\f$
+Since \f$\bar{w}_i\f$ is always positive, we must append to it the proper sign \f$\sigma_i\f$
 of the signed mean value weight, which can be found efficiently (see the figures below).
-Basically, this weight is always positive to the left of the red piecewise linear curve,
+This weight is always positive to the left of the red piecewise linear curve,
 and it is negative to the right of this curve, moving in the counterclockwise direction.
 
 \cgalFigureBegin{mv_weight_signs, mv_weight_signs.svg}
@@ -530,7 +538,7 @@ with \f$\qquad t_i = \frac{\text{det}(d_i, d_{i+1})}{r_ir_{i+1} + d_id_{i+1}}\f$
 
 are also normalized. Note that they are unstable if a query point is closer than \f$\approx 1.0e-10\f$
 to the polygon boundary, similarly to Wachspress and discrete harmonic coordinates and
-you should be cautious when using the unnormalized mean value weights. In that case, you must choose the
+one should be cautious when using the unnormalized mean value weights. In that case, you must choose the
 \f$O(n)\f$ type.
 
 
@@ -545,13 +553,13 @@ The harmonic coordinates are computed by solving the Laplace equation
 
 subject to suitable Dirichlet boundary conditions. Harmonic coordinates are the only coordinates
 in this package, which are guaranteed to be non-negative in the closure of any simple polygon and
-satisfy all properties of barycentric coordinates, however the nice properties come with the fact
+satisfy all properties of barycentric coordinates, however such desirable properties come with the fact
 that these coordinates are well-defined only inside a polygon. If an exterior query point is provided,
 its coordinates are set to zero.
 
 Another disadvantage of these coordinates is that they cannot be computed
 exactly, because harmonic coordinates do not have a simple closed-form expression and
-have to be approximated. The classical way to approximate these coordinates is
+must be approximated. The common way to approximate these coordinates is
 by discretizing over the space of piecewise linear functions with respect to
 a triangulation of the polygon. The denser triangulation of the interior part of
 the polygon, the better approximation of the coordinates. To get a high quality
@@ -567,9 +575,9 @@ higher coordinates quality.
 \cgalFigureEnd
 
 From all this follows, that any exact `Kernel` will be rejected and it is not possible
-to compute analytic harmonic weights. However, once the coordinates computed at the
+to compute analytic harmonic weights. However, once the coordinates are computed at the
 vertices of the triangulation, they can be evaluated analytically at any interior
-query point. To do that, we first locate a triangle that contains the query point
+query point. For evaluation, we first locate a triangle that contains the query point
 and then linearly interpolate harmonic coordinates defined at the vertices of this
 triangle to the query point with the help of \ref gbc_deg_triangular_coordinates "triangle coordinates" as
 
@@ -585,11 +593,10 @@ are the harmonic coordinates pre-computed at the triangle vertices.
 
 \section gbc_performance Performance
 
-We strive for robustness and efficiency at the same time. The efficiency is especially important.
+We strive for robustness and efficiency at the same time. Efficiency is especially important.
 These coordinates are used in many applications where they must be computed for millions of points
-and, thus, the real time computation of coordinates is crucial. When writing the code,
-we tried to fulfill this important requirement. In this section, we present a few results
-about the computation running times of the implemented algorithms.
+and, thus, the real time computation of coordinates has been made possible. In this section,
+we present next the computation runtimes of the implemented algorithms.
 
 The structure of the speed test that we use to evaluate the running times consists
 of computing coordinate values (or weights) at >= 1 million strictly interior points
@@ -597,7 +604,7 @@ with respect to a polygon (or triangle, or segment). At each iteration of the lo
 we create a query point and compute its coordinates. We run this loop 10 times in a row,
 and the time presented in the log-log scale plot at the end of the section is the arithmetic
 mean of all trials. The time presented in the plot is for analytic coordinates only since
-harmonic coordinates of a reasonable (application-dependent) quality are much slower to
+harmonic coordinates of a reasonable (application-dependent) quality are substantially slower to
 compute and cannot be fairly compared to the analytic coordinate functions.
 
 The time to compute coordinates depends on many factors such as memory allocation, input kernel, output container,
@@ -616,13 +623,13 @@ the max precision \f$0(n^2)\f$ algorithms (solid) for Wachspress (blue), discret
 harmonic (red), and mean value (green) coordinates.
 \cgalFigureEnd
 
-From the figure above it is easy to see that the \f$O(n^2)\f$ algorithm is as fast
+From the figure above we observe that the \f$O(n^2)\f$ algorithm is as fast
 as the \f$O(n)\f$ algorithm if we have a polygon with a small number of vertices.
 But as the number of vertices is increased, the linear algorithm outperforms the squared one,
 as expected. One of the reasons for this behavior is that for a small number of vertices
 the multiplications of \f$n-2\f$ elements inside the \f$O(n^2)\f$ algorithm take almost the
 same time as the corresponding divisions in the \f$O(n)\f$ algorithm. For a polygon with
-many vertices, these multiplications are much slower.
+many vertices, these multiplications are substantially slower.
 
 To benchmark harmonic coordinates, we used a MacBook Pro 2018 with 2.2 GHz Intel Core i7 processor (6 cores)
 and 32 GB 2400 MHz DDR4 memory. The installed operating system was OS X 10.15 Catalina.
