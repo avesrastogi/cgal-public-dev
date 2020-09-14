@@ -25,8 +25,8 @@ public:
 		type <a href="http://en.cppreference.com/w/cpp/container/vector">`std::vector`</a>.
 	*/
 	BarycentricCoordinates_2(
-		const std::vector<Traits::Point_2> &vertices,
-		const Traits &barycentric_traits) {
+		const std::vector<Traits::Point_2>& vertices,
+		const Traits& barycentric_traits) {
 
 	}
 
@@ -43,8 +43,8 @@ public:
 	*/
 	boost::optional<OutputIterator>
 	weights(
-		const Traits::Point_2 &query_point,
-		OutputIterator &output) {
+		const Traits::Point_2& query_point,
+		OutputIterator& output) {
 
 	}
 
@@ -57,8 +57,8 @@ public:
 	*/
 	boost::optional<OutputIterator>
 	coordinates_on_bounded_side(
-		const Traits::Point_2 &query_point,
-		OutputIterator &output,
+		const Traits::Point_2& query_point,
+		OutputIterator& output,
 		const Type_of_algorithm type_of_algorithm) {
 
 	}
@@ -72,8 +72,8 @@ public:
 	*/
 	boost::optional<OutputIterator>
 	coordinates_on_unbounded_side(
-		const Traits::Point_2 &query_point,
-		OutputIterator &output,
+		const Traits::Point_2& query_point,
+		OutputIterator& output,
 		const Type_of_algorithm type_of_algorithm) {
 
 	}

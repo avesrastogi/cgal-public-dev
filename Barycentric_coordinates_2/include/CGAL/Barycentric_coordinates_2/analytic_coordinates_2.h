@@ -72,7 +72,7 @@ namespace Barycentric_coordinates {
     An instance of `GeomTraits`.
 
     \return an output iterator to the element in the destination range,
-    one past the last coordinate stored.
+    one past the last coordinate stored
 
     \pre p0 != p1
   */
@@ -84,7 +84,7 @@ namespace Barycentric_coordinates {
     const typename GeomTraits::Point_2& p1,
     const typename GeomTraits::Point_2& query,
     OutputIterator c_begin,
-    const GeomTraits traits) {
+    const GeomTraits& traits) {
 
     return internal::linear_coordinates_2(
       p0, p1, query, c_begin, traits);
@@ -126,7 +126,7 @@ namespace Barycentric_coordinates {
     The beginning of the destination range with the computed coordinates.
 
     \return an output iterator to the element in the destination range,
-    one past the last coordinate stored.
+    one past the last coordinate stored
 
     \pre p0 != p1
   */
@@ -174,7 +174,7 @@ namespace Barycentric_coordinates {
     An instance of `GeomTraits`.
 
     \return a pair `std::pair<GeomTraits::FT, GeomTraits::FT>`
-    with the computed coordinates.
+    with the computed coordinates
 
     \pre p0 != p1
   */
@@ -186,7 +186,7 @@ namespace Barycentric_coordinates {
     const typename GeomTraits::Point_2& p0,
     const typename GeomTraits::Point_2& p1,
     const typename GeomTraits::Point_2& query,
-    const GeomTraits traits) {
+    const GeomTraits& traits) {
 
     using FT = typename GeomTraits::FT;
     std::vector<FT> coordinates;
@@ -226,7 +226,7 @@ namespace Barycentric_coordinates {
     A query point.
 
     \return a pair `std::pair<FT, FT>` with the computed coordinates, where
-    `FT = Kernel_traits<Point_2>::Kernel::FT`.
+    `FT = Kernel_traits<Point_2>::Kernel::FT`
 
     \pre p0 != p1
   */
@@ -283,7 +283,7 @@ namespace Barycentric_coordinates {
     An instance of `GeomTraits`.
 
     \return an output iterator to the element in the destination range,
-    one past the last coordinate stored.
+    one past the last coordinate stored
 
     \pre area_2(p0, p1, p2) != 0
   */
@@ -296,7 +296,7 @@ namespace Barycentric_coordinates {
     const typename GeomTraits::Point_2& p2,
     const typename GeomTraits::Point_2& query,
     OutputIterator c_begin,
-    const GeomTraits traits) {
+    const GeomTraits& traits) {
 
     return internal::planar_coordinates_2(
       p0, p1, p2, query, c_begin, traits);
@@ -340,7 +340,7 @@ namespace Barycentric_coordinates {
     The beginning of the destination range with the computed coordinates.
 
     \return an output iterator to the element in the destination range,
-    one past the last coordinate stored.
+    one past the last coordinate stored
 
     \pre area_2(p0, p1, p2) != 0
   */
@@ -391,7 +391,7 @@ namespace Barycentric_coordinates {
     An instance of `GeomTraits`.
 
     \return a tuple `std::tuple<GeomTraits::FT, GeomTraits::FT, GeomTraits::FT>`
-    with the computed coordinates.
+    with the computed coordinates
 
     \pre area_2(p0, p1, p2) != 0
   */
@@ -405,7 +405,7 @@ namespace Barycentric_coordinates {
     const typename GeomTraits::Point_2& p1,
     const typename GeomTraits::Point_2& p2,
     const typename GeomTraits::Point_2& query,
-    const GeomTraits traits) {
+    const GeomTraits& traits) {
 
     using FT = typename GeomTraits::FT;
     std::vector<FT> coordinates;
@@ -447,7 +447,7 @@ namespace Barycentric_coordinates {
     A query point.
 
     \return a tuple `std::tuple<FT, FT, FT>` with the computed coordinates, where
-    `FT = Kernel_traits<Point_2>::Kernel::FT`.
+    `FT = Kernel_traits<Point_2>::Kernel::FT`
 
     \pre area_2(p0, p1, p2) != 0
   */
@@ -515,7 +515,7 @@ namespace Barycentric_coordinates {
 
     \return an output iterator to the element in the destination range,
     one past the last coordinate stored + the flag indicating whether the
-    query point belongs to the polygon boundary.
+    query point belongs to the polygon boundary
 
     \pre polygon.size() >= 3
   */
@@ -528,7 +528,7 @@ namespace Barycentric_coordinates {
     const PointRange& polygon,
     const typename GeomTraits::Point_2& query,
     OutputIterator c_begin,
-    const GeomTraits traits,
+    const GeomTraits& traits,
     const VertexMap vertex_map) {
 
     const auto result =
@@ -591,7 +591,7 @@ namespace Barycentric_coordinates {
 
     \return an output iterator to the element in the destination range,
     one past the last coordinate stored + the flag indicating whether the
-    query point belongs to the polygon boundary.
+    query point belongs to the polygon boundary
 
     \pre polygon.size() >= 3
   */
@@ -653,7 +653,7 @@ namespace Barycentric_coordinates {
     The default is `CGAL::Barycentric_coordinates::Computation_policy_2::FAST_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
-    one past the last weight stored.
+    one past the last weight stored
 
     \pre polygon.size() >= 3
     \pre polygon is simple
@@ -667,7 +667,7 @@ namespace Barycentric_coordinates {
     const PointRange& polygon,
     const typename GeomTraits::Point_2& query,
     OutputIterator w_begin,
-    const GeomTraits traits,
+    const GeomTraits& traits,
     const Computation_policy_2 policy =
     Computation_policy_2::FAST_WITH_EDGE_CASES) {
 
@@ -714,7 +714,7 @@ namespace Barycentric_coordinates {
     The default is `CGAL::Barycentric_coordinates::Computation_policy_2::FAST_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
-    one past the last weight stored.
+    one past the last weight stored
 
     \pre polygon.size() >= 3
     \pre polygon is simple
@@ -778,7 +778,7 @@ namespace Barycentric_coordinates {
     The default is `CGAL::Barycentric_coordinates::Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
-    one past the last coordinate stored.
+    one past the last coordinate stored
 
     \pre polygon.size() >= 3
     \pre polygon is simple
@@ -792,7 +792,7 @@ namespace Barycentric_coordinates {
     const PointRange& polygon,
     const typename GeomTraits::Point_2& query,
     OutputIterator c_begin,
-    const GeomTraits traits,
+    const GeomTraits& traits,
     const Computation_policy_2 policy =
     Computation_policy_2::PRECISE_WITH_EDGE_CASES) {
 
@@ -839,7 +839,7 @@ namespace Barycentric_coordinates {
     The default is `CGAL::Barycentric_coordinates::Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
-    one past the last coordinate stored.
+    one past the last coordinate stored
 
     \pre polygon.size() >= 3
     \pre polygon is simple
@@ -903,7 +903,7 @@ namespace Barycentric_coordinates {
     The default is `CGAL::Barycentric_coordinates::Computation_policy_2::FAST_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
-    one past the last weight stored.
+    one past the last weight stored
 
     \pre polygon.size() >= 3
     \pre polygon is simple
@@ -917,7 +917,7 @@ namespace Barycentric_coordinates {
     const PointRange& polygon,
     const typename GeomTraits::Point_2& query,
     OutputIterator w_begin,
-    const GeomTraits traits,
+    const GeomTraits& traits,
     const Computation_policy_2 policy =
     Computation_policy_2::FAST_WITH_EDGE_CASES) {
 
@@ -964,7 +964,7 @@ namespace Barycentric_coordinates {
     The default is `CGAL::Barycentric_coordinates::Computation_policy_2::FAST_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
-    one past the last weight stored.
+    one past the last weight stored
 
     \pre polygon.size() >= 3
     \pre polygon is simple
@@ -1028,7 +1028,7 @@ namespace Barycentric_coordinates {
     The default is `CGAL::Barycentric_coordinates::Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
-    one past the last coordinate stored.
+    one past the last coordinate stored
 
     \pre polygon.size() >= 3
     \pre polygon is simple
@@ -1042,7 +1042,7 @@ namespace Barycentric_coordinates {
     const PointRange& polygon,
     const typename GeomTraits::Point_2& query,
     OutputIterator c_begin,
-    const GeomTraits traits,
+    const GeomTraits& traits,
     const Computation_policy_2 policy =
     Computation_policy_2::PRECISE_WITH_EDGE_CASES) {
 
@@ -1089,7 +1089,7 @@ namespace Barycentric_coordinates {
     The default is `CGAL::Barycentric_coordinates::Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
-    one past the last coordinate stored.
+    one past the last coordinate stored
 
     \pre polygon.size() >= 3
     \pre polygon is simple
@@ -1153,7 +1153,7 @@ namespace Barycentric_coordinates {
     The default is `CGAL::Barycentric_coordinates::Computation_policy_2::FAST_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
-    one past the last weight stored.
+    one past the last weight stored
 
     \pre polygon.size() >= 3
     \pre polygon is simple
@@ -1166,7 +1166,7 @@ namespace Barycentric_coordinates {
     const PointRange& polygon,
     const typename GeomTraits::Point_2& query,
     OutputIterator w_begin,
-    const GeomTraits traits,
+    const GeomTraits& traits,
     const Computation_policy_2 policy =
     Computation_policy_2::FAST_WITH_EDGE_CASES) {
 
@@ -1213,7 +1213,7 @@ namespace Barycentric_coordinates {
     The default is `CGAL::Barycentric_coordinates::Computation_policy_2::FAST_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
-    one past the last weight stored.
+    one past the last weight stored
 
     \pre polygon.size() >= 3
     \pre polygon is simple
@@ -1276,7 +1276,7 @@ namespace Barycentric_coordinates {
     The default is `CGAL::Barycentric_coordinates::Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
-    one past the last coordinate stored.
+    one past the last coordinate stored
 
     \pre polygon.size() >= 3
     \pre polygon is simple
@@ -1289,7 +1289,7 @@ namespace Barycentric_coordinates {
     const PointRange& polygon,
     const typename GeomTraits::Point_2& query,
     OutputIterator c_begin,
-    const GeomTraits traits,
+    const GeomTraits& traits,
     const Computation_policy_2 policy =
     Computation_policy_2::PRECISE_WITH_EDGE_CASES) {
 
@@ -1336,7 +1336,7 @@ namespace Barycentric_coordinates {
     The default is `CGAL::Barycentric_coordinates::Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
-    one past the last coordinate stored.
+    one past the last coordinate stored
 
     \pre polygon.size() >= 3
     \pre polygon is simple

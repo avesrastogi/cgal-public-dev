@@ -164,7 +164,7 @@ namespace Barycentric_coordinates {
       The beginning of the destination range with the computed weights.
 
       \return an output iterator to the element in the destination range,
-      one past the last weight stored.
+      one past the last weight stored
     */
     template<typename OutputIterator>
     OutputIterator weights(
@@ -197,7 +197,7 @@ namespace Barycentric_coordinates {
       The beginning of the destination range with the computed coordinates.
 
       \return an output iterator to the element in the destination range,
-      one past the last coordinate stored.
+      one past the last coordinate stored
     */
     template<typename OutputIterator>
     OutputIterator operator()(

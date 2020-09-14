@@ -180,7 +180,7 @@ namespace Barycentric_coordinates {
       The beginning of the destination range with the computed barycenters.
 
       \return an output iterator to the element in the destination range,
-      one past the last barycenter stored.
+      one past the last barycenter stored
     */
     template<typename OutputIterator>
     OutputIterator barycenters(

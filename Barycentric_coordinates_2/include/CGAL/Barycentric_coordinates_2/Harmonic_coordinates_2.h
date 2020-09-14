@@ -185,7 +185,7 @@ namespace Barycentric_coordinates {
       The beginning of the destination range with the computed coordinates.
 
       \return an output iterator to the element in the destination range,
-      one past the last coordinate stored.
+      one past the last coordinate stored
     */
     template<typename OutputIterator>
     OutputIterator operator()(
@@ -275,7 +275,7 @@ namespace Barycentric_coordinates {
       The beginning of the destination range with the computed coordinates.
 
       \return an output iterator to the element in the destination range,
-      one past the last coordinate stored.
+      one past the last coordinate stored
 
       \pre query >= 0 && query < domain.number_of_vertices()
     */

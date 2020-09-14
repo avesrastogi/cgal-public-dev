@@ -171,7 +171,7 @@ namespace internal {
     const typename GeomTraits::Point_2& target,
     const typename GeomTraits::Point_2& query,
     OutputIterator coordinates,
-    const GeomTraits traits) {
+    const GeomTraits& traits) {
 
     CGAL_precondition(source != target);
     if (source == target) {
@@ -211,7 +211,7 @@ namespace internal {
     const typename GeomTraits::Point_2& p2,
     const typename GeomTraits::Point_2& query,
     OutputIterator coordinates,
-    const GeomTraits traits) {
+    const GeomTraits& traits) {
 
     // Number type.
     using FT = typename GeomTraits::FT;
@@ -255,7 +255,7 @@ namespace internal {
   get_edge_index_approximate(
     const Polygon& polygon,
     const typename GeomTraits::Point_2& query,
-    const GeomTraits traits,
+    const GeomTraits& traits,
     const VertexMap vertex_map) {
 
     using FT = typename GeomTraits::FT;
@@ -303,7 +303,7 @@ namespace internal {
   get_edge_index_exact(
     const Polygon& polygon,
     const typename GeomTraits::Point_2& query,
-    const GeomTraits traits,
+    const GeomTraits& traits,
     const VertexMap vertex_map) {
 
     const auto collinear_2 = traits.collinear_2_object();
@@ -372,7 +372,7 @@ namespace internal {
   Edge_case bounded_side_2(
     const Polygon& polygon,
     const typename GeomTraits::Point_2& query,
-    const GeomTraits traits,
+    const GeomTraits& traits,
     const VertexMap vertex_map) {
 
     const auto first = polygon.begin();
@@ -487,7 +487,7 @@ namespace internal {
   locate_wrt_polygon_2(
     const Polygon& polygon,
     const typename GeomTraits::Point_2& query,
-    const GeomTraits traits,
+    const GeomTraits& traits,
     const VertexMap vertex_map) {
 
     const Edge_case type = bounded_side_2(
@@ -515,7 +515,7 @@ namespace internal {
   typename VertexMap>
   bool is_convex_2(
     const Polygon& polygon,
-    const GeomTraits traits,
+    const GeomTraits& traits,
     const VertexMap vertex_map) {
 
     auto first = polygon.begin();
@@ -602,7 +602,7 @@ namespace internal {
   typename VertexMap>
   Polygon_type polygon_type_2(
     const Polygon& polygon,
-    const GeomTraits traits,
+    const GeomTraits& traits,
     const VertexMap vertex_map) {
 
     using Point_2 = typename GeomTraits::Point_2;
@@ -643,7 +643,7 @@ namespace internal {
     const Polygon& polygon,
     const typename GeomTraits::Point_2& query,
     OutputIterator coordinates,
-    const GeomTraits traits,
+    const GeomTraits& traits,
     const VertexMap vertex_map) {
 
     using FT = typename GeomTraits::FT;
@@ -679,7 +679,7 @@ namespace internal {
     const Query_point_location location,
     const std::size_t index,
     OutputIterator coordinates,
-    const GeomTraits traits,
+    const GeomTraits& traits,
     const VertexMap vertex_map) {
 
     using FT = typename GeomTraits::FT;
@@ -732,7 +732,7 @@ namespace internal {
   typename GeomTraits::FT cotangent_2(
     const typename GeomTraits::Vector_2& v1,
     const typename GeomTraits::Vector_2& v2,
-    const GeomTraits traits) {
+    const GeomTraits& traits) {
 
     using FT = typename GeomTraits::FT;
     const auto cross_product_2 = traits.compute_determinant_2_object();
@@ -754,7 +754,7 @@ namespace internal {
   typename VertexMap>
   bool is_simple_2(
     const Polygon& polygon,
-    const GeomTraits traits,
+    const GeomTraits& traits,
     const VertexMap vertex_map) {
 
     const auto first = polygon.begin();
