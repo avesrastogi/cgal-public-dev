@@ -20,7 +20,7 @@ public:
 /// @{
 
 /*!
-	A model of `FieldNumberType`.
+  A model of `FieldNumberType`.
 */
 typedef unspecified_type FT;
 
@@ -30,17 +30,17 @@ typedef unspecified_type FT;
 /// @{
 
 /*!
-	A model of `Kernel::Point_3`.
+  A model of `Kernel::Point_3`.
 */
 typedef unspecified_type Point_3;
 
 /*!
-	A model of `Kernel::Vector_3`.
+  A model of `Kernel::Vector_3`.
 */
 typedef unspecified_type Vector_3;
 
 /*!
-	A model of `Kernel::Angle_3`.
+  A model of `Kernel::Angle_3`.
 */
 typedef unspecified_type Angle_3;
 
@@ -106,7 +106,7 @@ typedef unspecified_type Construct_vector_3;
 /*!
   A construction object that must provide the function operator:
 
-	`%Point_3 operator()(const Point_3& p, const Point_3& q)`
+  `%Point_3 operator()(const Point_3& p, const Point_3& q)`
 
   that returns the midpoint between the points `p` and `q`.
 */
@@ -115,7 +115,7 @@ typedef unspecified_type Construct_midpoint_3;
 /*!
   A construction object that must provide two function operators:
 
-	`%Point_3 operator()(const Point_3& p, const Point_3& q, const Point_3& r)`
+  `%Point_3 operator()(const Point_3& p, const Point_3& q, const Point_3& r)`
 
   that returns the centroid of the points `p`, `q`, and `r` and
 
