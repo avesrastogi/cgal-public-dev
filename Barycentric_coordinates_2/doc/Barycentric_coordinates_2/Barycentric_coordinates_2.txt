@@ -1,6 +1,7 @@
 namespace CGAL {
-/*!
+namespace Barycentric_coordinates {
 
+/*!
 \mainpage User Manual
 \anchor Chapter_2D_Generalized_Barycentric_Coordinates
 \cgalAutoToc
@@ -46,7 +47,7 @@ they can be evaluated analytically at any point inside the polygon.
 For all analytic coordinates, we provide two algorithms. One has a linear time complexity,
 but may suffer imprecisions near the polygon boundary, while the second one is precise
 but has a quadratic time complexity. The user can choose the preferred algorithm by
-specifying a computation policy `CGAL::Barycentric_coordinates::Computation_policy_2`.
+specifying a computation policy `Computation_policy_2`.
 
 All analytic barycentric coordinates for polygons can be computed either by instantiating a class
 or through one of the free functions. Harmonic coordinates can be computed only by
@@ -145,7 +146,7 @@ with a basic usage of different barycentric components.
 
 \subsection seg_example Segment Coordinates
 
-This example illustrates the use of the global function `CGAL::Barycentric_coordinates::segment_coordinates_2()`.
+This example illustrates the use of the global function `segment_coordinates_2()`.
 We compute coordinates at three green points along the segment \f$[v_0, v_1]\f$ and at two blue points outside this segment
 but along its supporting line. The symmetry of the query points helps recognizing errors that
 may have occurred during construction of the example. The used `Kernel` is exact.
@@ -160,7 +161,7 @@ Example's point pattern.
 
 \subsection tri_example Triangle Coordinates
 
-In this example, we show how to use the global function `CGAL::Barycentric_coordinates::triangle_coordinates_2()`.
+In this example, we show how to use the global function `triangle_coordinates_2()`.
 We compute coordinates for three sets of points: interior (green), boundary (red), and exterior (blue).
 Note that some of the coordinate values for the exterior points are negative.
 The used `Kernel` is inexact.
@@ -193,7 +194,7 @@ In this example, we compute discrete harmonic coordinates for a set of green (in
 red (boundary), and blue (exterior) points with respect to a unit square. We also demonstrate
 the use of various containers, both random access and serial access, different property maps,
 and the ability to choose a computation policy. For points on the polygon boundary,
-we use the free function `CGAL::Barycentric_coordinates::boundary_coordinates_2()`.
+we use the free function `boundary_coordinates_2()`.
 The used `Kernel` is exact.
 
 \anchor dh_coord_example
@@ -211,7 +212,7 @@ in a star-shaped polygon. We note that this type of coordinates is well-defined 
 while Wachspress and discrete harmonic coordinates are not. However, it may yield negative
 coordinate values for points outside <a href="https://en.wikipedia.org/wiki/Star-shaped_polygon">the polygon's kernel</a>
 (shown in red). We speed up the computation using the linear time complexity algorithm by specifying
-a computation policy `CGAL::Barycentric_coordinates::Computation_policy_2`. The used `Kernel` is inexact.
+a computation policy `Computation_policy_2`. The used `Kernel` is inexact.
 
 \anchor mv_coord_example
 \cgalFigureBegin{mv_example, mv_coord_example.svg}
@@ -233,7 +234,7 @@ at this barycenter. Since harmonic coordinates can only be approximated, the use
 \cgalExample{Barycentric_coordinates_2/harmonic_coordinates.cpp}
 
 
-\subsection height_inter_example Height Interpolation for Terrain Modeling
+\subsection height_inter_example Terrain Modeling
 
 This is an advanced example that illustrates how to use generalized barycentric coordinates
 for height interpolation with applications to terrain modeling. It also shows how to use
@@ -250,7 +251,7 @@ A 2D polygon with 50 vertices representing a piece of terrain with convex and co
 \cgalFigureEnd
 
 In this example, we project a 3D polygon orthogonally onto the 2D plane using the class
-`CGAL::Projection_traits_xy_3`, triangulate its interior using the class `CGAL::Barycentric_coordinates::Delaunay_domain_2`,
+`CGAL::Projection_traits_xy_3`, triangulate its interior using the class `Delaunay_domain_2`,
 and compute mean value coordinates at the vertices of this triangulation with respect to the polygon vertices.
 Finally, we interpolate the height data from the polygon boundary to its interior
 using the computed coordinates and the global interpolation function from the
@@ -266,19 +267,30 @@ The interpolated data. The color bar represents the corresponding height.
 \cgalFigureEnd
 
 
-\subsection af_example Affine Coordinates
-This is another advanced example, where we show how a
+\subsection shape_deform_example Shape Deformation
+This is another advanced example that shows how to use generalized barycentric coordinates
+in order to deform a given 2D shape into another shape. If the chosen coordinates
+are negative inside a polygon, the deformed shape may fold over the polygon boundary.
+That is why we use harmonic coordinates, which are guaranteed to be positive inside any
+simple polygon.
+
+\anchor deformation_example
+\cgalExample{Barycentric_coordinates_2/shape_deformation.cpp}
+
+
+\subsection aff_example Affine Coordinates
+This is an example, where we show how a
 <a href="https://en.cppreference.com/w/cpp/language/lambda">lambda expression</a>
 can be used to define a model of generalized barycentric coordinates. To make this example
 useful, we implement affine generalized coordinates for a set of scattered points.
 The used `Kernel` is inexact.
 
-\anchor aff_coord_example
+\anchor aff_coord_example_fig
 \cgalFigureBegin{aff_example, aff_coord_example.svg}
 Example's point pattern.
 \cgalFigureEnd
 
-\anchor af_coord_example
+\anchor aff_coord_example
 \cgalExample{Barycentric_coordinates_2/affine_coordinates.cpp}
 
 
@@ -387,7 +399,7 @@ the coordinates can also be computed but not everywhere (see below for more deta
 the resulting precision of the computation is due to the involved algorithm and a chosen number type.
 In the following paragraph, we discuss two available algorithms for computing Wachspress coordinates
 when an inexact number type is used. The chosen algorithm is specified by a computation policy
-`CGAL::Barycentric_coordinates::Computation_policy_2`.
+`Computation_policy_2`.
 
 \anchor wp_polygon
 \cgalFigureBegin{wp_notations, wp_notations.svg}
@@ -817,4 +829,6 @@ and Randolf Schaerfig for helpful comments and discussions. We also appreciate t
 great effort invested in this package by our reviewers Andreas Fabri, Sébastien Loriot,
 and Efi Fogel.
 */
-}
+
+} /* namespace Barycentric_coordinates */
+} /* namespace CGAL */

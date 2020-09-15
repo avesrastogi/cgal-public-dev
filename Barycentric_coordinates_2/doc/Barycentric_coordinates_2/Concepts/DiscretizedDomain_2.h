@@ -1,3 +1,6 @@
+namespace CGAL {
+namespace Barycentric_coordinates {
+
 /*!
 \ingroup PkgBarycentricCoordinates2RefConcepts
 \cgalConcept
@@ -11,7 +14,7 @@ used to approximate certain types of generalized barycentric coordinate function
 The domain is bounded by the polygon.
 
 \cgalHasModel
-`CGAL::Barycentric_coordinates::Delaunay_domain_2`
+- `Delaunay_domain_2`
 */
 class DiscretizedDomain_2 {
 
@@ -64,3 +67,6 @@ public:
 
   }
 };
+
+} // namespace Barycentric_coordinates
+} // namespace CGAL

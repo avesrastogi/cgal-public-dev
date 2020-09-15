@@ -24,6 +24,8 @@ if(CGAL_FOUND)
     "discrete_harmonic_coordinates.cpp")
   create_single_source_cgal_program(
     "terrain_height_modeling.cpp")
+  create_single_source_cgal_program(
+    "shape_deformation.cpp")
   # create_single_source_cgal_program(
   #   "deprecated_coordinates.cpp")
 

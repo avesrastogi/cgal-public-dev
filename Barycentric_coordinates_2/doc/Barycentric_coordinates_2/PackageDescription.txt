@@ -1,3 +1,6 @@
+namespace CGAL {
+namespace Barycentric_coordinates {
+
 /*!
 \defgroup PkgBarycentricCoordinates2Ref 2D Generalized Barycentric Coordinates Reference
 
@@ -33,10 +36,10 @@ Deprecated classes and functions.
 
 \cgalPkgSummaryBegin
 \cgalPkgAuthors{Dmitry Anisimov, David Bommes, Kai Hormann, and Pierre Alliez}
-\cgalPkgDesc{This package offers an efficient and
-robust implementation of 2D generalized barycentric coordinates defined for simple 2D
-polygons. If coordinates with respect to multivariate scattered points instead of a polygon
-are required, please refer to natural neighbor coordinates from the Package \ref PkgInterpolation2.}
+\cgalPkgDesc{This package offers an efficient and robust implementation of 2D generalized barycentric
+coordinates defined for simple polygons in the plane. If coordinates with respect to multivariate
+scattered points instead of a polygon are required, please refer to natural neighbor
+coordinates from the Package \ref PkgInterpolation2.}
 \cgalPkgManuals{Chapter_2D_Generalized_Barycentric_Coordinates, PkgBarycentricCoordinates2Ref}
 \cgalPkgSummaryEnd
 
@@ -53,25 +56,25 @@ are required, please refer to natural neighbor coordinates from the Package \ref
 - `BarycentricTraits_2`
 - `DiscretizedDomain_2`
 
-## Enumerations ##
-- `CGAL::Barycentric_coordinates::Computation_policy_2`
-
 ## Analytic Coordinates ##
-- `CGAL::Barycentric_coordinates::Wachspress_coordinates_2<Polygon, GeomTraits, VertexMap>`
-- `CGAL::Barycentric_coordinates::Mean_value_coordinates_2<Polygon, GeomTraits, VertexMap>`
-- `CGAL::Barycentric_coordinates::Discrete_harmonic_coordinates_2<Polygon, GeomTraits, VertexMap>`
+- `Wachspress_coordinates_2<Polygon, GeomTraits, VertexMap>`
+- `Mean_value_coordinates_2<Polygon, GeomTraits, VertexMap>`
+- `Discrete_harmonic_coordinates_2<Polygon, GeomTraits, VertexMap>`
 
 ## Harmonic Coordinates ##
-- `CGAL::Barycentric_coordinates::Delaunay_domain_2<Polygon, GeomTraits, VertexMap>`
-- `CGAL::Barycentric_coordinates::Harmonic_coordinates_2<Polygon, Domain, GeomTraits, VertexMap>`
+- `Delaunay_domain_2<Polygon, GeomTraits, VertexMap>`
+- `Harmonic_coordinates_2<Polygon, Domain, GeomTraits, VertexMap>`
 
 ## Free Functions ##
-- `CGAL::Barycentric_coordinates::segment_coordinates_2()`
-- `CGAL::Barycentric_coordinates::triangle_coordinates_2()`
-- `CGAL::Barycentric_coordinates::wachspress_weights_2()`
-- `CGAL::Barycentric_coordinates::wachspress_coordinates_2()`
-- `CGAL::Barycentric_coordinates::mean_value_weights_2()`
-- `CGAL::Barycentric_coordinates::mean_value_coordinates_2()`
-- `CGAL::Barycentric_coordinates::discrete_harmonic_weights_2()`
-- `CGAL::Barycentric_coordinates::discrete_harmonic_coordinates_2()`
+- `segment_coordinates_2()`
+- `triangle_coordinates_2()`
+- `wachspress_weights_2()`
+- `wachspress_coordinates_2()`
+- `mean_value_weights_2()`
+- `mean_value_coordinates_2()`
+- `discrete_harmonic_weights_2()`
+- `discrete_harmonic_coordinates_2()`
 */
+
+} /* namespace Barycentric_coordinates */
+} /* namespace CGAL */

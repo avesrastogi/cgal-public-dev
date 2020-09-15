@@ -486,7 +486,7 @@ namespace Barycentric_coordinates {
     coordinates are segment coordinates, while all other coordinates are set to zero.
     If `query` is not on the boundary, all the coordinates are set to zero.
 
-    Internally, `CGAL::Barycentric_coordinates::segment_coordinates_2()` are used.
+    Internally, `segment_coordinates_2()` are used.
 
     \tparam PointRange
     a model of `ConstRange` whose iterator type is `RandomAccessIterator`
@@ -563,7 +563,7 @@ namespace Barycentric_coordinates {
     coordinates are segment coordinates, while all other coordinates are set to zero.
     If `query` is not on the boundary, all the coordinates are set to zero.
 
-    Internally, `CGAL::Barycentric_coordinates::segment_coordinates_2()` are used.
+    Internally, `segment_coordinates_2()` are used.
 
     This function infers a traits class from the `Point_2` class.
 
@@ -626,11 +626,12 @@ namespace Barycentric_coordinates {
     weight per vertex. The weights are stored in a destination range
     beginning at `w_begin`.
 
-    Internally, the class `CGAL::Barycentric_coordinates::Wachspress_coordinates_2` is used.
-    If one needs a flexible API, please refer to that class. If you want to handle
-    multiple query points, you better use that class, too. When using this function,
+    Internally, the class `Wachspress_coordinates_2` is used. If one wants to process
+    multiple query points, it is better to use that class. When using the free function,
     internal memory is allocated for each query point, while when using the class,
-    it is allocated only once, which is much more efficient.
+    it is allocated only once, which is much more efficient. However, for a few query
+    points, it is easier to use this function. It can also be used when the processing
+    time is not a concern.
 
     \tparam PointRange
     a model of `ConstRange` whose iterator type is `RandomAccessIterator`
@@ -654,8 +655,8 @@ namespace Barycentric_coordinates {
     an instance of `GeomTraits` with geometric traits
 
     \param policy
-    one of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
-    The default is `CGAL::Barycentric_coordinates::Computation_policy_2::FAST_WITH_EDGE_CASES`.
+    one of the `Computation_policy_2`.
+    The default is `Computation_policy_2::FAST_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
     one past the last weight stored
@@ -691,11 +692,12 @@ namespace Barycentric_coordinates {
     weight per vertex. The weights are stored in a destination range
     beginning at `w_begin`.
 
-    Internally, the class `CGAL::Barycentric_coordinates::Wachspress_coordinates_2` is used.
-    If one needs a flexible API, please refer to that class. If you want to handle
-    multiple query points, you better use that class, too. When using this function,
+    Internally, the class `Wachspress_coordinates_2` is used. If one wants to process
+    multiple query points, it is better to use that class. When using the free function,
     internal memory is allocated for each query point, while when using the class,
-    it is allocated only once, which is much more efficient.
+    it is allocated only once, which is much more efficient. However, for a few query
+    points, it is easier to use this function. It can also be used when the processing
+    time is not a concern.
 
     This function infers a traits class from the `Point_2` class.
 
@@ -715,8 +717,8 @@ namespace Barycentric_coordinates {
     the beginning of the destination range with the computed weights
 
     \param policy
-    one of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
-    The default is `CGAL::Barycentric_coordinates::Computation_policy_2::FAST_WITH_EDGE_CASES`.
+    one of the `Computation_policy_2`.
+    The default is `Computation_policy_2::FAST_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
     one past the last weight stored
@@ -752,11 +754,12 @@ namespace Barycentric_coordinates {
     coordinate per vertex. The coordinates are stored in a destination range
     beginning at `c_begin`.
 
-    Internally, the class `CGAL::Barycentric_coordinates::Wachspress_coordinates_2` is used.
-    If one needs a flexible API, please refer to that class. If you want to handle
-    multiple query points, you better use that class, too. When using this function,
+    Internally, the class `Wachspress_coordinates_2` is used. If one wants to process
+    multiple query points, it is better to use that class. When using the free function,
     internal memory is allocated for each query point, while when using the class,
-    it is allocated only once, which is much more efficient.
+    it is allocated only once, which is much more efficient. However, for a few query
+    points, it is easier to use this function. It can also be used when the processing
+    time is not a concern.
 
     \tparam PointRange
     a model of `ConstRange` whose iterator type is `RandomAccessIterator`
@@ -780,8 +783,8 @@ namespace Barycentric_coordinates {
     an instance of `GeomTraits` with geometric traits
 
     \param policy
-    one of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
-    The default is `CGAL::Barycentric_coordinates::Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
+    one of the `Computation_policy_2`.
+    The default is `Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
     one past the last coordinate stored
@@ -817,11 +820,12 @@ namespace Barycentric_coordinates {
     coordinate per vertex. The coordinates are stored in a destination range
     beginning at `c_begin`.
 
-    Internally, the class `CGAL::Barycentric_coordinates::Wachspress_coordinates_2` is used.
-    If one needs a flexible API, please refer to that class. If you want to handle
-    multiple query points, you better use that class, too. When using this function,
+    Internally, the class `Wachspress_coordinates_2` is used. If one wants to process
+    multiple query points, it is better to use that class. When using the free function,
     internal memory is allocated for each query point, while when using the class,
-    it is allocated only once, which is much more efficient.
+    it is allocated only once, which is much more efficient. However, for a few query
+    points, it is easier to use this function. It can also be used when the processing
+    time is not a concern.
 
     This function infers a traits class from the `Point_2` class.
 
@@ -841,8 +845,8 @@ namespace Barycentric_coordinates {
     the beginning of the destination range with the computed coordinates
 
     \param policy
-    one of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
-    The default is `CGAL::Barycentric_coordinates::Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
+    one of the `Computation_policy_2`.
+    The default is `Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
     one past the last coordinate stored
@@ -878,11 +882,12 @@ namespace Barycentric_coordinates {
     weight per vertex. The weights are stored in a destination range
     beginning at `w_begin`.
 
-    Internally, the class `CGAL::Barycentric_coordinates::Discrete_harmonic_coordinates_2` is used.
-    If one needs a flexible API, please refer to that class. If you want to handle
-    multiple query points, you better use that class, too. When using this function,
+    Internally, the class `Discrete_harmonic_coordinates_2` is used. If one wants to process
+    multiple query points, it is better to use that class. When using the free function,
     internal memory is allocated for each query point, while when using the class,
-    it is allocated only once, which is much more efficient.
+    it is allocated only once, which is much more efficient. However, for a few query
+    points, it is easier to use this function. It can also be used when the processing
+    time is not a concern.
 
     \tparam PointRange
     a model of `ConstRange` whose iterator type is `RandomAccessIterator`
@@ -906,8 +911,8 @@ namespace Barycentric_coordinates {
     an instance of `GeomTraits` with geometric traits
 
     \param policy
-    one of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
-    The default is `CGAL::Barycentric_coordinates::Computation_policy_2::FAST_WITH_EDGE_CASES`.
+    one of the `Computation_policy_2`.
+    The default is `Computation_policy_2::FAST_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
     one past the last weight stored
@@ -943,11 +948,12 @@ namespace Barycentric_coordinates {
     weight per vertex. The weights are stored in a destination range
     beginning at `w_begin`.
 
-    Internally, the class `CGAL::Barycentric_coordinates::Discrete_harmonic_coordinates_2` is used.
-    If one needs a flexible API, please refer to that class. If you want to handle
-    multiple query points, you better use that class, too. When using this function,
+    Internally, the class `Discrete_harmonic_coordinates_2` is used. If one wants to process
+    multiple query points, it is better to use that class. When using the free function,
     internal memory is allocated for each query point, while when using the class,
-    it is allocated only once, which is much more efficient.
+    it is allocated only once, which is much more efficient. However, for a few query
+    points, it is easier to use this function. It can also be used when the processing
+    time is not a concern.
 
     This function infers a traits class from the `Point_2` class.
 
@@ -967,8 +973,8 @@ namespace Barycentric_coordinates {
     the beginning of the destination range with the computed weights
 
     \param policy
-    one of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
-    The default is `CGAL::Barycentric_coordinates::Computation_policy_2::FAST_WITH_EDGE_CASES`.
+    one of the `Computation_policy_2`.
+    The default is `Computation_policy_2::FAST_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
     one past the last weight stored
@@ -1004,11 +1010,12 @@ namespace Barycentric_coordinates {
     coordinate per vertex. The coordinates are stored in a destination range
     beginning at `c_begin`.
 
-    Internally, the class `CGAL::Barycentric_coordinates::Discrete_harmonic_coordinates_2` is used.
-    If one needs a flexible API, please refer to that class. If you want to handle
-    multiple query points, you better use that class, too. When using this function,
+    Internally, the class `Discrete_harmonic_coordinates_2` is used. If one wants to process
+    multiple query points, it is better to use that class. When using the free function,
     internal memory is allocated for each query point, while when using the class,
-    it is allocated only once, which is much more efficient.
+    it is allocated only once, which is much more efficient. However, for a few query
+    points, it is easier to use this function. It can also be used when the processing
+    time is not a concern.
 
     \tparam PointRange
     a model of `ConstRange` whose iterator type is `RandomAccessIterator`
@@ -1032,8 +1039,8 @@ namespace Barycentric_coordinates {
     an instance of `GeomTraits` with geometric traits
 
     \param policy
-    one of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
-    The default is `CGAL::Barycentric_coordinates::Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
+    one of the `Computation_policy_2`.
+    The default is `Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
     one past the last coordinate stored
@@ -1069,11 +1076,12 @@ namespace Barycentric_coordinates {
     coordinate per vertex. The coordinates are stored in a destination range
     beginning at `c_begin`.
 
-    Internally, the class `CGAL::Barycentric_coordinates::Discrete_harmonic_coordinates_2` is used.
-    If one needs a flexible API, please refer to that class. If you want to handle
-    multiple query points, you better use that class, too. When using this function,
+    Internally, the class `Discrete_harmonic_coordinates_2` is used. If one wants to process
+    multiple query points, it is better to use that class. When using the free function,
     internal memory is allocated for each query point, while when using the class,
-    it is allocated only once, which is much more efficient.
+    it is allocated only once, which is much more efficient. However, for a few query
+    points, it is easier to use this function. It can also be used when the processing
+    time is not a concern.
 
     This function infers a traits class from the `Point_2` class.
 
@@ -1093,8 +1101,8 @@ namespace Barycentric_coordinates {
     the beginning of the destination range with the computed coordinates
 
     \param policy
-    one of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
-    The default is `CGAL::Barycentric_coordinates::Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
+    one of the `Computation_policy_2`.
+    The default is `Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
     one past the last coordinate stored
@@ -1130,11 +1138,12 @@ namespace Barycentric_coordinates {
     weight per vertex. The weights are stored in a destination range
     beginning at `w_begin`.
 
-    Internally, the class `CGAL::Barycentric_coordinates::Mean_value_coordinates_2` is used.
-    If one needs a flexible API, please refer to that class. If you want to handle
-    multiple query points, you better use that class, too. When using this function,
+    Internally, the class `Mean_value_coordinates_2` is used. If one wants to process
+    multiple query points, it is better to use that class. When using the free function,
     internal memory is allocated for each query point, while when using the class,
-    it is allocated only once, which is much more efficient.
+    it is allocated only once, which is much more efficient. However, for a few query
+    points, it is easier to use this function. It can also be used when the processing
+    time is not a concern.
 
     \tparam PointRange
     a model of `ConstRange` whose iterator type is `RandomAccessIterator`
@@ -1158,8 +1167,8 @@ namespace Barycentric_coordinates {
     an instance of `GeomTraits` with geometric traits
 
     \param policy
-    one of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
-    The default is `CGAL::Barycentric_coordinates::Computation_policy_2::FAST_WITH_EDGE_CASES`.
+    one of the `Computation_policy_2`.
+    The default is `Computation_policy_2::FAST_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
     one past the last weight stored
@@ -1194,11 +1203,12 @@ namespace Barycentric_coordinates {
     weight per vertex. The weights are stored in a destination range
     beginning at `w_begin`.
 
-    Internally, the class `CGAL::Barycentric_coordinates::Mean_value_coordinates_2` is used.
-    If one needs a flexible API, please refer to that class. If you want to handle
-    multiple query points, you better use that class, too. When using this function,
+    Internally, the class `Mean_value_coordinates_2` is used. If one wants to process
+    multiple query points, it is better to use that class. When using the free function,
     internal memory is allocated for each query point, while when using the class,
-    it is allocated only once, which is much more efficient.
+    it is allocated only once, which is much more efficient. However, for a few query
+    points, it is easier to use this function. It can also be used when the processing
+    time is not a concern.
 
     This function infers a traits class from the `Point_2` class.
 
@@ -1218,8 +1228,8 @@ namespace Barycentric_coordinates {
     the beginning of the destination range with the computed weights
 
     \param policy
-    one of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
-    The default is `CGAL::Barycentric_coordinates::Computation_policy_2::FAST_WITH_EDGE_CASES`.
+    one of the `Computation_policy_2`.
+    The default is `Computation_policy_2::FAST_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
     one past the last weight stored
@@ -1254,11 +1264,12 @@ namespace Barycentric_coordinates {
     coordinate per vertex. The coordinates are stored in a destination range
     beginning at `c_begin`.
 
-    Internally, the class `CGAL::Barycentric_coordinates::Mean_value_coordinates_2` is used.
-    If one needs a flexible API, please refer to that class. If you want to handle
-    multiple query points, you better use that class, too. When using this function,
+    Internally, the class `Mean_value_coordinates_2` is used. If one wants to process
+    multiple query points, it is better to use that class. When using the free function,
     internal memory is allocated for each query point, while when using the class,
-    it is allocated only once, which is much more efficient.
+    it is allocated only once, which is much more efficient. However, for a few query
+    points, it is easier to use this function. It can also be used when the processing
+    time is not a concern.
 
     \tparam PointRange
     a model of `ConstRange` whose iterator type is `RandomAccessIterator`
@@ -1282,8 +1293,8 @@ namespace Barycentric_coordinates {
     an instance of `GeomTraits` with geometric traits
 
     \param policy
-    one of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
-    The default is `CGAL::Barycentric_coordinates::Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
+    one of the `Computation_policy_2`.
+    The default is `Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
     one past the last coordinate stored
@@ -1318,11 +1329,12 @@ namespace Barycentric_coordinates {
     coordinate per vertex. The coordinates are stored in a destination range
     beginning at `c_begin`.
 
-    Internally, the class `CGAL::Barycentric_coordinates::Mean_value_coordinates_2` is used.
-    If one needs a flexible API, please refer to that class. If you want to handle
-    multiple query points, you better use that class, too. When using this function,
+    Internally, the class `Mean_value_coordinates_2` is used. If one wants to process
+    multiple query points, it is better to use that class. When using the free function,
     internal memory is allocated for each query point, while when using the class,
-    it is allocated only once, which is much more efficient.
+    it is allocated only once, which is much more efficient. However, for a few query
+    points, it is easier to use this function. It can also be used when the processing
+    time is not a concern.
 
     This function infers a traits class from the `Point_2` class.
 
@@ -1342,8 +1354,8 @@ namespace Barycentric_coordinates {
     the beginning of the destination range with the computed coordinates
 
     \param policy
-    one of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
-    The default is `CGAL::Barycentric_coordinates::Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
+    one of the `Computation_policy_2`.
+    The default is `Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
 
     \return an output iterator to the element in the destination range,
     one past the last coordinate stored

@@ -17,10 +17,6 @@ Small extra fixes:
 * if the traits concept is covered by one from the weight interface, just use that one.
 
 * remove GeomTraits and VertexMap template parameters from harmonic coordinates.
-* fix traits concept if any by using function operator and spaces.
-* remove CGAL::Barycentric_coordinates:: namespace from the docs.
-* remove ; inside all bullet lists which start from -.
-* flexible api - do I write it here.
 * add review from Simon (see SR).
 * types Polygon -> VertexRange?
 * types VertexMap -> PointMap?

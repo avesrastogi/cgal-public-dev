@@ -48,7 +48,7 @@ int main() {
   std::vector<double> coordinates;
   coordinates.reserve(polygon.size());
 
-  // Compute harmonic coordinates.
+  // Output harmonic coordinates.
   // We output only the first 20 results.
   std::cout.precision(1);
   std::cout << std::endl << "harmonic coordinates (computed): " << std::endl << std::endl;

@@ -113,8 +113,8 @@ namespace Barycentric_coordinates {
       an instance of `Polygon` with the vertices of a simple polygon
 
       \param policy
-      one of the `CGAL::Barycentric_coordinates::Computation_policy_2`.
-      The default is `CGAL::Barycentric_coordinates::Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
+      one of the `Computation_policy_2`.
+      The default is `Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
 
       \param traits
       an instance of `GeomTraits` with geometric traits. The default initialization is provided.

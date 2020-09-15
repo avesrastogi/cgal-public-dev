@@ -224,7 +224,7 @@ namespace Barycentric_coordinates {
       const auto& p2 = m_domain.vertex(i2);
 
       m_coordinates.clear();
-      CGAL::Barycentric_coordinates::internal::planar_coordinates_2(
+      internal::planar_coordinates_2(
         p0, p1, p2, query, std::back_inserter(m_coordinates), m_traits);
       CGAL_assertion(m_coordinates.size() == 3);
 
