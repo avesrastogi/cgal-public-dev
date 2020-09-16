@@ -51,22 +51,22 @@ namespace Barycentric_coordinates {
 
     Internally, the package \ref PkgMesh2 is used. See it for more details.
 
-    \tparam Polygon
+    \tparam VertexRange
     a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
     \tparam GeomTraits
     a model of `BarycentricTraits_2`
 
-    \tparam VertexMap
-    a model of `ReadablePropertyMap` whose key type is `Polygon::value_type` and
+    \tparam PointMap
+    a model of `ReadablePropertyMap` whose key type is `VertexRange::value_type` and
     value type is `Point_2`. The default is `CGAL::Identity_property_map`.
 
     \cgalModels `DiscretizedDomain_2`
   */
   template<
-  typename Polygon,
+  typename VertexRange,
   typename GeomTraits,
-  typename VertexMap = CGAL::Identity_property_map<typename GeomTraits::Point_2> >
+  typename PointMap = CGAL::Identity_property_map<typename GeomTraits::Point_2> >
   class Delaunay_domain_2 {
 
   public:
@@ -75,9 +75,9 @@ namespace Barycentric_coordinates {
     /// @{
 
     /// \cond SKIP_IN_MANUAL
-    using Polygon_ = Polygon;
-    using GT = GeomTraits;
-    using Vertex_map = VertexMap;
+    using Vertex_range = VertexRange;
+    using Geom_traits = GeomTraits;
+    using Point_map = PointMap;
 
     struct VI {
       bool is_on_boundary = false;
@@ -112,30 +112,30 @@ namespace Barycentric_coordinates {
       \brief initializes all internal data structures.
 
       \param polygon
-      an instance of `Polygon` with the vertices of a simple polygon
+      an instance of `VertexRange` with the vertices of a simple polygon
 
       \param traits
       an instance of `GeomTraits` with geometric traits. The default initialization is provided.
 
-      \param vertex_map
-      an instance of `VertexMap` that maps a vertex from `polygon`
+      \param point_map
+      an instance of `PointMap` that maps a vertex from `polygon`
       to `Point_2`. The default initialization is provided.
 
       \pre polygon.size() >= 3
       \pre polygon is simple
     */
     Delaunay_domain_2(
-      const Polygon& polygon,
+      const VertexRange& polygon,
       const GeomTraits traits = GeomTraits(),
-      const VertexMap vertex_map = VertexMap()) :
+      const PointMap point_map = PointMap()) :
     m_polygon(polygon),
     m_traits(traits),
-    m_vertex_map(vertex_map) {
+    m_point_map(point_map) {
 
       CGAL_precondition(
         polygon.size() >= 3);
       CGAL_precondition(
-        internal::is_simple_2(polygon, traits, vertex_map));
+        internal::is_simple_2(polygon, traits, point_map));
       clear();
     }
 
@@ -394,9 +394,9 @@ namespace Barycentric_coordinates {
   private:
 
     // Fields.
-    const Polygon& m_polygon;
+    const VertexRange& m_polygon;
     const GeomTraits m_traits;
-    const VertexMap m_vertex_map;
+    const PointMap m_point_map;
 
     CDT m_cdt;
     std::vector<Vertex_handle> m_vhs;
@@ -408,7 +408,7 @@ namespace Barycentric_coordinates {
       m_vhs.reserve(n);
 
       for (std::size_t i = 0; i < n; ++i) {
-        const auto& p = get(m_vertex_map, *(m_polygon.begin() + i));
+        const auto& p = get(m_point_map, *(m_polygon.begin() + i));
         m_vhs.push_back(m_cdt.insert(p));
       }
 

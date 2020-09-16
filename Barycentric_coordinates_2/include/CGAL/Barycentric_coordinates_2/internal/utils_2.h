@@ -200,15 +200,15 @@ namespace internal {
   }
 
   template<
-  typename Polygon,
+  typename VertexRange,
   typename GeomTraits,
-  typename VertexMap>
+  typename PointMap>
   boost::optional< std::pair<Query_point_location, std::size_t> >
   get_edge_index_approximate(
-    const Polygon& polygon,
+    const VertexRange& polygon,
     const typename GeomTraits::Point_2& query,
     const GeomTraits& traits,
-    const VertexMap vertex_map) {
+    const PointMap point_map) {
 
     using FT = typename GeomTraits::FT;
 
@@ -225,14 +225,14 @@ namespace internal {
     const FT sq_tolerance = tolerance * tolerance;
 
     for (std::size_t i = 0; i < n; ++i) {
-      const auto& p1 = get(vertex_map, *(polygon.begin() + i));
+      const auto& p1 = get(point_map, *(polygon.begin() + i));
 
       const FT sq_r = squared_distance_2(query, p1);
       if (sq_r < sq_tolerance)
         return std::make_pair(Query_point_location::ON_VERTEX, i);
 
       const std::size_t ip = (i + 1) % n;
-      const auto& p2 = get(vertex_map, *(polygon.begin() + ip));
+      const auto& p2 = get(point_map, *(polygon.begin() + ip));
 
       const auto s1 = construct_vector_2(query, p1);
       const auto s2 = construct_vector_2(query, p2);
@@ -248,15 +248,15 @@ namespace internal {
 
   // Why this one does not work for harmonic coordinates?
   template<
-  typename Polygon,
+  typename VertexRange,
   typename GeomTraits,
-  typename VertexMap>
+  typename PointMap>
   boost::optional< std::pair<Query_point_location, std::size_t> >
   get_edge_index_exact(
-    const Polygon& polygon,
+    const VertexRange& polygon,
     const typename GeomTraits::Point_2& query,
     const GeomTraits& traits,
-    const VertexMap vertex_map) {
+    const PointMap point_map) {
 
     const auto collinear_2 = traits.collinear_2_object();
     const auto collinear_are_ordered_along_line_2 =
@@ -265,13 +265,13 @@ namespace internal {
 
     const std::size_t n = polygon.size();
     for (std::size_t i = 0; i < n; ++i) {
-      const auto& p1 = get(vertex_map, *(polygon.begin() + i));
+      const auto& p1 = get(point_map, *(polygon.begin() + i));
 
       if (p1 == query)
         return std::make_pair(Query_point_location::ON_VERTEX, i);
 
       const std::size_t ip = (i + 1) % n;
-      const auto& p2 = get(vertex_map, *(polygon.begin() + ip));
+      const auto& p2 = get(point_map, *(polygon.begin() + ip));
 
       if (
         collinear_2(p1, p2, query) &&
@@ -284,16 +284,16 @@ namespace internal {
   }
 
   template<
-  typename Polygon,
+  typename VertexRange,
   typename OutputIterator,
   typename GeomTraits,
-  typename VertexMap>
+  typename PointMap>
   std::pair<OutputIterator, bool> coordinates_on_last_edge_2(
-    const Polygon& polygon,
+    const VertexRange& polygon,
     const typename GeomTraits::Point_2& query,
     OutputIterator coordinates,
     const GeomTraits& traits,
-    const VertexMap vertex_map) {
+    const PointMap point_map) {
 
     using FT = typename GeomTraits::FT;
     const std::size_t n = polygon.size();
@@ -304,8 +304,8 @@ namespace internal {
     const std::size_t isource = n - 1;
     const std::size_t itarget = 0;
 
-    const auto& source = get(vertex_map, *(polygon.begin() + isource));
-    const auto& target = get(vertex_map, *(polygon.begin() + itarget));
+    const auto& source = get(point_map, *(polygon.begin() + isource));
+    const auto& target = get(point_map, *(polygon.begin() + itarget));
 
     linear_coordinates_2(
       source, target, query, std::back_inserter(b), traits);
@@ -318,18 +318,18 @@ namespace internal {
   }
 
   template<
-  typename Polygon,
+  typename VertexRange,
   typename OutputIterator,
   typename GeomTraits,
-  typename VertexMap>
+  typename PointMap>
   std::pair<OutputIterator, bool> boundary_coordinates_2(
-    const Polygon& polygon,
+    const VertexRange& polygon,
     const typename GeomTraits::Point_2& query,
     const Query_point_location location,
     const std::size_t index,
     OutputIterator coordinates,
     const GeomTraits& traits,
-    const VertexMap vertex_map) {
+    const PointMap point_map) {
 
     using FT = typename GeomTraits::FT;
     const std::size_t n = polygon.size();
@@ -353,11 +353,11 @@ namespace internal {
 
         if (index == n - 1)
           return coordinates_on_last_edge_2(
-            polygon, query, coordinates, traits, vertex_map);
+            polygon, query, coordinates, traits, point_map);
 
         const std::size_t indexp = (index + 1) % n;
-        const auto& source = get(vertex_map, *(polygon.begin() + index));
-        const auto& target = get(vertex_map, *(polygon.begin() + indexp));
+        const auto& source = get(point_map, *(polygon.begin() + index));
+        const auto& target = get(point_map, *(polygon.begin() + indexp));
 
         for (std::size_t i = 0; i < n; ++i)
           if (i == index) {
@@ -377,18 +377,18 @@ namespace internal {
   }
 
   template<
-  typename Polygon,
+  typename VertexRange,
   typename GeomTraits,
-  typename VertexMap>
+  typename PointMap>
   boost::optional< std::pair<Query_point_location, std::size_t> >
   locate_wrt_polygon_2(
-    const Polygon& polygon,
+    const VertexRange& polygon,
     const typename GeomTraits::Point_2& query,
     const GeomTraits& traits,
-    const VertexMap vertex_map) {
+    const PointMap point_map) {
 
     const Edge_case type = bounded_side_2(
-      polygon, query, traits, vertex_map);
+      polygon, query, traits, point_map);
 
     // Locate point with respect to different polygon locations.
     switch (type) {
@@ -397,7 +397,7 @@ namespace internal {
       case Edge_case::EXTERIOR:
         return std::make_pair(Query_point_location::ON_UNBOUNDED_SIDE, std::size_t(-1));
       case Edge_case::BOUNDARY:
-        return get_edge_index_exact(polygon, query, traits, vertex_map);
+        return get_edge_index_exact(polygon, query, traits, point_map);
       default:
         return std::make_pair(Query_point_location::UNSPECIFIED, std::size_t(-1));
     }

@@ -57,13 +57,13 @@ coordinates from the Package \ref PkgInterpolation2.}
 - `DiscretizedDomain_2`
 
 ## Analytic Coordinates ##
-- `Wachspress_coordinates_2<Polygon, GeomTraits, VertexMap>`
-- `Mean_value_coordinates_2<Polygon, GeomTraits, VertexMap>`
-- `Discrete_harmonic_coordinates_2<Polygon, GeomTraits, VertexMap>`
+- `Wachspress_coordinates_2<VertexRange GeomTraits, PointMap>`
+- `Mean_value_coordinates_2<VertexRange GeomTraits, PointMap>`
+- `Discrete_harmonic_coordinates_2<VertexRange GeomTraits, PointMap>`
 
 ## Harmonic Coordinates ##
-- `Delaunay_domain_2<Polygon, GeomTraits, VertexMap>`
-- `Harmonic_coordinates_2<Polygon, Domain, GeomTraits, VertexMap>`
+- `Delaunay_domain_2<VertexRange GeomTraits, PointMap>`
+- `Harmonic_coordinates_2<VertexRange Domain, GeomTraits, PointMap>`
 
 ## Free Functions ##
 - `segment_coordinates_2()`

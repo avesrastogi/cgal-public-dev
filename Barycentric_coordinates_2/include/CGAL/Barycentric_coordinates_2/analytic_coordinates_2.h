@@ -488,7 +488,7 @@ namespace Barycentric_coordinates {
 
     Internally, `segment_coordinates_2()` are used.
 
-    \tparam PointRange
+    \tparam VertexRange
     a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
     \tparam OutIterator
@@ -497,12 +497,12 @@ namespace Barycentric_coordinates {
     \tparam GeomTraits
     a model of `BarycentricTraits_2`
 
-    \tparam VertexMap
-    a model of `ReadablePropertyMap` whose key type is `PointRange::value_type` and
+    \tparam PointMap
+    a model of `ReadablePropertyMap` whose key type is `VertexRange::value_type` and
     value type is `GeomTraits::Point_2`
 
     \param polygon
-    an instance of `PointRange` with 2D points, which form a simple polygon
+    an instance of `VertexRange` with 2D points, which form a simple polygon
 
     \param query
     a query point
@@ -513,8 +513,8 @@ namespace Barycentric_coordinates {
     \param traits
     an instance of `GeomTraits` with geometric traits
 
-    \param vertex_map
-    an instance of `VertexMap` that maps a vertex from `polygon`
+    \param point_map
+    an instance of `PointMap` that maps a vertex from `polygon`
     to `GeomTraits::Point_2`
 
     \return an output iterator to the element in the destination range,
@@ -524,19 +524,19 @@ namespace Barycentric_coordinates {
     \pre polygon.size() >= 3
   */
   template<
-  typename PointRange,
+  typename VertexRange,
   typename OutIterator,
   typename GeomTraits,
-  typename VertexMap>
+  typename PointMap>
   std::pair<OutIterator, bool> boundary_coordinates_2(
-    const PointRange& polygon,
+    const VertexRange& polygon,
     const typename GeomTraits::Point_2& query,
     OutIterator c_begin,
     const GeomTraits& traits,
-    const VertexMap vertex_map) {
+    const PointMap point_map) {
 
     const auto result =
-    internal::locate_wrt_polygon_2(polygon, query, traits, vertex_map);
+    internal::locate_wrt_polygon_2(polygon, query, traits, point_map);
     auto location = (*result).first;
     auto index = (*result).second;
 
@@ -545,7 +545,7 @@ namespace Barycentric_coordinates {
       location = internal::Query_point_location::UNSPECIFIED;
     }
     return internal::boundary_coordinates_2(
-      polygon, query, location, index, c_begin, traits, vertex_map);
+      polygon, query, location, index, c_begin, traits, point_map);
   }
 
   /*!
@@ -567,7 +567,7 @@ namespace Barycentric_coordinates {
 
     This function infers a traits class from the `Point_2` class.
 
-    \tparam PointRange
+    \tparam VertexRange
     a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
     \tparam Point_2
@@ -576,12 +576,12 @@ namespace Barycentric_coordinates {
     \tparam OutIterator
     a model of `OutputIterator` whose value type is `GeomTraits::FT`
 
-    \tparam VertexMap
-    a model of `ReadablePropertyMap` whose key type is `PointRange::value_type` and
+    \tparam PointMap
+    a model of `ReadablePropertyMap` whose key type is `VertexRange::value_type` and
     value type is `Point_2`. The default is `CGAL::Identity_property_map`.
 
     \param polygon
-    an instance of `PointRange` with 2D points, which form a simple polygon
+    an instance of `VertexRange` with 2D points, which form a simple polygon
 
     \param query
     a query point
@@ -589,8 +589,8 @@ namespace Barycentric_coordinates {
     \param c_begin
     the beginning of the destination range with the computed coordinates
 
-    \param vertex_map
-    an instance of `VertexMap` that maps a vertex from `polygon`
+    \param point_map
+    an instance of `PointMap` that maps a vertex from `polygon`
     to `Point_2`. The default initialization is provided.
 
     \return an output iterator to the element in the destination range,
@@ -600,20 +600,20 @@ namespace Barycentric_coordinates {
     \pre polygon.size() >= 3
   */
   template<
-  typename PointRange,
+  typename VertexRange,
   typename Point_2,
   typename OutIterator,
-  typename VertexMap = CGAL::Identity_property_map<Point_2> >
+  typename PointMap = CGAL::Identity_property_map<Point_2> >
   std::pair<OutIterator, bool> boundary_coordinates_2(
-    const PointRange& polygon,
+    const VertexRange& polygon,
     const Point_2& query,
     OutIterator c_begin,
-    const VertexMap vertex_map = VertexMap()) {
+    const PointMap point_map = PointMap()) {
 
     using GeomTraits = typename Kernel_traits<Point_2>::Kernel;
     const GeomTraits traits;
     return boundary_coordinates_2(
-      polygon, query, c_begin, traits, vertex_map);
+      polygon, query, c_begin, traits, point_map);
   }
 
   /*!
@@ -635,6 +635,7 @@ namespace Barycentric_coordinates {
 
     \tparam PointRange
     a model of `ConstRange` whose iterator type is `RandomAccessIterator`
+    and value type is `GeomTraits::Point_2`
 
     \tparam OutIterator
     a model of `OutputIterator` whose value type is `GeomTraits::FT`
@@ -703,6 +704,7 @@ namespace Barycentric_coordinates {
 
     \tparam PointRange
     a model of `ConstRange` whose iterator type is `RandomAccessIterator`
+    and value type is `GeomTraits::Point_2`
 
     \tparam OutIterator
     a model of `OutputIterator` whose value type is `GeomTraits::FT`
@@ -763,6 +765,7 @@ namespace Barycentric_coordinates {
 
     \tparam PointRange
     a model of `ConstRange` whose iterator type is `RandomAccessIterator`
+    and value type is `GeomTraits::Point_2`
 
     \tparam OutIterator
     a model of `OutputIterator` whose value type is `GeomTraits::FT`
@@ -831,6 +834,7 @@ namespace Barycentric_coordinates {
 
     \tparam PointRange
     a model of `ConstRange` whose iterator type is `RandomAccessIterator`
+    and value type is `GeomTraits::Point_2`
 
     \tparam OutIterator
     a model of `OutputIterator` whose value type is `GeomTraits::FT`
@@ -891,6 +895,7 @@ namespace Barycentric_coordinates {
 
     \tparam PointRange
     a model of `ConstRange` whose iterator type is `RandomAccessIterator`
+    and value type is `GeomTraits::Point_2`
 
     \tparam OutIterator
     a model of `OutputIterator` whose value type is `GeomTraits::FT`
@@ -959,6 +964,7 @@ namespace Barycentric_coordinates {
 
     \tparam PointRange
     a model of `ConstRange` whose iterator type is `RandomAccessIterator`
+    and value type is `GeomTraits::Point_2`
 
     \tparam OutIterator
     a model of `OutputIterator` whose value type is `GeomTraits::FT`
@@ -1019,6 +1025,7 @@ namespace Barycentric_coordinates {
 
     \tparam PointRange
     a model of `ConstRange` whose iterator type is `RandomAccessIterator`
+    and value type is `GeomTraits::Point_2`
 
     \tparam OutIterator
     a model of `OutputIterator` whose value type is `GeomTraits::FT`
@@ -1087,6 +1094,7 @@ namespace Barycentric_coordinates {
 
     \tparam PointRange
     a model of `ConstRange` whose iterator type is `RandomAccessIterator`
+    and value type is `GeomTraits::Point_2`
 
     \tparam OutIterator
     a model of `OutputIterator` whose value type is `GeomTraits::FT`
@@ -1147,6 +1155,7 @@ namespace Barycentric_coordinates {
 
     \tparam PointRange
     a model of `ConstRange` whose iterator type is `RandomAccessIterator`
+    and value type is `GeomTraits::Point_2`
 
     \tparam OutIterator
     a model of `OutputIterator` whose value type is `GeomTraits::FT`
@@ -1214,6 +1223,7 @@ namespace Barycentric_coordinates {
 
     \tparam PointRange
     a model of `ConstRange` whose iterator type is `RandomAccessIterator`
+    and value type is `GeomTraits::Point_2`
 
     \tparam OutIterator
     a model of `OutputIterator` whose value type is `GeomTraits::FT`
@@ -1273,6 +1283,7 @@ namespace Barycentric_coordinates {
 
     \tparam PointRange
     a model of `ConstRange` whose iterator type is `RandomAccessIterator`
+    and value type is `GeomTraits::Point_2`
 
     \tparam OutIterator
     a model of `OutputIterator` whose value type is `GeomTraits::FT`
@@ -1340,6 +1351,7 @@ namespace Barycentric_coordinates {
 
     \tparam PointRange
     a model of `ConstRange` whose iterator type is `RandomAccessIterator`
+    and value type is `GeomTraits::Point_2`
 
     \tparam OutIterator
     a model of `OutputIterator` whose value type is `GeomTraits::FT`

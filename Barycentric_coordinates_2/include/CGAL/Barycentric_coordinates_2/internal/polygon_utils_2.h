@@ -52,7 +52,7 @@ namespace internal {
     INTERIOR = 2  // interior part of the polygon
   };
 
-  // Polygon type enum.
+  // VertexRange type enum.
   enum class Polygon_type {
 
     // Concave polygon = non-convex polygon.
@@ -117,14 +117,14 @@ namespace internal {
   // This function is taken from the Polygon_2_algorithms.h header.
   // But it is updated to support property maps.
   template<
-  typename Polygon,
+  typename VertexRange,
   typename GeomTraits,
-  typename VertexMap>
+  typename PointMap>
   Edge_case bounded_side_2(
-    const Polygon& polygon,
+    const VertexRange& polygon,
     const typename GeomTraits::Point_2& query,
     const GeomTraits& traits,
-    const VertexMap vertex_map) {
+    const PointMap point_map) {
 
     const auto first = polygon.begin();
     const auto last  = polygon.end();
@@ -142,13 +142,13 @@ namespace internal {
     const auto orientation_2 = traits.orientation_2_object();
 
     bool is_inside = false;
-    auto curr_y_comp_res = compare_y_2(get(vertex_map, *curr), query);
+    auto curr_y_comp_res = compare_y_2(get(point_map, *curr), query);
 
     // Check if the segment (curr, next) intersects
     // the ray { (t, query.y()) | t >= query.x() }.
     do {
-      const auto& currp = get(vertex_map, *curr);
-      const auto& nextp = get(vertex_map, *next);
+      const auto& currp = get(point_map, *curr);
+      const auto& nextp = get(point_map, *next);
 
       auto next_y_comp_res = compare_y_2(nextp, query);
       switch (curr_y_comp_res) {
@@ -233,13 +233,13 @@ namespace internal {
   // This function is taken from the Polygon_2_algorithms.h header.
   // But it is updated to support property maps.
   template<
-  typename Polygon,
+  typename VertexRange,
   typename GeomTraits,
-  typename VertexMap>
+  typename PointMap>
   bool is_convex_2(
-    const Polygon& polygon,
+    const VertexRange& polygon,
     const GeomTraits traits,
-    const VertexMap vertex_map) {
+    const PointMap point_map) {
 
     auto first = polygon.begin();
     const auto last  = polygon.end();
@@ -256,8 +256,8 @@ namespace internal {
     const auto equal_2 = traits.equal_2_object();
 
     while (equal_2(
-      get(vertex_map, *prev),
-      get(vertex_map, *curr))) {
+      get(point_map, *prev),
+      get(point_map, *curr))) {
       curr = next; ++next;
       if (next == last) return true;
     }
@@ -268,15 +268,15 @@ namespace internal {
     bool has_clockwise_triplets = false;
     bool has_counterclockwise_triplets = false;
     bool order = less_xy_2(
-      get(vertex_map, *prev), get(vertex_map, *curr));
+      get(point_map, *prev), get(point_map, *curr));
     int num_order_changes = 0;
 
     do {
     switch_orient:
       switch (orientation_2(
-        get(vertex_map, *prev),
-        get(vertex_map, *curr),
-        get(vertex_map, *next))) {
+        get(point_map, *prev),
+        get(point_map, *curr),
+        get(point_map, *next))) {
 
         case CGAL::CLOCKWISE:
           has_clockwise_triplets = true;
@@ -286,8 +286,8 @@ namespace internal {
           break;
         case CGAL::ZERO: {
           if (equal_2(
-            get(vertex_map, *curr),
-            get(vertex_map, *next))) {
+            get(point_map, *curr),
+            get(point_map, *next))) {
 
             if (next == first) {
               first = curr;
@@ -302,8 +302,8 @@ namespace internal {
       }
 
       const bool new_order = less_xy_2(
-        get(vertex_map, *curr),
-        get(vertex_map, *next));
+        get(point_map, *curr),
+        get(point_map, *next));
       if (order != new_order) num_order_changes++;
       if (num_order_changes > 2)
         return false;
@@ -322,13 +322,13 @@ namespace internal {
   // This function is taken from the Polygon_2_algorithms.h header.
   // But it is updated to support property maps.
   template<
-  typename Polygon,
+  typename VertexRange,
   typename GeomTraits,
-  typename VertexMap>
+  typename PointMap>
   bool is_simple_2(
-    const Polygon& polygon,
+    const VertexRange& polygon,
     const GeomTraits traits,
-    const VertexMap vertex_map) {
+    const PointMap point_map) {
 
     const auto first = polygon.begin();
     const auto last = polygon.end();
@@ -337,37 +337,37 @@ namespace internal {
     std::vector<typename GeomTraits::Point_2> poly;
     poly.reserve(polygon.size());
     for (const auto& vertex : polygon)
-      poly.push_back(get(vertex_map, vertex));
+      poly.push_back(get(point_map, vertex));
     return CGAL::is_simple_2(poly.begin(), poly.end(), traits);
   }
 
   template<
-  typename Polygon,
+  typename VertexRange,
   typename GeomTraits,
-  typename VertexMap>
+  typename PointMap>
   Polygon_type polygon_type_2(
-    const Polygon& polygon,
+    const VertexRange& polygon,
     const GeomTraits traits,
-    const VertexMap vertex_map) {
+    const PointMap point_map) {
 
     const auto collinear_2 =
       traits.collinear_2_object();
     CGAL_precondition(polygon.size() >= 3);
 
     // First, test the polygon on convexity.
-    if (is_convex_2(polygon, traits, vertex_map)) {
+    if (is_convex_2(polygon, traits, point_map)) {
 
       // Test all the consequent triplets of polygon vertices on collinearity.
       // In case we find at least one, return WEAKLY_CONVEX polygon.
       const std::size_t n = polygon.size();
       for (std::size_t i = 0; i < n; ++i) {
-        const auto& p1 = get(vertex_map, *(polygon.begin() + i));
+        const auto& p1 = get(point_map, *(polygon.begin() + i));
 
         const std::size_t im = (i + n - 1) % n;
         const std::size_t ip = (i + 1) % n;
 
-        const auto& p0 = get(vertex_map, *(polygon.begin() + im));
-        const auto& p2 = get(vertex_map, *(polygon.begin() + ip));
+        const auto& p0 = get(point_map, *(polygon.begin() + im));
+        const auto& p2 = get(point_map, *(polygon.begin() + ip));
 
         if (collinear_2(p0, p1, p2))
           return Polygon_type::WEAKLY_CONVEX;

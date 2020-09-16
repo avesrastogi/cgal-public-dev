@@ -7,12 +7,14 @@
 using Kernel     = CGAL::Exact_predicates_inexact_constructions_kernel;
 using Projection = CGAL::Projection_traits_xy_3<Kernel>;
 
-using FT    = typename Projection::FT;
-using Point = typename Projection::Point_2;
+using FT          = typename Projection::FT;
+using Point       = typename Projection::Point_2;
+using Point_range = std::vector<Point>;
 
-using Polygon = std::vector<Point>;
-using Domain  = CGAL::Barycentric_coordinates::Delaunay_domain_2<Polygon, Projection>;
-using MVC2    = CGAL::Barycentric_coordinates::Mean_value_coordinates_2<Polygon, Projection>;
+using Domain =
+  CGAL::Barycentric_coordinates::Delaunay_domain_2<Point_range, Projection>;
+using Mean_value_coordinates_2 =
+  CGAL::Barycentric_coordinates::Mean_value_coordinates_2<Point_range, Projection>;
 
 using Vertex_function_value = std::map<Point, FT, typename Projection::Less_xy_2>;
 using Function_value_access = CGAL::Data_access<Vertex_function_value>;
@@ -57,7 +59,7 @@ int main() {
       std::make_pair(vertex, vertex.z()));
 
   // Construct the class with the mean value weights.
-  MVC2 mean_value_coordinates_2(polygon);
+  Mean_value_coordinates_2 mean_value_coordinates_2(polygon);
 
   // Compute mean value coordinates and use them to interpolate data
   // from the polygon boundary to its interior.

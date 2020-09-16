@@ -54,20 +54,20 @@ namespace Barycentric_coordinates {
     non-negative in the kernel of a star-shaped polygon. The coordinates are
     computed analytically. See more details in the user manual \ref compute_mv_coord "here".
 
-    \tparam Polygon
+    \tparam VertexRange
     a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
     \tparam GeomTraits
     a model of `BarycentricTraits_2`
 
-    \tparam VertexMap
-    a model of `ReadablePropertyMap` whose key type is `Polygon::value_type` and
+    \tparam PointMap
+    a model of `ReadablePropertyMap` whose key type is `VertexRange::value_type` and
     value type is `Point_2`. The default is `CGAL::Identity_property_map`.
   */
   template<
-  typename Polygon,
+  typename VertexRange,
   typename GeomTraits,
-  typename VertexMap = CGAL::Identity_property_map<typename GeomTraits::Point_2> >
+  typename PointMap = CGAL::Identity_property_map<typename GeomTraits::Point_2> >
   class Mean_value_coordinates_2 {
 
   public:
@@ -76,9 +76,9 @@ namespace Barycentric_coordinates {
     /// @{
 
     /// \cond SKIP_IN_MANUAL
-    using Polygon_ = Polygon;
-    using GT = GeomTraits;
-    using Vertex_map = VertexMap;
+    using Vertex_range = VertexRange;
+    using Geom_traits = GeomTraits;
+    using Point_map = PointMap;
 
     using Vector_2 = typename GeomTraits::Vector_2;
     using Area_2 = typename GeomTraits::Compute_area_2;
@@ -89,7 +89,7 @@ namespace Barycentric_coordinates {
     using Sqrt = typename Get_sqrt::Sqrt;
 
     using Mean_value_weights_2 =
-      internal::Mean_value_weights_2<Polygon, GeomTraits, Vertex_map>;
+      internal::Mean_value_weights_2<VertexRange, GeomTraits, PointMap>;
     /// \endcond
 
     /// Number type.
@@ -110,7 +110,7 @@ namespace Barycentric_coordinates {
       for 2D query points.
 
       \param polygon
-      an instance of `Polygon` with the vertices of a simple polygon
+      an instance of `VertexRange` with the vertices of a simple polygon
 
       \param policy
       one of the `Computation_policy_2`.
@@ -119,35 +119,35 @@ namespace Barycentric_coordinates {
       \param traits
       an instance of `GeomTraits` with geometric traits. The default initialization is provided.
 
-      \param vertex_map
-      an instance of `VertexMap` that maps a vertex from `polygon`
+      \param point_map
+      an instance of `PointMap` that maps a vertex from `polygon`
       to `Point_2`. The default initialization is provided.
 
       \pre polygon.size() >= 3
       \pre polygon is simple
     */
     Mean_value_coordinates_2(
-      const Polygon& polygon,
+      const VertexRange& polygon,
       const Computation_policy_2 policy
       = Computation_policy_2::PRECISE_WITH_EDGE_CASES,
       const GeomTraits traits = GeomTraits(),
-      const VertexMap vertex_map = VertexMap()) :
+      const PointMap point_map = PointMap()) :
     m_polygon(polygon),
     m_computation_policy(policy),
     m_traits(traits),
-    m_vertex_map(vertex_map),
+    m_point_map(point_map),
     m_area_2(m_traits.compute_area_2_object()),
     m_construct_vector_2(m_traits.construct_vector_2_object()),
     m_squared_length_2(m_traits.compute_squared_length_2_object()),
     m_scalar_product_2(m_traits.compute_scalar_product_2_object()),
     m_sqrt(Get_sqrt::sqrt_object(m_traits)),
     m_mean_value_weights_2(
-      polygon, traits, vertex_map) {
+      polygon, traits, point_map) {
 
       CGAL_precondition(
         polygon.size() >= 3);
       CGAL_precondition(
-        internal::is_simple_2(polygon, traits, vertex_map));
+        internal::is_simple_2(polygon, traits, point_map));
       resize();
     }
 
@@ -224,10 +224,10 @@ namespace Barycentric_coordinates {
   private:
 
     // Fields.
-    const Polygon& m_polygon;
+    const VertexRange& m_polygon;
     const Computation_policy_2 m_computation_policy;
     const GeomTraits m_traits;
-    const VertexMap m_vertex_map;
+    const PointMap m_point_map;
 
     const Area_2 m_area_2;
     const Construct_vector_2 m_construct_vector_2;
@@ -312,7 +312,7 @@ namespace Barycentric_coordinates {
       OutputIterator output) const {
 
       const auto result = internal::locate_wrt_polygon_2(
-        m_polygon, query, m_traits, m_vertex_map);
+        m_polygon, query, m_traits, m_point_map);
       if (!result)
         return internal::Edge_case::EXTERIOR;
 
@@ -325,7 +325,7 @@ namespace Barycentric_coordinates {
         location == internal::Query_point_location::ON_VERTEX ||
         location == internal::Query_point_location::ON_EDGE ) {
         internal::boundary_coordinates_2(
-          m_polygon, query, location, index, output, m_traits, m_vertex_map);
+          m_polygon, query, location, index, output, m_traits, m_point_map);
         return internal::Edge_case::BOUNDARY;
       }
       return internal::Edge_case::INTERIOR;
@@ -341,9 +341,9 @@ namespace Barycentric_coordinates {
 
       // Compute vectors s and its lengths r following the pseudo-code
       // in the Figure 10 from [1].
-      const auto& p1 = get(m_vertex_map, *(m_polygon.begin() + 0));
-      const auto& p2 = get(m_vertex_map, *(m_polygon.begin() + 1));
-      const auto& pn = get(m_vertex_map, *(m_polygon.begin() + (n - 1)));
+      const auto& p1 = get(m_point_map, *(m_polygon.begin() + 0));
+      const auto& p2 = get(m_point_map, *(m_polygon.begin() + 1));
+      const auto& pn = get(m_point_map, *(m_polygon.begin() + (n - 1)));
 
       s[0] = m_construct_vector_2(query, p1);
       r[0] = m_sqrt(m_squared_length_2(s[0]));
@@ -354,9 +354,9 @@ namespace Barycentric_coordinates {
       B[0] = m_area_2(pn, p2, query);
 
       for (std::size_t i = 1; i < n - 1; ++i) {
-        const auto& pi0 = get(m_vertex_map, *(m_polygon.begin() + (i - 1)));
-        const auto& pi1 = get(m_vertex_map, *(m_polygon.begin() + (i + 0)));
-        const auto& pi2 = get(m_vertex_map, *(m_polygon.begin() + (i + 1)));
+        const auto& pi0 = get(m_point_map, *(m_polygon.begin() + (i - 1)));
+        const auto& pi1 = get(m_point_map, *(m_polygon.begin() + (i + 0)));
+        const auto& pi2 = get(m_point_map, *(m_polygon.begin() + (i + 1)));
 
         s[i] = m_construct_vector_2(query, pi1);
         r[i] = m_sqrt(m_squared_length_2(s[i]));
@@ -365,7 +365,7 @@ namespace Barycentric_coordinates {
         B[i] = m_area_2(pi0, pi2, query);
       }
 
-      const auto& pm = get(m_vertex_map, *(m_polygon.begin() + (n - 2)));
+      const auto& pm = get(m_point_map, *(m_polygon.begin() + (n - 2)));
       s[n - 1] = m_construct_vector_2(query, pn);
       r[n - 1] = m_sqrt(m_squared_length_2(s[n - 1]));
 

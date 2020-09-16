@@ -3,13 +3,15 @@
 #include <CGAL/Barycentric_coordinates_2/Harmonic_coordinates_2.h>
 
 // Typedefs.
-using Kernel  = CGAL::Simple_cartesian<double>;
-using FT      = Kernel::FT;
-using Point_2 = Kernel::Point_2;
+using Kernel      = CGAL::Simple_cartesian<double>;
+using FT          = Kernel::FT;
+using Point_2     = Kernel::Point_2;
+using Point_range = std::vector<Point_2>;
 
-using Polygon = std::vector<Point_2>;
-using Domain  = CGAL::Barycentric_coordinates::Delaunay_domain_2<Polygon, Kernel>;
-using HMC2    = CGAL::Barycentric_coordinates::Harmonic_coordinates_2<Polygon, Domain, Kernel>;
+using Domain =
+  CGAL::Barycentric_coordinates::Delaunay_domain_2<Point_range, Kernel>;
+using Harmonic_coordinates_2 =
+  CGAL::Barycentric_coordinates::Harmonic_coordinates_2<Point_range, Domain, Kernel>;
 
 int main() {
 
@@ -31,7 +33,7 @@ int main() {
   source_domain.create(0.01, list_of_seeds);
 
   // Compute harmonic coordinates at the vertices of the source domain.
-  HMC2 harmonic_coordinates_2(source_shape, source_domain);
+  Harmonic_coordinates_2 harmonic_coordinates_2(source_shape, source_domain);
   harmonic_coordinates_2.compute();
 
   // Use it to store coordinates.

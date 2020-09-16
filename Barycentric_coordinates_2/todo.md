@@ -15,8 +15,5 @@ Small extra fixes:
 * i should refactor harmonic coordinates and make its solver a parameter. In this case, I should also update the solver interface package.
 * add a test with traits_concept that checks if all necessary traits objects are provided.
 * if the traits concept is covered by one from the weight interface, just use that one.
-
-* remove GeomTraits and VertexMap template parameters from harmonic coordinates.
 * add review from Simon (see SR).
-* types Polygon -> VertexRange?
-* types VertexMap -> PointMap?
+* fix overloads.

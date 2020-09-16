@@ -61,25 +61,25 @@ namespace Barycentric_coordinates {
     contains a query point and linearly interpolating within this element. See more details
     in the user manual \ref compute_hm_coord "here".
 
-    \tparam Polygon
+    \tparam VertexRange
     a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
-    \tparam Domain
+    \tparam InputDomain
     a model of `DiscretizedDomain_2`. For the moment, we only support domains
     whose partition's finite elements are triangles.
 
     \tparam GeomTraits
     a model of `BarycentricTraits_2`
 
-    \tparam VertexMap
-    a model of `ReadablePropertyMap` whose key type is `Polygon::value_type` and
+    \tparam PointMap
+    a model of `ReadablePropertyMap` whose key type is `VertexRange::value_type` and
     value type is `Point_2`. The default is `CGAL::Identity_property_map`.
   */
   template<
-  typename Polygon,
-  typename Domain,
+  typename VertexRange,
+  typename InputDomain,
   typename GeomTraits,
-  typename VertexMap = CGAL::Identity_property_map<typename GeomTraits::Point_2> >
+  typename PointMap = CGAL::Identity_property_map<typename GeomTraits::Point_2> >
   class Harmonic_coordinates_2 {
 
   public:
@@ -88,10 +88,10 @@ namespace Barycentric_coordinates {
     /// @{
 
     /// \cond SKIP_IN_MANUAL
-    using Polygon_ = Polygon;
-    using Domain_ = Domain;
-    using GT = GeomTraits;
-    using Vertex_map = VertexMap;
+    using Vertex_range = VertexRange;
+    using Input_domain = InputDomain;
+    using Geom_traits = GeomTraits;
+    using Point_map = PointMap;
     /// \endcond
 
     /// Number type.
@@ -120,37 +120,37 @@ namespace Barycentric_coordinates {
       This class implements the behavior of harmonic coordinates
       for 2D query points.
 
-      \param domain
-      an instance of `Domain` with a partition of the interior part of a simple polygon
-
       \param polygon
-      an instance of `Polygon` with the vertices of a simple polygon
+      an instance of `VertexRange` with the vertices of a simple polygon
+
+      \param domain
+      an instance of `InputDomain` with a partition of the interior part of a simple polygon
 
       \param traits
       an instance of `GeomTraits` with geometric traits. The default initialization is provided.
 
-      \param vertex_map
-      an instance of `VertexMap` that maps a vertex from `polygon`
+      \param point_map
+      an instance of `PointMap` that maps a vertex from `polygon`
       to `Point_2`. The default initialization is provided.
 
       \pre polygon.size() >= 3
       \pre polygon is simple
     */
     Harmonic_coordinates_2(
-      const Polygon& polygon,
-      const Domain& domain,
+      const VertexRange& polygon,
+      const InputDomain& domain,
       const GeomTraits traits = GeomTraits(),
-      const VertexMap vertex_map = VertexMap()) :
+      const PointMap point_map = PointMap()) :
     m_polygon(polygon),
     m_domain(domain),
     m_traits(traits),
-    m_vertex_map(vertex_map),
+    m_point_map(point_map),
     m_construct_vector_2(m_traits.construct_vector_2_object()) {
 
       CGAL_precondition(
         polygon.size() >= 3);
       CGAL_precondition(
-        internal::is_simple_2(polygon, traits, vertex_map));
+        internal::is_simple_2(polygon, traits, point_map));
       clear();
     }
 
@@ -426,10 +426,10 @@ namespace Barycentric_coordinates {
   private:
 
     // Fields.
-    const Polygon& m_polygon;
-    const Domain& m_domain;
+    const VertexRange& m_polygon;
+    const InputDomain& m_domain;
     const GeomTraits m_traits;
-    const VertexMap m_vertex_map;
+    const PointMap m_point_map;
 
     const Construct_vector_2 m_construct_vector_2;
 
@@ -500,7 +500,7 @@ namespace Barycentric_coordinates {
           // Find index of the polygon edge that contains the boundary vertex.
           const auto edge_is_found =
             internal::get_edge_index_approximate(
-              m_polygon, query, m_traits, m_vertex_map);
+              m_polygon, query, m_traits, m_point_map);
           CGAL_assertion(static_cast<bool>(edge_is_found));
           const auto location = (*edge_is_found).first;
           const auto index = (*edge_is_found).second;
@@ -509,7 +509,7 @@ namespace Barycentric_coordinates {
           lambda.clear();
           internal::boundary_coordinates_2(
             m_polygon, query, location, index,
-            std::back_inserter(lambda), m_traits, m_vertex_map);
+            std::back_inserter(lambda), m_traits, m_point_map);
 
           // Set boundary vector.
           for (std::size_t k = 0; k < n; ++k)

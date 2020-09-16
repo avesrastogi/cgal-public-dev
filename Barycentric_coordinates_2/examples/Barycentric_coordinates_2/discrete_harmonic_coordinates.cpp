@@ -14,20 +14,22 @@ struct Info {
   std::string name;
 };
 
-using Vertex_with_info = std::pair<Point_2, Info>;
-using Vertex_map       = CGAL::First_of_pair_property_map<Vertex_with_info>;
+using Vertex       = std::pair<Point_2, Info>;
+using Point_map    = CGAL::First_of_pair_property_map<Vertex>;
+using Vertex_range = std::vector<Vertex>;
 
-using Polygon = std::vector<Vertex_with_info>;
-using DHC2    = CGAL::Barycentric_coordinates::Discrete_harmonic_coordinates_2<Polygon, Kernel, Vertex_map>;
-using Policy  = CGAL::Barycentric_coordinates::Computation_policy_2;
+using Discrete_harmonic_coordinates_2 =
+  CGAL::Barycentric_coordinates::Discrete_harmonic_coordinates_2<Vertex_range, Kernel, Point_map>;
+using Policy =
+  CGAL::Barycentric_coordinates::Computation_policy_2;
 
 int main() {
 
   Kernel kernel;
-  Vertex_map vertex_map;
+  Point_map point_map;
 
   // Construct a unit square.
-  const std::vector<Vertex_with_info> square = {
+  const std::vector<Vertex> square = {
     std::make_pair(Point_2(0, 0), Info("1")), std::make_pair(Point_2(1, 0), Info("2")),
     std::make_pair(Point_2(1, 1), Info("3")), std::make_pair(Point_2(0, 1), Info("4"))
   };
@@ -36,7 +38,7 @@ int main() {
   // We do not check for edge cases since we know the exact positions
   // of all our points. We speed up the computation by using the O(n) algorithm.
   const Policy policy = Policy::FAST;
-  DHC2 discrete_harmonic_2(square, policy, kernel, vertex_map);
+  Discrete_harmonic_coordinates_2 discrete_harmonic_2(square, policy, kernel, point_map);
 
   // Construct the center point of the unit square.
   const Point_2 center(FT(1) / FT(2), FT(1) / FT(2));
@@ -98,9 +100,9 @@ int main() {
   // for these 2 points one by one.
   coordinates.clear();
   CGAL::Barycentric_coordinates::boundary_coordinates_2(
-    square, e2, std::back_inserter(coordinates), kernel, vertex_map);
+    square, e2, std::back_inserter(coordinates), kernel, point_map);
   CGAL::Barycentric_coordinates::boundary_coordinates_2(
-    square, e4, std::back_inserter(coordinates), kernel, vertex_map);
+    square, e4, std::back_inserter(coordinates), kernel, point_map);
 
   std::cout << std::endl << "boundary coordinates (edge 2 and edge 4): ";
   for (const FT coordinate : coordinates)
@@ -124,7 +126,7 @@ int main() {
   for (const auto& query : es13) {
     bs.clear();
     CGAL::Barycentric_coordinates::boundary_coordinates_2(
-      square, query, std::back_inserter(bs), vertex_map); // we can skip kernel here
+      square, query, std::back_inserter(bs), point_map); // we can skip kernel here
     for (std::size_t i = 0; i < bs.size() - 1; ++i)
       std::cout << bs[i] << ", ";
     std::cout << bs[bs.size() - 1] << std::endl;

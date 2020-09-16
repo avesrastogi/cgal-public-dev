@@ -45,22 +45,22 @@ namespace internal {
     but they are not necessarily positive. These weights are computed analytically
     using the formulation from the `discrete_harmonic_weight()`.
 
-    \tparam Polygon
+    \tparam VertexRange
     a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
     \tparam GeomTraits
     a model of `AnalyticWeightTraits_2`
 
-    \tparam VertexMap
-    a model of `ReadablePropertyMap` whose key type is `Polygon::value_type` and
+    \tparam PointMap
+    a model of `ReadablePropertyMap` whose key type is `VertexRange::value_type` and
     value type is `Point_2`. The default is `CGAL::Identity_property_map`.
 
     \cgalModels `BarycentricWeights_2`
   */
   template<
-  typename Polygon,
+  typename VertexRange,
   typename GeomTraits,
-  typename VertexMap = CGAL::Identity_property_map<typename GeomTraits::Point_2> >
+  typename PointMap = CGAL::Identity_property_map<typename GeomTraits::Point_2> >
   class Discrete_harmonic_weights_2 {
 
   public:
@@ -69,9 +69,9 @@ namespace internal {
     /// @{
 
     /// \cond SKIP_IN_MANUAL
-    using Polygon_ = Polygon;
-    using GT = GeomTraits;
-    using Vertex_map = VertexMap;
+    using Vertex_range = VertexRange;
+    using Geom_traits = GeomTraits;
+    using Point_map = PointMap;
 
     using Area_2 = typename GeomTraits::Compute_area_2;
     using Squared_distance_2 = typename GeomTraits::Compute_squared_distance_2;
@@ -95,13 +95,13 @@ namespace internal {
       for 2D query points inside strictly convex polygons.
 
       \param polygon
-      an instance of `Polygon` with the vertices of a strictly convex polygon
+      an instance of `VertexRange` with the vertices of a strictly convex polygon
 
       \param traits
       an instance of `GeomTraits` with geometric traits. The default initialization is provided.
 
-      \param vertex_map
-      an instance of `VertexMap` that maps a vertex from `polygon`
+      \param point_map
+      an instance of `PointMap` that maps a vertex from `polygon`
       to `Point_2`. The default initialization is provided.
 
       \pre polygon.size() >= 3
@@ -109,21 +109,21 @@ namespace internal {
       \pre polygon is strictly convex
     */
     Discrete_harmonic_weights_2(
-      const Polygon& polygon,
+      const VertexRange& polygon,
       const GeomTraits traits = GeomTraits(),
-      const VertexMap vertex_map = VertexMap()) :
+      const PointMap point_map = PointMap()) :
     m_polygon(polygon),
     m_traits(traits),
-    m_vertex_map(vertex_map),
+    m_point_map(point_map),
     m_area_2(m_traits.compute_area_2_object()),
     m_squared_distance_2(m_traits.compute_squared_distance_2_object()) {
 
       CGAL_precondition(
         polygon.size() >= 3);
       CGAL_precondition(
-        internal::is_simple_2(polygon, traits, vertex_map));
+        internal::is_simple_2(polygon, traits, point_map));
       CGAL_precondition(
-        internal::polygon_type_2(polygon, traits, vertex_map) ==
+        internal::polygon_type_2(polygon, traits, point_map) ==
         internal::Polygon_type::STRICTLY_CONVEX);
       resize();
     }
@@ -179,9 +179,9 @@ namespace internal {
   private:
 
     // Fields.
-    const Polygon& m_polygon;
+    const VertexRange& m_polygon;
     const GeomTraits m_traits;
-    const VertexMap m_vertex_map;
+    const PointMap m_point_map;
     const Area_2 m_area_2;
     const Squared_distance_2 m_squared_distance_2;
 
@@ -209,25 +209,25 @@ namespace internal {
 
       // Compute areas A, B, and distances r following the notation from [1].
       // Split the loop to make this computation faster.
-      const auto& p1 = get(m_vertex_map, *(m_polygon.begin() + 0));
-      const auto& p2 = get(m_vertex_map, *(m_polygon.begin() + 1));
-      const auto& pn = get(m_vertex_map, *(m_polygon.begin() + (n - 1)));
+      const auto& p1 = get(m_point_map, *(m_polygon.begin() + 0));
+      const auto& p2 = get(m_point_map, *(m_polygon.begin() + 1));
+      const auto& pn = get(m_point_map, *(m_polygon.begin() + (n - 1)));
 
       r[0] = m_squared_distance_2(p1, query);
       A[0] = m_area_2(p1, p2, query);
       B[0] = m_area_2(pn, p2, query);
 
       for (std::size_t i = 1; i < n - 1; ++i) {
-        const auto& pi0 = get(m_vertex_map, *(m_polygon.begin() + (i - 1)));
-        const auto& pi1 = get(m_vertex_map, *(m_polygon.begin() + (i + 0)));
-        const auto& pi2 = get(m_vertex_map, *(m_polygon.begin() + (i + 1)));
+        const auto& pi0 = get(m_point_map, *(m_polygon.begin() + (i - 1)));
+        const auto& pi1 = get(m_point_map, *(m_polygon.begin() + (i + 0)));
+        const auto& pi2 = get(m_point_map, *(m_polygon.begin() + (i + 1)));
 
         r[i] = m_squared_distance_2(pi1, query);
         A[i] = m_area_2(pi1, pi2, query);
         B[i] = m_area_2(pi0, pi2, query);
       }
 
-      const auto& pm = get(m_vertex_map, *(m_polygon.begin() + (n - 2)));
+      const auto& pm = get(m_point_map, *(m_polygon.begin() + (n - 2)));
       r[n - 1] = m_squared_distance_2(pn, query);
       A[n - 1] = m_area_2(pn, p1, query);
       B[n - 1] = m_area_2(pm, p1, query);
