@@ -229,11 +229,12 @@ namespace Weights {
       an instance of `VertexRange` with the vertices of a strictly convex polygon
 
       \param traits
-      an instance of `GeomTraits` with geometric traits. The default initialization is provided.
+      a traits class with geometric objects, predicates, and constructions;
+      the default initialization is provided
 
       \param point_map
-      an instance of `PointMap` that maps a vertex from `polygon`
-      to `Point_2`. The default initialization is provided.
+      an instance of `PointMap` that maps a vertex from `polygon` to `Point_2`;
+      the default initialization is provided
 
       \pre polygon.size() >= 3
       \pre polygon is simple
