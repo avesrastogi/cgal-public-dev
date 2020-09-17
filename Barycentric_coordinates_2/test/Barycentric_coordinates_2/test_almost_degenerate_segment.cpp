@@ -2,7 +2,7 @@
 #include <vector>
 #include <cassert>
 #include <CGAL/Exact_predicates_exact_constructions_kernel.h>
-#include <CGAL/Barycentric_coordinates_2/analytic_coordinates_2.h>
+#include <CGAL/Barycentric_coordinates_2.h>
 
 using Kernel  = CGAL::Exact_predicates_exact_constructions_kernel;
 using FT      = typename Kernel::FT;

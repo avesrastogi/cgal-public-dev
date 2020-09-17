@@ -26,7 +26,7 @@
 #include <CGAL/license/Barycentric_coordinates_2.h>
 
 // Internal includes.
-#include <CGAL/Barycentric_coordinates_2/barycentric_enum_2.h>
+#include <CGAL/Barycentric_coordinates_2/internal/utils_2.h>
 #include <CGAL/Barycentric_coordinates_2/internal/Mean_value_weights_2.h>
 
 // [1] Reference: "K. Hormann and M. Floater.
@@ -113,15 +113,16 @@ namespace Barycentric_coordinates {
       an instance of `VertexRange` with the vertices of a simple polygon
 
       \param policy
-      one of the `Computation_policy_2`.
-      The default is `Computation_policy_2::PRECISE_WITH_EDGE_CASES`.
+      one of the `Computation_policy_2`;
+      the default is `Computation_policy_2::PRECISE_WITH_EDGE_CASES`
 
       \param traits
-      an instance of `GeomTraits` with geometric traits. The default initialization is provided.
+      a traits class with geometric objects, predicates, and constructions;
+      the default initialization is provided
 
       \param point_map
-      an instance of `PointMap` that maps a vertex from `polygon`
-      to `Point_2`. The default initialization is provided.
+      an instance of `PointMap` that maps a vertex from `polygon` to `Point_2`;
+      the default initialization is provided
 
       \pre polygon.size() >= 3
       \pre polygon is simple

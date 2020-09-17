@@ -16,4 +16,4 @@ Small extra fixes:
 * add a test with traits_concept that checks if all necessary traits objects are provided.
 * if the traits concept is covered by one from the weight interface, just use that one.
 * add review from Simon (see SR).
-* fix overloads.
+* check if it works with CGAL polygons.

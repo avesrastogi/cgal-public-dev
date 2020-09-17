@@ -34,7 +34,6 @@
 
 // Internal includes.
 #include <CGAL/Barycentric_coordinates_2/internal/utils_2.h>
-#include <CGAL/Barycentric_coordinates_2/barycentric_enum_2.h>
 
 namespace CGAL {
 namespace Barycentric_coordinates {
@@ -115,11 +114,12 @@ namespace Barycentric_coordinates {
       an instance of `VertexRange` with the vertices of a simple polygon
 
       \param traits
-      an instance of `GeomTraits` with geometric traits. The default initialization is provided.
+      a traits class with geometric objects, predicates, and constructions;
+      the default initialization is provided
 
       \param point_map
-      an instance of `PointMap` that maps a vertex from `polygon`
-      to `Point_2`. The default initialization is provided.
+      an instance of `PointMap` that maps a vertex from `polygon` to `Point_2`;
+      the default initialization is provided
 
       \pre polygon.size() >= 3
       \pre polygon is simple
@@ -146,21 +146,25 @@ namespace Barycentric_coordinates {
       the next m vertices are the vertices generated along the polygon boundary,
       the last k vertices are the vertices generated in the interior part of the polygon.
 
-      \param max_edge_length
-      an upper bound on the length of the longest edge.
-      See `Delaunay_mesh_size_criteria_2` for more details.
+      \tparam PointRange
+      a model of `ConstRange` whose value type is `GeomTraits::Point_2`
 
-      \param list_of_seeds
+      \param max_edge_length
+      an upper bound on the length of the longest edge;
+      see `Delaunay_mesh_size_criteria_2` for more details
+
+      \param seeds
       contains seed points indicating, which parts of the input polygon
       should be partitioned and subdivided
     */
+    template<typename PointRange>
     void create(
       const FT max_edge_length,
-      const std::list<Point_2>& list_of_seeds) {
+      const PointRange& seeds) {
 
       create_triangulation();
       refine_triangulation(
-        max_edge_length, list_of_seeds);
+        max_edge_length, seeds);
       check_boundaries();
       create_neighbors();
     }
@@ -422,13 +426,14 @@ namespace Barycentric_coordinates {
       }
     }
 
+    template<typename PointRange>
     void refine_triangulation(
       const FT max_edge_length,
-      const std::list<Point_2>& list_of_seeds) {
+      const PointRange& seeds) {
 
       // 0.125 is the default shape bound that corresponds to a bound of 20.6 degrees.
       Mesher mesher(m_cdt);
-      mesher.set_seeds(list_of_seeds.begin(), list_of_seeds.end(), true);
+      mesher.set_seeds(seeds.begin(), seeds.end(), true);
       mesher.set_criteria(Criteria(0.125, max_edge_length));
       mesher.refine_mesh();
 

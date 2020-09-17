@@ -32,7 +32,6 @@
 
 // Internal includes.
 #include <CGAL/Barycentric_coordinates_2/internal/utils_2.h>
-#include <CGAL/Barycentric_coordinates_2/barycentric_enum_2.h>
 
 // [1] Reference: "P. Joshi, M. Meyer, T. DeRose, B. Green, and T. Sanocki.
 // Harmonic coordinates for character articulation.
@@ -127,11 +126,12 @@ namespace Barycentric_coordinates {
       an instance of `InputDomain` with a partition of the interior part of a simple polygon
 
       \param traits
-      an instance of `GeomTraits` with geometric traits. The default initialization is provided.
+      a traits class with geometric objects, predicates, and constructions;
+      the default initialization is provided
 
       \param point_map
-      an instance of `PointMap` that maps a vertex from `polygon`
-      to `Point_2`. The default initialization is provided.
+      an instance of `PointMap` that maps a vertex from `polygon` to `Point_2`;
+      the default initialization is provided
 
       \pre polygon.size() >= 3
       \pre polygon is simple
