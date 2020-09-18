@@ -32,6 +32,7 @@
 
 // Internal includes.
 #include <CGAL/Barycentric_coordinates_2/internal/utils_2.h>
+#include <CGAL/Barycentric_coordinates_2/internal/Discrete_harmonic_weights_2.h>
 
 // [1] Reference: "P. Joshi, M. Meyer, T. DeRose, B. Green, and T. Sanocki.
 // Harmonic coordinates for character articulation.
@@ -63,7 +64,7 @@ namespace Barycentric_coordinates {
     \tparam VertexRange
     a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
-    \tparam InputDomain
+    \tparam DiscretizedDomain
     a model of `DiscretizedDomain_2`. For the moment, we only support domains
     whose partition's finite elements are triangles.
 
@@ -76,7 +77,7 @@ namespace Barycentric_coordinates {
   */
   template<
   typename VertexRange,
-  typename InputDomain,
+  typename DiscretizedDomain,
   typename GeomTraits,
   typename PointMap = CGAL::Identity_property_map<typename GeomTraits::Point_2> >
   class Harmonic_coordinates_2 {
@@ -88,7 +89,7 @@ namespace Barycentric_coordinates {
 
     /// \cond SKIP_IN_MANUAL
     using Vertex_range = VertexRange;
-    using Input_domain = InputDomain;
+    using Discretized_domain = DiscretizedDomain;
     using Geom_traits = GeomTraits;
     using Point_map = PointMap;
     /// \endcond
@@ -123,7 +124,7 @@ namespace Barycentric_coordinates {
       an instance of `VertexRange` with the vertices of a simple polygon
 
       \param domain
-      an instance of `InputDomain` with a partition of the interior part of a simple polygon
+      an instance of `DiscretizedDomain` with a partition of the interior part of a simple polygon
 
       \param traits
       a traits class with geometric objects, predicates, and constructions;
@@ -138,7 +139,7 @@ namespace Barycentric_coordinates {
     */
     Harmonic_coordinates_2(
       const VertexRange& polygon,
-      const InputDomain& domain,
+      const DiscretizedDomain& domain,
       const GeomTraits traits = GeomTraits(),
       const PointMap point_map = PointMap()) :
     m_polygon(polygon),
@@ -177,7 +178,7 @@ namespace Barycentric_coordinates {
       as \f$q = \sum_{i = 1}^{n}b_ip_i\f$, where \f$p_i\f$ are the polygon vertices.
 
       \tparam OutIterator
-      a model of `OutputIterator` whose value type is `FT`
+      a model of `OutputIterator` that accepts values of type `FT`
 
       \param query
       a query point
@@ -267,7 +268,7 @@ namespace Barycentric_coordinates {
       where \f$p_i\f$ are the polygon vertices.
 
       \tparam OutIterator
-      a model of `OutputIterator` whose value type is `FT`
+      a model of `OutputIterator` that accepts values of type `FT`
 
       \param query_index
       a domain's vertex index
@@ -427,7 +428,7 @@ namespace Barycentric_coordinates {
 
     // Fields.
     const VertexRange& m_polygon;
-    const InputDomain& m_domain;
+    const DiscretizedDomain& m_domain;
     const GeomTraits m_traits;
     const PointMap m_point_map;
 

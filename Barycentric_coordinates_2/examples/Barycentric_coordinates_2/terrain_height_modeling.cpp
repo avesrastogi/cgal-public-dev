@@ -46,11 +46,11 @@ int main() {
   };
 
   // Construct a Delaunay domain.
-  std::list<Point> list_of_seeds;
-  list_of_seeds.push_back(Point(0.1, 0.1, 0.0));
+  std::vector<Point> seeds;
+  seeds.push_back(Point(0.1, 0.1, 0.0));
 
   Domain domain(polygon);
-  domain.create(0.05, list_of_seeds);
+  domain.create(0.05, seeds);
 
   // Associate each polygon vertex with the corresponding function value.
   Vertex_function_value vertex_function_value;

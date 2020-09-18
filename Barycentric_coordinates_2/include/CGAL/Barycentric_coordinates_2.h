@@ -54,7 +54,7 @@ namespace Barycentric_coordinates {
     computed. See more details in the user manual \ref compute_seg_coord "here".
 
     \tparam OutIterator
-    a model of `OutputIterator` whose value type is `GeomTraits::FT`
+    a model of `OutputIterator` that accepts values of type `GeomTraits::FT`
 
     \tparam GeomTraits
     a model of `BarycentricTraits_2`
@@ -197,7 +197,7 @@ namespace Barycentric_coordinates {
     in the user manual \ref compute_tri_coord "here".
 
     \tparam OutIterator
-    a model of `OutputIterator` whose value type is `GeomTraits::FT`
+    a model of `OutputIterator` that accepts values of type `GeomTraits::FT`
 
     \tparam GeomTraits
     a model of `BarycentricTraits_2`
@@ -357,7 +357,7 @@ namespace Barycentric_coordinates {
     a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
     \tparam OutIterator
-    a model of `OutputIterator` whose value type is `GeomTraits::FT`
+    a model of `OutputIterator` that accepts values of type `GeomTraits::FT`
 
     \tparam GeomTraits
     a model of `BarycentricTraits_2`
@@ -423,15 +423,15 @@ namespace Barycentric_coordinates {
     \tparam VertexRange
     a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
-    \tparam Point_2
-    a point type
+    \tparam Query_2
+    a model of `Kernel::Point_2`
 
     \tparam OutIterator
-    a model of `OutputIterator` whose value type is `GeomTraits::FT`
+    a model of `OutputIterator` that accepts values of type `GeomTraits::FT`
 
     \tparam PointMap
     a model of `ReadablePropertyMap` whose key type is `VertexRange::value_type` and
-    value type is `Point_2`. The default is `CGAL::Identity_property_map`.
+    value type is `Query_2`. The default is `CGAL::Identity_property_map`.
 
     \param polygon
     an instance of `VertexRange` with 2D points, which form a simple polygon
@@ -443,7 +443,7 @@ namespace Barycentric_coordinates {
     the beginning of the destination range with the computed coordinates
 
     \param point_map
-    an instance of `PointMap` that maps a vertex from `polygon` to `Point_2`;
+    an instance of `PointMap` that maps a vertex from `polygon` to `Query_2`;
     the default initialization is provided
 
     \return an output iterator to the element in the destination range,
@@ -454,16 +454,16 @@ namespace Barycentric_coordinates {
   */
   template<
   typename VertexRange,
-  typename Point_2,
+  typename Query_2,
   typename OutIterator,
-  typename PointMap = CGAL::Identity_property_map<Point_2> >
+  typename PointMap = CGAL::Identity_property_map<Query_2> >
   std::pair<OutIterator, bool> boundary_coordinates_2(
     const VertexRange& polygon,
-    const Point_2& query,
+    const Query_2& query,
     OutIterator c_begin,
     const PointMap point_map = PointMap()) {
 
-    using GeomTraits = typename Kernel_traits<Point_2>::Kernel;
+    using GeomTraits = typename Kernel_traits<Query_2>::Kernel;
     const GeomTraits traits;
     return boundary_coordinates_2(
       polygon, query, c_begin, traits, point_map);
@@ -491,7 +491,7 @@ namespace Barycentric_coordinates {
     and value type is `GeomTraits::Point_2`
 
     \tparam OutIterator
-    a model of `OutputIterator` whose value type is `GeomTraits::FT`
+    a model of `OutputIterator` that accepts values of type `GeomTraits::FT`
 
     \tparam GeomTraits
     a model of `BarycentricTraits_2`
@@ -578,7 +578,7 @@ namespace Barycentric_coordinates {
     and value type is `GeomTraits::Point_2`
 
     \tparam OutIterator
-    a model of `OutputIterator` whose value type is `GeomTraits::FT`
+    a model of `OutputIterator` that accepts values of type `GeomTraits::FT`
 
     \tparam GeomTraits
     a model of `BarycentricTraits_2`
@@ -665,7 +665,7 @@ namespace Barycentric_coordinates {
     and value type is `GeomTraits::Point_2`
 
     \tparam OutIterator
-    a model of `OutputIterator` whose value type is `GeomTraits::FT`
+    a model of `OutputIterator` that accepts values of type `GeomTraits::FT`
 
     \tparam GeomTraits
     a model of `BarycentricTraits_2`
@@ -752,7 +752,7 @@ namespace Barycentric_coordinates {
     and value type is `GeomTraits::Point_2`
 
     \tparam OutIterator
-    a model of `OutputIterator` whose value type is `GeomTraits::FT`
+    a model of `OutputIterator` that accepts values of type `GeomTraits::FT`
 
     \tparam GeomTraits
     a model of `BarycentricTraits_2`
@@ -839,7 +839,7 @@ namespace Barycentric_coordinates {
     and value type is `GeomTraits::Point_2`
 
     \tparam OutIterator
-    a model of `OutputIterator` whose value type is `GeomTraits::FT`
+    a model of `OutputIterator` that accepts values of type `GeomTraits::FT`
 
     \tparam GeomTraits
     a model of `BarycentricTraits_2`
@@ -925,7 +925,7 @@ namespace Barycentric_coordinates {
     and value type is `GeomTraits::Point_2`
 
     \tparam OutIterator
-    a model of `OutputIterator` whose value type is `GeomTraits::FT`
+    a model of `OutputIterator` that accepts values of type `GeomTraits::FT`
 
     \tparam GeomTraits
     a model of `BarycentricTraits_2`
@@ -990,7 +990,7 @@ namespace Barycentric_coordinates {
   /// \endcond
 
   /*!
-    \ingroup PkgBarycentricCoordinates2RefApproximating
+    \ingroup PkgBarycentricCoordinates2RefFunctions
 
     \brief computes 2D harmonic coordinates.
 
@@ -1011,7 +1011,7 @@ namespace Barycentric_coordinates {
     and value type is `GeomTraits::Point_2`
 
     \tparam OutIterator
-    a model of `OutputIterator` whose value type is `std::vector<GeomTraits::FT>`
+    a model of `OutputIterator` that accepts elements of type `std::vector<GeomTraits::FT>`
 
     \tparam GeomTraits
     a model of `BarycentricTraits_2`

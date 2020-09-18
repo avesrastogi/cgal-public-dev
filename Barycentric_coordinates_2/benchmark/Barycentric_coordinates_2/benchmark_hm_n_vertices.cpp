@@ -1,4 +1,3 @@
-#include <vector>
 #include <CGAL/Real_timer.h>
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Barycentric_coordinates_2/Delaunay_domain_2.h>
@@ -38,15 +37,15 @@ int main() {
     0.00718, 0.0086, 0.00885, 0.00886, 0.00887, 0.00888, 0.00888
   };
 
-  std::list<Point_2> list_of_seeds;
-  list_of_seeds.push_back(Point_2(0.0, 0.0));
+  std::list<Point_2> seeds;
+  seeds.push_back(Point_2(0.0, 0.0));
 
   for (std::size_t i = 0; i < ns.size(); ++i) {
     Vertices vertices;
     generate_regular_polygon(ns[i], radius, vertices);
 
     Domain domain(vertices);
-    domain.create(scales[i], list_of_seeds);
+    domain.create(scales[i], seeds);
 
     HMC2 harmonic_coordinates_2(vertices, domain);
     std::cout << "benchmark_hm_n_vertices, num vertices/num queries: " <<

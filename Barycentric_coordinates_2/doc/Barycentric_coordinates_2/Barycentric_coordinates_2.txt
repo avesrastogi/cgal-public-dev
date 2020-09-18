@@ -309,7 +309,7 @@ mean value coordinates. The result is identical to the one from
 \section gbc_degeneracies Edge Cases
 
 Not all presented coordinates are general enough to handle any query point in the plane, that is
-why we highly recommend addressing this section in order to learn what can be expected from
+why we highly recommend reading this section in order to learn what can be expected from
 each coordinate function. If you want to get more mathematical details about each coordinate
 function as well as the complete history and theory behind barycentric coordinates, you should
 read \cgalCite{cgal:bc:hs-gbcicg-17}. You can also read an overview

@@ -28,16 +28,16 @@ public:
   }
 
   /*!
-    returns a const reference of type `Point_2` to the vertex with
-    the index `query_index`.
+    returns a const reference to the vertex with the index `query_index`, the
+    `Vertex_2` type being a model of `Kernel::Point_2`.
   */
-  const Point_2& vertex(
+  const Vertex_2& vertex(
     const std::size_t query_index) const {
 
   }
 
   /*!
-    controls if the vertex with the index `query_index` is on the
+    verifies if the vertex with the index `query_index` is on the
     boundary of the domain.
   */
   const bool is_on_boundary(
@@ -58,11 +58,11 @@ public:
 
   /*!
     fills `indices` with the indices of the vertices, which form a finite element
-    of the domain, that contains a `query` point, if no indices are found, the
-    `query` point does not belong to the domain.
+    of the domain, that contains a `query` point; if no indices are found, the
+    `query` point does not belong to the domain; the type `Query_2` is a model of `Kernel::Point_2`.
   */
   void locate(
-    const Point_2& query,
+    const Query_2& query,
     std::vector<std::size_t>& indices) {
 
   }

@@ -1,7 +1,3 @@
-#include <list>
-#include <cmath>
-#include <vector>
-#include <cassert>
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Barycentric_coordinates_2/Delaunay_domain_2.h>
 #include <CGAL/Barycentric_coordinates_2/Harmonic_coordinates_2.h>
@@ -23,12 +19,12 @@ int main() {
     Point_2(0, 1)
   };
 
-  std::list<Point_2> list_of_seeds;
-  list_of_seeds.push_back(Point_2(FT(1) / FT(2), FT(1) / FT(2)));
+  std::list<Point_2> seeds;
+  seeds.push_back(Point_2(FT(1) / FT(2), FT(1) / FT(2)));
 
   Domain domain(vertices);
   domain.release_memory();
-  domain.create(FT(1) / FT(100), list_of_seeds);
+  domain.create(FT(1) / FT(100), seeds);
 
   HMC2 harmonic_coordinates_2(vertices, domain);
   harmonic_coordinates_2.clear();

@@ -1,4 +1,3 @@
-#include <vector>
 #include <CGAL/Real_timer.h>
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Barycentric_coordinates_2/Delaunay_domain_2.h>
@@ -27,8 +26,8 @@ int save_raw_data() {
   const FT max_scale = 0.17500;
   FT step = (max_scale - min_scale) / FT(100);
 
-  std::list<Point_2> list_of_seeds;
-  list_of_seeds.push_back(Point_2(0.5, 0.5));
+  std::list<Point_2> seeds;
+  seeds.push_back(Point_2(0.5, 0.5));
 
   Domain domain(vertices);
   HMC2 harmonic_coordinates_2(vertices, domain);
@@ -40,7 +39,7 @@ int save_raw_data() {
     ++count;
 
     domain.clear();
-    domain.create(scale, list_of_seeds);
+    domain.create(scale, seeds);
     harmonic_coordinates_2.clear();
 
     timer.reset(); timer.start();
@@ -80,15 +79,15 @@ int main() {
     0.175, 0.072, 0.05, 0.01, 0.0071, 0.00502, 0.00224, 0.00158
   };
 
-  std::list<Point_2> list_of_seeds;
-  list_of_seeds.push_back(Point_2(0.5, 0.5));
+  std::list<Point_2> seeds;
+  seeds.push_back(Point_2(0.5, 0.5));
 
   Domain domain(vertices);
   HMC2 harmonic_coordinates_2(vertices, domain);
 
   for (const FT scale : scales) {
     domain.clear();
-    domain.create(scale, list_of_seeds);
+    domain.create(scale, seeds);
     std::cout << "benchmark_hm_4_vertices, num queries: " <<
       domain.number_of_vertices() << std::endl;
     harmonic_coordinates_2.clear();

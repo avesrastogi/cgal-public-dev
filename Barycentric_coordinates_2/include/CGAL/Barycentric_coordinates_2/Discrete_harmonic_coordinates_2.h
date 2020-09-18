@@ -158,7 +158,7 @@ namespace Barycentric_coordinates {
       The number of returned weights equals to the number of polygon vertices.
 
       \tparam OutIterator
-      a model of `OutputIterator` whose value type is `FT`
+      a model of `OutputIterator` that accepts values of type `FT`
 
       \param query
       a query point
@@ -191,7 +191,7 @@ namespace Barycentric_coordinates {
       as \f$q = \sum_{i = 1}^{n}b_ip_i\f$, where \f$p_i\f$ are the polygon vertices.
 
       \tparam OutIterator
-      a model of `OutputIterator` whose value type is `FT`
+      a model of `OutputIterator` that accepts values of type `FT`
 
       \param query
       a query point

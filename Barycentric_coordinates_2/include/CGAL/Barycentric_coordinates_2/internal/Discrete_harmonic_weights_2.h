@@ -143,7 +143,7 @@ namespace internal {
       The number of computed weights equals to the number of polygon vertices.
 
       \tparam OutIterator
-      a model of `OutputIterator` whose value type is `FT`
+      a model of `OutputIterator` that accepts values of type `FT`
 
       \param query
       a query point

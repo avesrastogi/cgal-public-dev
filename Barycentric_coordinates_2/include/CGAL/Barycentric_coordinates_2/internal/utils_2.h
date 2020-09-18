@@ -29,9 +29,10 @@
 #include <set>
 #include <map>
 #include <list>
+#include <tuple>
 #include <sstream>
 #include <fstream>
-#include <tuple>
+#include <cassert>
 
 // Boost headers.
 #include <boost/mpl/has_xxx.hpp>

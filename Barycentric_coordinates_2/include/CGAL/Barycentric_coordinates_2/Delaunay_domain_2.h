@@ -45,7 +45,7 @@ namespace Barycentric_coordinates {
 
     This class implements a discretized domain restricted to a simple polygon.
     The interior part of the input polygon is triangulated and refined with respect
-    to the user-defined shape size parameter. The final triangulation is a constrained
+    to the user-specified shape size parameter. The final triangulation is a constrained
     Delaunay triangulation, where the constraints are the polygon edges.
 
     Internally, the package \ref PkgMesh2 is used. See it for more details.
@@ -178,7 +178,7 @@ namespace Barycentric_coordinates {
       \brief computes barycenters of all generated triangles.
 
       \tparam OutIterator
-      a model of `OutputIterator` whose value type is `Point_2`
+      a model of `OutputIterator` that accepts points of type `Point_2`
 
       \param b_begin
       the beginning of the destination range with the computed barycenters

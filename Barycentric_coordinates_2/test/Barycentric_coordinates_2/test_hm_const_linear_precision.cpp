@@ -1,7 +1,3 @@
-#include <list>
-#include <cmath>
-#include <vector>
-#include <cassert>
 #include <CGAL/Simple_cartesian.h>
 #include <CGAL/Barycentric_coordinates_2/Delaunay_domain_2.h>
 #include <CGAL/Barycentric_coordinates_2/Harmonic_coordinates_2.h>
@@ -36,11 +32,11 @@ int main() {
     Point_2(0.01, 0.10), Point_2(0.02, 0.07)
   };
 
-  std::list<Point_2> list_of_seeds;
-  list_of_seeds.push_back(Point_2(0.1, 0.1));
+  std::vector<Point_2> seeds;
+  seeds.push_back(Point_2(0.1, 0.1));
 
   Domain domain(vertices);
-  domain.create(0.01, list_of_seeds);
+  domain.create(0.01, seeds);
 
   HMC2 harmonic_coordinates_2(vertices, domain);
   harmonic_coordinates_2.compute();

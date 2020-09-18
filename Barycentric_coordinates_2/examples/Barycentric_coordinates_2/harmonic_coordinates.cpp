@@ -35,11 +35,11 @@ int main() {
   };
 
   // Construct a Delaunay domain.
-  std::list<Point_2> list_of_seeds;
-  list_of_seeds.push_back(Point_2(0.1, 0.1));
+  std::list<Point_2> seeds;
+  seeds.push_back(Point_2(0.1, 0.1));
 
   Domain domain(polygon);
-  domain.create(0.01, list_of_seeds);
+  domain.create(0.01, seeds);
 
   // Compute harmonic coordinates at the vertices of the domain.
   Harmonic_coordinates_2 harmonic_coordinates_2(polygon, domain);

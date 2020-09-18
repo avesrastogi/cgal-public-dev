@@ -57,13 +57,13 @@ coordinates from the Package \ref PkgInterpolation2.}
 - `DiscretizedDomain_2`
 
 ## Analytic Coordinates ##
-- `Wachspress_coordinates_2<VertexRange GeomTraits, PointMap>`
-- `Mean_value_coordinates_2<VertexRange GeomTraits, PointMap>`
-- `Discrete_harmonic_coordinates_2<VertexRange GeomTraits, PointMap>`
+- `Wachspress_coordinates_2<VertexRange, GeomTraits, PointMap>`
+- `Mean_value_coordinates_2<VertexRange, GeomTraits, PointMap>`
+- `Discrete_harmonic_coordinates_2<VertexRange, GeomTraits, PointMap>`
 
 ## Harmonic Coordinates ##
-- `Delaunay_domain_2<VertexRange GeomTraits, PointMap>`
-- `Harmonic_coordinates_2<VertexRange Domain, GeomTraits, PointMap>`
+- `Delaunay_domain_2<VertexRange, GeomTraits, PointMap>`
+- `Harmonic_coordinates_2<VertexRange, DiscretizedDomain, GeomTraits, PointMap>`
 
 ## Free Functions ##
 - `segment_coordinates_2()`
@@ -74,6 +74,8 @@ coordinates from the Package \ref PkgInterpolation2.}
 - `mean_value_coordinates_2()`
 - `discrete_harmonic_weights_2()`
 - `discrete_harmonic_coordinates_2()`
+- `harmonic_coordinates_2()`
+- `boundary_coordinates_2()`
 */
 
 } /* namespace Barycentric_coordinates */
