@@ -32,7 +32,7 @@
 
 // Internal includes.
 #include <CGAL/Barycentric_coordinates_2/internal/utils_2.h>
-#include <CGAL/Barycentric_coordinates_2/internal/Discrete_harmonic_weights_2.h>
+#include <CGAL/Barycentric_coordinates_2/internal/Cotangent_weights_2.h>
 
 // [1] Reference: "P. Joshi, M. Meyer, T. DeRose, B. Green, and T. Sanocki.
 // Harmonic coordinates for character articulation.
@@ -537,10 +537,6 @@ namespace Barycentric_coordinates {
       std::vector<std::size_t> neighbors;
       neighbors.reserve(7);
 
-      std::vector<FT> alpha_cot, beta_cot;
-      alpha_cot.reserve(7);
-      beta_cot.reserve(7);
-
       // Traverse interior vertices of the domain.
       for (std::size_t i = 0; i < N; ++i) {
         if (!m_domain.is_on_boundary(i)) {
@@ -552,31 +548,19 @@ namespace Barycentric_coordinates {
           const std::size_t nn = neighbors.size(); // nn is about 7
           CGAL_assertion(nn > 0);
 
-          // Compute discrete harmonic weights.
-          alpha_cot.clear(); beta_cot.clear();
-          for (std::size_t j = 0; j < nn; ++j) {
-            const std::size_t jp = (j + 1) % nn;
-
-            const auto& p1 = m_domain.vertex(neighbors[j]);
-            const auto& p2 = m_domain.vertex(neighbors[jp]);
-
-            auto s1 = m_construct_vector_2(p1, query);
-            auto s2 = m_construct_vector_2(p1, p2);
-            alpha_cot.push_back(internal::cotangent_2(s2, s1, m_traits));
-
-            s1 = m_construct_vector_2(p2, p1);
-            s2 = m_construct_vector_2(p2, query);
-            beta_cot.push_back(internal::cotangent_2(s2, s1, m_traits));
-          }
-
           // Set the right side vector b of the system
           // and fill in a triplet list.
           FT W = FT(0);
           for (std::size_t j = 0; j < nn; ++j) {
+            const std::size_t jm  = (j + nn - 1) % nn;
             const std::size_t jp  = (j + 1) % nn;
-            const std::size_t idx = neighbors[jp];
 
-            const FT w = -(alpha_cot[j] + beta_cot[jp]);
+            const std::size_t idx = neighbors[j];
+            const auto& p0 = m_domain.vertex(neighbors[jm]);
+            const auto& p1 = m_domain.vertex(neighbors[j]);
+            const auto& p2 = m_domain.vertex(neighbors[jp]);
+            const FT w = -internal::cotangent_weight(
+              p0, p1, p2, query, m_traits) / FT(2);
             W -= w;
 
             if (m_domain.is_on_boundary(idx)) {

@@ -269,10 +269,18 @@ The interpolated data. The color bar represents the corresponding height.
 
 \subsection shape_deform_example Shape Deformation
 This is another advanced example that shows how to use generalized barycentric coordinates
-in order to deform a given 2D shape into another shape. If the chosen coordinates
-are negative inside a polygon, the deformed shape may fold over the polygon boundary.
-That is why we use harmonic coordinates, which are guaranteed to be positive inside any
-simple polygon.
+in order to deform a given 2D shape into another shape as shown in the figure below.
+Harmonic coordinates satisfy all the properties of barycentric coordinates for complicated
+concave polygons and hence this is our choice to perform a shape deformation. Note that
+even though harmonic coordinates are guaranteed to be positive inside a polygon, they
+do not guarantee a bijective mapping between the source and target shapes that is
+the target mesh can fold over the target polygon after the mapping (see the little fold over
+in the left shoulder of the target shape).
+
+\cgalFigureBegin{shape_deformation_example, shape_deformation.svg}
+The shape on the left is deformed into the shape on the right. The zoom shows a fold over
+in the left shoulder of the target shape where the red triangle goes over the polygon boundary.
+\cgalFigureEnd
 
 \anchor deformation_example
 \cgalExample{Barycentric_coordinates_2/shape_deformation.cpp}

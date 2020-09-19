@@ -20,8 +20,8 @@
 // Author(s)     : Dmitry Anisimov
 //
 
-#ifndef CGAL_WEIGHTS_INTERNAL_POLYGON_UTILS_2_H
-#define CGAL_WEIGHTS_INTERNAL_POLYGON_UTILS_2_H
+#ifndef CGAL_BARYCENTRIC_INTERNAL_POLYGON_UTILS_2_H
+#define CGAL_BARYCENTRIC_INTERNAL_POLYGON_UTILS_2_H
 
 #include <CGAL/license/Barycentric_coordinates_2.h>
 
@@ -65,30 +65,13 @@ namespace internal {
     STRICTLY_CONVEX = 2
   };
 
-  // Normalize values.
-  template<typename FT>
-  void normalize(std::vector<FT>& values) {
-
-    FT sum = FT(0);
-    for (const FT value : values)
-      sum += value;
-
-    CGAL_assertion(sum != FT(0));
-    if (sum == FT(0))
-      return;
-
-    const FT inv_sum = FT(1) / sum;
-    for (FT& value : values)
-      value *= inv_sum;
-  }
-
   // This function is taken from the Polygon_2_algorithms.h header.
   // But it is updated to support property maps.
   template<
   class Point_2,
   class Orientation_2,
   class CompareX_2>
-  int which_side_in_slab(
+  int which_side_in_slab_2(
     const Point_2& query,
     const Point_2& low,
     const Point_2& high,
@@ -164,7 +147,7 @@ namespace internal {
               }
               break;
             case CGAL::LARGER:
-              switch (which_side_in_slab(
+              switch (which_side_in_slab_2(
                 query, currp, nextp, orientation_2, compare_x_2)) {
                 case -1: is_inside = !is_inside; break;
                 case  0: return Edge_case::BOUNDARY;
@@ -204,7 +187,7 @@ namespace internal {
         case CGAL::LARGER:
           switch (next_y_comp_res) {
             case CGAL::SMALLER:
-              switch (which_side_in_slab(
+              switch (which_side_in_slab_2(
                 query, nextp, currp, orientation_2, compare_x_2)) {
                 case -1: is_inside = !is_inside; break;
                 case  0: return Edge_case::BOUNDARY;
@@ -383,4 +366,4 @@ namespace internal {
 } // namespace Barycentric_coordinates
 } // namespace CGAL
 
-#endif // CGAL_WEIGHTS_INTERNAL_POLYGON_UTILS_2_H
+#endif // CGAL_BARYCENTRIC_INTERNAL_POLYGON_UTILS_2_H

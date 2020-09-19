@@ -20,8 +20,8 @@
 // Author(s)     : Dmitry Anisimov, David Bommes, Kai Hormann, Pierre Alliez
 //
 
-#ifndef CGAL_BARYCENTRIC_UTILS_2_H
-#define CGAL_BARYCENTRIC_UTILS_2_H
+#ifndef CGAL_BARYCENTRIC_INTERNAL_UTILS_2_H
+#define CGAL_BARYCENTRIC_INTERNAL_UTILS_2_H
 
 #include <CGAL/license/Barycentric_coordinates_2.h>
 
@@ -107,6 +107,7 @@ namespace internal {
     }
   };
 
+  // Get default values.
   template<typename OutputIterator>
   void get_default(
     const std::size_t n,
@@ -116,6 +117,24 @@ namespace internal {
       *(output++) = 0;
   }
 
+  // Normalize values.
+  template<typename FT>
+  void normalize(std::vector<FT>& values) {
+
+    FT sum = FT(0);
+    for (const FT value : values)
+      sum += value;
+
+    CGAL_assertion(sum != FT(0));
+    if (sum == FT(0))
+      return;
+
+    const FT inv_sum = FT(1) / sum;
+    for (FT& value : values)
+      value *= inv_sum;
+  }
+
+  // Compute barycentric coordinates along the line.
   template<
   typename OutputIterator,
   typename GeomTraits>
@@ -155,6 +174,7 @@ namespace internal {
     return coordinates;
   }
 
+  // Compute barycentric coordinates in the plane.
   template<
   typename OutputIterator,
   typename GeomTraits>
@@ -200,6 +220,7 @@ namespace internal {
     return coordinates;
   }
 
+  // Find a polygon edge that contains a query, if any (an approximate method).
   template<
   typename VertexRange,
   typename GeomTraits,
@@ -247,7 +268,8 @@ namespace internal {
     return boost::none;
   }
 
-  // Why this one does not work for harmonic coordinates?
+  // Why this one does not work for harmonic coordinates? - Due to the imprecisions in the Mesh_2 class.
+  // Find a polygon edge that contains a query, if any (an exact method).
   template<
   typename VertexRange,
   typename GeomTraits,
@@ -284,6 +306,7 @@ namespace internal {
     return boost::none;
   }
 
+  // Check wether a query point belongs to the last polygon edge.
   template<
   typename VertexRange,
   typename OutputIterator,
@@ -318,6 +341,7 @@ namespace internal {
     return std::make_pair(coordinates, true);
   }
 
+  // Compute barycentric coordinates along the polygon boundary.
   template<
   typename VertexRange,
   typename OutputIterator,
@@ -377,6 +401,7 @@ namespace internal {
     return std::make_pair(coordinates, false);
   }
 
+  // Locate a point with respect to a polygon.
   template<
   typename VertexRange,
   typename GeomTraits,
@@ -405,27 +430,8 @@ namespace internal {
     return boost::none;
   }
 
-  // Do we need it at all? Can we use DH weights inside Harmonic coordinates?
-  template<typename GeomTraits>
-  typename GeomTraits::FT cotangent_2(
-    const typename GeomTraits::Vector_2& v1,
-    const typename GeomTraits::Vector_2& v2,
-    const GeomTraits& traits) {
-
-    using FT = typename GeomTraits::FT;
-    const auto cross_product_2 = traits.compute_determinant_2_object();
-    const auto scalar_product_2 = traits.compute_scalar_product_2_object();
-
-    const FT det = cross_product_2(v1, v2);
-    const FT dot = scalar_product_2(v1, v2);
-
-    const FT cot_denominator = CGAL::abs(det);
-    CGAL_assertion(cot_denominator != FT(0));
-    return dot / cot_denominator;
-  }
-
 } // namespace internal
 } // namespace Barycentric_coordinates
 } // namespace CGAL
 
-#endif // CGAL_BARYCENTRIC_UTILS_2_H
+#endif // CGAL_BARYCENTRIC_INTERNAL_UTILS_2_H

@@ -11,9 +11,6 @@
 * Check memory leaking.
 
 Small extra fixes:
-* i should use weight interface in order to compute discrete harmonic weights inside the harmonic solver.
 * i should refactor harmonic coordinates and make its solver a parameter. In this case, I should also update the solver interface package.
-* add a test with traits_concept that checks if all necessary traits objects are provided.
 * check if it works with CGAL polygons.
 * test projection traits xy.
-* add a picture to the shape deformation example.
