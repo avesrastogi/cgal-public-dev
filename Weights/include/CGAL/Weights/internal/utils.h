@@ -93,6 +93,23 @@ namespace internal {
     }
   };
 
+  // Normalize values.
+  template<typename FT>
+  void normalize(std::vector<FT>& values) {
+
+    FT sum = FT(0);
+    for (const FT value : values)
+      sum += value;
+
+    CGAL_assertion(sum != FT(0));
+    if (sum == FT(0))
+      return;
+
+    const FT inv_sum = FT(1) / sum;
+    for (FT& value : values)
+      value *= inv_sum;
+  }
+
   // Raises value to the power.
   template<typename GeomTraits>
   const typename GeomTraits::FT power(
