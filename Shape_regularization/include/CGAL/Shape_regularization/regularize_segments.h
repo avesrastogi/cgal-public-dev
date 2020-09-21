@@ -358,7 +358,7 @@ namespace Segments {
     a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
     \tparam OutIterator
-    a model of `OutputIterator` whose value type is `std::vector<std::size_t>`
+    a model of `OutputIterator` that accepts elements of type `std::vector<std::size_t>`
 
     \tparam NamedParameters
     a sequence of \ref bgl_namedparameters "Named Parameters"
@@ -484,7 +484,7 @@ namespace Segments {
     a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
     \tparam OutIterator
-    a model of `OutputIterator` whose value type is `std::vector<std::size_t>`
+    a model of `OutputIterator` that accepts elements of type `std::vector<std::size_t>`
 
     \tparam NamedParameters
     a sequence of \ref bgl_namedparameters "Named Parameters"
@@ -610,7 +610,7 @@ namespace Segments {
     a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
     \tparam OutIterator
-    a model of `OutputIterator` whose value type is `std::vector<std::size_t>`
+    a model of `OutputIterator` that accepts elements of type `std::vector<std::size_t>`
 
     \tparam NamedParameters
     a sequence of \ref bgl_namedparameters "Named Parameters"
@@ -735,7 +735,7 @@ namespace Segments {
     a model of `ConstRange` whose iterator type is `RandomAccessIterator`
 
     \tparam OutIterator
-    a model of `OutputIterator` whose value type is `GeomTraits::Segment_2`
+    a model of `OutputIterator` that accepts segments of type `GeomTraits::Segment_2`
 
     \tparam NamedParameters
     a sequence of \ref bgl_namedparameters "Named Parameters"

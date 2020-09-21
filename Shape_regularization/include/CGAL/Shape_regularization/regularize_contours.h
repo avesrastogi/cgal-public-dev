@@ -60,7 +60,7 @@ namespace Contours {
     a model of `ContourDirections`
 
     \tparam OutIterator
-    a model of `OutputIterator` whose value type is `GeomTraits::Point_2`
+    a model of `OutputIterator` that accepts points of type `GeomTraits::Point_2`
 
     \tparam NamedParameters
     a sequence of \ref bgl_namedparameters "Named Parameters"
@@ -193,7 +193,7 @@ namespace Contours {
     a model of `ContourDirections`
 
     \tparam OutIterator
-    a model of `OutputIterator` whose value type is `GeomTraits::Point_2`
+    a model of `OutputIterator` that accepts points of type `GeomTraits::Point_2`
 
     \tparam NamedParameters
     a sequence of \ref bgl_namedparameters "Named Parameters"

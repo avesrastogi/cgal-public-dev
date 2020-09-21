@@ -294,7 +294,7 @@ namespace Segments {
       This method calls `Segments::parallel_groups()`.
 
       \tparam OutIterator
-      a model of `OutputIterator` whose value type is `std::vector<std::size_t>`
+      a model of `OutputIterator` that accepts elements of type `std::vector<std::size_t>`
 
       \param groups
       an output iterator with groups of segment indices
@@ -315,7 +315,7 @@ namespace Segments {
       This method calls `Segments::orthogonal_groups()`.
 
       \tparam OutIterator
-      a model of `OutputIterator` whose value type is `std::vector<std::size_t>`
+      a model of `OutputIterator` that accepts elements of type `std::vector<std::size_t>`
 
       \param groups
       an output iterator with groups of segment indices

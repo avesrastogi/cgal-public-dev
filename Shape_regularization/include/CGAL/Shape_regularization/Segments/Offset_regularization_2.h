@@ -297,7 +297,7 @@ namespace Segments {
       This method calls `Segments::collinear_groups()`.
 
       \tparam OutIterator
-      a model of `OutputIterator` whose value type is `std::vector<std::size_t>`
+      a model of `OutputIterator` that accepts elements of type `std::vector<std::size_t>`
 
       \param groups
       an output iterator with groups of segment indices
@@ -332,7 +332,7 @@ namespace Segments {
       The number of returned segments is the number of detected collinear groups.
 
       \tparam OutIterator
-      a model of `OutputIterator` whose value type is `GeomTraits::Segment_2`
+      a model of `OutputIterator` that accepts segments of type `GeomTraits::Segment_2`
 
       \param segments
       an output iterator with the simplified segments
