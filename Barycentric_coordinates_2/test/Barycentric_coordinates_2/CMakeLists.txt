@@ -4,7 +4,7 @@
 project(Barycentric_coordinates_2_Tests)
 
 cmake_minimum_required(VERSION 2.8.10)
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 
 find_package(CGAL QUIET COMPONENTS Core)
 if(CGAL_FOUND)
@@ -60,6 +60,9 @@ if(CGAL_FOUND)
   create_single_source_cgal_program(
     "test_dh_weights.cpp")
 
+  create_single_source_cgal_program(
+    "test_cgal_polygons.cpp")
+
   find_package(Eigen3 REQUIRED)
   if(EIGEN3_FOUND)
     include(${EIGEN3_USE_FILE})
@@ -70,6 +73,16 @@ if(CGAL_FOUND)
       "test_hm_const_linear_precision.cpp")
     create_single_source_cgal_program(
       "test_hm_triangle.cpp")
+
+    # missing:
+    # construct_centroid_2,
+    # compute_determinant_2
+    # in projection traits
+    # create_single_source_cgal_program(
+    #   "test_projection_traits.cpp")
+
+    create_single_source_cgal_program(
+      "test_all_coordinates.cpp")
 
   else()
     message(WARNING

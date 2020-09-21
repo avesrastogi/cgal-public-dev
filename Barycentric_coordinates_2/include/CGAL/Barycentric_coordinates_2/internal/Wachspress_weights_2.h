@@ -180,6 +180,7 @@ namespace internal {
     const VertexRange& m_polygon;
     const GeomTraits m_traits;
     const PointMap m_point_map;
+
     const Area_2 m_area_2;
 
     std::vector<FT> A;

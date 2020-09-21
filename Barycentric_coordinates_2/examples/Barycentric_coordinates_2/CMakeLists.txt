@@ -4,7 +4,7 @@
 project(Barycentric_coordinates_2_Examples)
 
 cmake_minimum_required(VERSION 2.8.10)
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 
 find_package(CGAL QUIET COMPONENTS Core)
 if(CGAL_FOUND)
@@ -22,10 +22,14 @@ if(CGAL_FOUND)
     "mean_value_coordinates.cpp")
   create_single_source_cgal_program(
     "discrete_harmonic_coordinates.cpp")
-  create_single_source_cgal_program(
-    "terrain_height_modeling.cpp")
-  create_single_source_cgal_program(
-    "shape_deformation.cpp")
+
+  # missing:
+  # construct_centroid_2
+  # in projection traits
+  # create_single_source_cgal_program(
+  #   "terrain_height_modeling.cpp")
+
+  # this code is deprecated:
   # create_single_source_cgal_program(
   #   "deprecated_coordinates.cpp")
 
@@ -37,6 +41,8 @@ if(CGAL_FOUND)
       "affine_coordinates.cpp")
     create_single_source_cgal_program(
       "harmonic_coordinates.cpp")
+    create_single_source_cgal_program(
+      "shape_deformation.cpp")
 
   else()
     message(WARNING

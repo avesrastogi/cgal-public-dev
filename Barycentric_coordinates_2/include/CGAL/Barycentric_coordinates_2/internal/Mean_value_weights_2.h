@@ -187,6 +187,7 @@ namespace internal {
     const VertexRange& m_polygon;
     const GeomTraits m_traits;
     const PointMap m_point_map;
+
     const Area_2 m_area_2;
     const Construct_vector_2 m_construct_vector_2;
     const Squared_length_2 m_squared_length_2;

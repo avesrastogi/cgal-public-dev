@@ -78,6 +78,8 @@ namespace Barycentric_coordinates {
     using Geom_traits = GeomTraits;
     using Point_map = PointMap;
 
+    using Construct_centroid_2 = typename GeomTraits::Construct_centroid_2;
+
     struct VI {
       bool is_on_boundary = false;
       std::size_t index = std::size_t(-1);
@@ -130,7 +132,9 @@ namespace Barycentric_coordinates {
       const PointMap point_map = PointMap()) :
     m_polygon(polygon),
     m_traits(traits),
-    m_point_map(point_map) {
+    m_point_map(point_map),
+    m_construct_centroid_2(
+      m_traits.construct_centroid_2_object()) {
 
       CGAL_precondition(
         polygon.size() >= 3);
@@ -197,7 +201,7 @@ namespace Barycentric_coordinates {
       fh != m_cdt.finite_faces_end(); ++fh) {
         if (!fh->is_in_domain()) continue;
 
-        const Point_2 b = CGAL::centroid(
+        const Point_2 b = m_construct_centroid_2(
         fh->vertex(0)->point(),
         fh->vertex(1)->point(),
         fh->vertex(2)->point());
@@ -401,6 +405,8 @@ namespace Barycentric_coordinates {
     const VertexRange& m_polygon;
     const GeomTraits m_traits;
     const PointMap m_point_map;
+
+    const Construct_centroid_2 m_construct_centroid_2;
 
     CDT m_cdt;
     std::vector<Vertex_handle> m_vhs;
