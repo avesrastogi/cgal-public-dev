@@ -43,10 +43,10 @@ namespace Segments {
     \brief An offset-based regularization type for 2D segments that reinforces
     collinearity relationships.
 
-    All input segments should be either orthogonal or parallel to each other.
+    The input groups of segments should each contain (near) parallel segments.
     In order to achieve that, one may use the class `Segments::Angle_regularization_2`
-    or the function `Segments::parallel_groups()`.
-    Each group of parallel segments may be inserted using the method `add_group()`.
+    or the function `Segments::parallel_groups()`. Each group of parallel segments
+    may be inserted using the method `add_group()`.
 
     \tparam GeomTraits
     a model of `Kernel`

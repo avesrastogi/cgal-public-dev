@@ -2,6 +2,8 @@
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Shape_regularization.h>
 
+// #include "../../test/Shape_regularization/include/Saver.h"
+
 using Kernel  = CGAL::Exact_predicates_inexact_constructions_kernel;
 using FT      = typename Kernel::FT;
 using Point_2 = typename Kernel::Point_2;
@@ -12,7 +14,8 @@ using CD = CGAL::Shape_regularization::Contours::Longest_direction_2<Kernel, Con
 
 void benchmark_contours(
   const std::size_t n,
-  const bool simple_output) {
+  const bool simple_output,
+  const std::size_t num_iters = 1) {
 
   FT step = FT(1), d = FT(1) / FT(10);
   FT x = FT(0), y = FT(0);
@@ -39,6 +42,10 @@ void benchmark_contours(
     contour.push_back(vertex);
   }
 
+  // CGAL::Shape_regularization::Tests::Saver<Kernel> saver;
+  // saver.export_eps_closed_contour(contour, "path_to/logs/closed", 100.0);
+  // saver.export_eps_open_contour(contour, "path_to/logs/open", 100.0);
+
   regularized.clear();
   timer.start();
   CD closed_directions(contour, true);
@@ -46,13 +53,18 @@ void benchmark_contours(
   const double longest_closed = timer.time();
   timer.reset();
 
-  timer.start();
-  CGAL::Shape_regularization::Contours::regularize_closed_contour(
-    contour, closed_directions, std::back_inserter(regularized),
-    CGAL::parameters::max_offset(max_offset_2));
-  timer.stop();
-  const double closed_time = timer.time();
-  timer.reset();
+  double closed_time = 0.0;
+  for (std::size_t i = 0; i < num_iters; ++i) {
+    regularized.clear();
+    timer.start();
+    CGAL::Shape_regularization::Contours::regularize_closed_contour(
+      contour, closed_directions, std::back_inserter(regularized),
+      CGAL::parameters::max_offset(max_offset_2));
+    timer.stop();
+    closed_time += timer.time();
+    timer.reset();
+  }
+  closed_time /= static_cast<double>(num_iters);
 
   regularized.clear();
   timer.start();
@@ -61,13 +73,18 @@ void benchmark_contours(
   const double longest_open = timer.time();
   timer.reset();
 
-  timer.start();
-  CGAL::Shape_regularization::Contours::regularize_open_contour(
-    contour, open_directions, std::back_inserter(regularized),
-    CGAL::parameters::max_offset(max_offset_2));
-  timer.stop();
-  const double open_time = timer.time();
-  timer.reset();
+  double open_time = 0.0;
+  for (std::size_t i = 0; i < num_iters; ++i) {
+    regularized.clear();
+    timer.start();
+    CGAL::Shape_regularization::Contours::regularize_open_contour(
+      contour, open_directions, std::back_inserter(regularized),
+      CGAL::parameters::max_offset(max_offset_2));
+    timer.stop();
+    open_time += timer.time();
+    timer.reset();
+  }
+  open_time /= static_cast<double>(num_iters);
 
   std::cout.precision(10);
   if (simple_output)

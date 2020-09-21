@@ -280,6 +280,13 @@ into groups with contextually similar properties from the very beginning will le
 performance as indicated in the table. However, note that not each data set can be meaningfully
 split into such groups.
 
+To benchmark the algorithm, we create a simple pattern with a few unregularized segments,
+where we know the exact angle and offset difference between pairs of segments, we then
+repeat this pattern until we reach the required number of segments. We, finally, apply both
+angle and then offset regularization 100 times and return the average time. In the pre-grouped
+version, we create groups of 10 subsequent segments that is for 500 input segments we
+have 50 input groups.
+
 <table class="markdownTable" align="center">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadCenter">Number of segments</th>
@@ -429,13 +436,18 @@ An open contour before (red) and after (green) the contour regularization.
 
 \subsection Contour_Regularization_Performance Performance
 
-The contour regularization algorithms, both closed and open, show linear in practice
-time behavior with respect to the number of input contour vertices. In fact, the time
+The contour regularization algorithms, both closed and open, have, in practice, a
+linear time behavior with respect to the number of contour vertices. In fact, the time
 is not linear, as you can see in the table and figure below, due to the second step
 of merging consecutive collinear edges. For some polygons, the number of such edges
 is quite high and before merging them into one segment, we collect all of them into a group
 in order to find the best optimal position to place the final segment that may lead to a slower
 performance in some cases.
+
+To benchmark the algorithm, we create a simple pattern and repeat it until we have a
+closed or open polygon with the required number of vertices. We know the exact angle and
+offset difference between consecutive polygon edges within this pattern. We then apply
+the contour regularization algorithm 100 times and return the average time.
 
 <table class="markdownTable" align="center">
 <tr class="markdownTableHead">

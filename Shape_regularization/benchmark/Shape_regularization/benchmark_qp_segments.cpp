@@ -2,6 +2,8 @@
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Shape_regularization.h>
 
+// #include "../../test/Shape_regularization/include/Saver.h"
+
 using Kernel    = CGAL::Exact_predicates_inexact_constructions_kernel;
 using FT        = typename Kernel::FT;
 using Point_2   = typename Kernel::Point_2;
@@ -17,7 +19,8 @@ using OR = CGAL::Shape_regularization::Segments::Offset_regularization_2<Kernel,
 void benchmark_qp_segments(
   const std::size_t n,
   const bool regroup,
-  const bool simple_output) {
+  const bool simple_output,
+  const std::size_t num_iters = 1) {
 
   FT step = FT(1), d = FT(1) / FT(10);
   FT x1 = FT(0), y1 = FT(0), x2 = FT(0), y2 = FT(0);
@@ -47,6 +50,9 @@ void benchmark_qp_segments(
     const Point_2 target = Point_2(x2, y2);
     segments.push_back(Segment_2(source, target));
   }
+
+  // CGAL::Shape_regularization::Tests::Saver<Kernel> saver;
+  // saver.export_eps_segments(segments, "path_to/logs/segments", 100.0);
 
   Timer timer;
   timer.start();
@@ -85,12 +91,17 @@ void benchmark_qp_segments(
   const double setup_angle_time = timer.time();
   timer.reset();
 
-  timer.start();
-  CGAL::Shape_regularization::Segments::regularize_segments(
-    segments, neighbor_query, angle_regularization);
-  timer.stop();
-  const double angle_time = timer.time();
-  timer.reset();
+  double angle_time = 0.0;
+  for (std::size_t i = 0; i < num_iters; ++i) {
+    auto copied = segments;
+    timer.start();
+    CGAL::Shape_regularization::Segments::regularize_segments(
+      copied, neighbor_query, angle_regularization);
+    timer.stop();
+    angle_time += timer.time();
+    timer.reset();
+  }
+  angle_time /= static_cast<double>(num_iters);
 
   const FT max_offset_2 = FT(1) / FT(5);
   timer.start();
@@ -118,12 +129,17 @@ void benchmark_qp_segments(
   const double add_group_time = timer.time();
   timer.reset();
 
-  timer.start();
-  CGAL::Shape_regularization::Segments::regularize_segments(
-    segments, neighbor_query, offset_regularization);
-  timer.stop();
-  const double offset_time = timer.time();
-  timer.reset();
+  double offset_time = 0.0;
+  for (std::size_t i = 0; i < num_iters; ++i) {
+    auto copied = segments;
+    timer.start();
+    CGAL::Shape_regularization::Segments::regularize_segments(
+      copied, neighbor_query, offset_regularization);
+    timer.stop();
+    offset_time += timer.time();
+    timer.reset();
+  }
+  offset_time /= static_cast<double>(num_iters);
 
   std::cout.precision(10);
   if (regroup && !simple_output)
