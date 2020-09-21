@@ -72,7 +72,7 @@ namespace Segments {
     \tparam RegType
     a model of `RegularizationType`
 
-    \tparam QPTraits
+    \tparam QPSolver
     a model of `QuadraticProgramTraits`
 
     \tparam GeomTraits
@@ -82,19 +82,19 @@ namespace Segments {
     a const range of input segments for shape regularization
 
     \param neighbor_query
-    an instance of `NeighborQuery` that is used internally to
+    an instance of `NeighQuery` that is used internally to
     access neighbors of a segment; this parameter can be omitted together
     with the `regularization_type` parameter, in this case, all types of regularities
     will be reinforced on the whole input range
 
     \param regularization_type
-    an instance of `RegularizationType` that is used internally to
+    an instance of `RegType` that is used internally to
     obtain bounds and target values required by the regularization;
     this parameter can be omitted together with the `neighbor_query` parameter,
     in this case, all types of regularities will be reinforced on the whole input range
 
     \param quadratic_program
-    an instance of `QuadraticProgramTraits` to solve the quadratic programming problem;
+    an instance of `QPSolver` to solve the quadratic programming problem;
     this parameter can be omitted, the default solver is `CGAL::OSQP_quadratic_program_traits`
 
     \param traits
@@ -110,18 +110,18 @@ namespace Segments {
   typename InputRange,
   typename NeighQuery,
   typename RegType,
-  typename QPTraits,
+  typename QPSolver,
   typename GeomTraits>
   void regularize_segments(
     InputRange& input_range,
     NeighQuery& neighbor_query,
     RegType& regularization_type,
-    QPTraits& quadratic_program,
+    QPSolver& quadratic_program,
     const GeomTraits& traits) {
 
     CGAL_precondition(input_range.size() >= 2);
     using Regularizer = QP_regularization<
-      GeomTraits, InputRange, NeighQuery, RegType, QPTraits>;
+      GeomTraits, InputRange, NeighQuery, RegType, QPSolver>;
 
     Regularizer regularizer(
       input_range, neighbor_query, regularization_type, quadratic_program, traits);

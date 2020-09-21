@@ -87,7 +87,7 @@ This class finds local neighbors of each segment by constructing a
 Delaunay triangulation, using the class `CGAL::Delaunay_triangulation_2`, upon the center
 points of the input segments. The local neighborhood of a segment is thus defined by
 the corresponding one-ring neighborhood in the triangulation. The Delaunay triangulation
-can be constructed only for a group of minimum two segments.
+can be constructed only for a group of at least two segments.
 
 The Delaunay neighbor query class constructs the Delaunay triangulation from a group of segments,
 which has to be provided by the user through the `Segments::Delaunay_neighbor_query_2::add_group()`
@@ -157,7 +157,7 @@ segments that may lead to deviations in the result from what the user would expe
 exactly parallel segments. The offset regularization does not internally orient segments to make
 them exactly parallel. This is what the \ref QP_Regularization_Segments_Angles "Angle Regularization"
 class for. The utility function `Segments::parallel_groups()` does not orient
-segments, too, but only returns groups of near-parallel segments.
+segments either, but only returns groups of near-parallel segments.
 
 \cgalFigureBegin{regularize_100_segments_offsets_example, regularize_100_segments_offsets.svg}
 A generated set of 2D segments before (red) and after (green) the offset regularization.
@@ -268,7 +268,7 @@ Input segments with multiple collinear segments (left) are simplified into uniqu
 The performance of the shape regularization algorithm mostly depends
 on the used QP solver. When using the `CGAL::OSQP_quadratic_program_traits` model,
 we exploit and efficiently use the sparse nature of the related QP problem that leads
-to the quick performance in practice.
+to quick performances in practice.
 
 The table below shows how the computation time depends on the number of input segments.
 We first observe that the most challenging step is angle regularization while the offset

@@ -66,7 +66,7 @@ namespace Shape_regularization {
     \tparam RegType
     a model of `RegularizationType`
 
-    \tparam QPTraits
+    \tparam QPSolver
     a model of `QuadraticProgramTraits`
   */
   template<
@@ -74,7 +74,7 @@ namespace Shape_regularization {
   typename InputRange,
   typename NeighQuery,
   typename RegType,
-  typename QPTraits>
+  typename QPSolver>
   class QP_regularization {
 
   private:
@@ -102,7 +102,7 @@ namespace Shape_regularization {
     using Input_range = InputRange;
     using Neighbor_query = NeighQuery;
     using Regularization_type = RegType;
-    using Quadratic_program = QPTraits;
+    using Quadratic_program = QPSolver;
 
     using FT = typename Traits::FT;
     using Indices = std::vector<std::size_t>;
@@ -119,15 +119,15 @@ namespace Shape_regularization {
       a const range of input objects for shape regularization
 
       \param neighbor_query
-      an instance of `NeighborQuery` that is used internally to
+      an instance of `NeighQuery` that is used internally to
       access object neighbors
 
       \param regularization_type
-      an instance of `RegularizationType` that is used internally to
+      an instance of `RegType` that is used internally to
       obtain object bounds and target values
 
       \param quadratic_program
-      an instance of `QuadraticProgramTraits` to solve the quadratic programming problem
+      an instance of `QPSolver` to solve the quadratic programming problem
 
       \param traits
       an instance of `GeomTraits`; this parameter can be omitted if the traits class
@@ -139,7 +139,7 @@ namespace Shape_regularization {
       const InputRange& input_range,
       NeighQuery& neighbor_query,
       RegType& regularization_type,
-      QPTraits& quadratic_program,
+      QPSolver& quadratic_program,
       const GeomTraits& traits = GeomTraits()) :
     m_input_range(input_range),
     m_neighbor_query(neighbor_query),

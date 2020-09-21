@@ -1,4 +1,3 @@
-#include <vector>
 #include <CGAL/Real_timer.h>
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Shape_regularization.h>

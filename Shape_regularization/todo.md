@@ -8,7 +8,4 @@
 * Add a 3D version of the QP regularization algorithm.
 * Add an opencv tutorial with the global segments regularization over the Chicago map.
 * Should we carry out a rigorous performance analysis?
-* Do we actually care about the clockwise/counterclockwise order in the contours?
-
-* Change QPTraits name to QPSolver.
-*
+* Do we actually care about the clockwise/counterclockwise order in the contours? Add a test.
