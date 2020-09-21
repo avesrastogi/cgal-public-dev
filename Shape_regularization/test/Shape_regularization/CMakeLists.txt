@@ -62,7 +62,8 @@ if(CGAL_FOUND)
   test_directions_multiple_1
   test_directions_multiple_2
   test_directions_multiple_3
-  test_directions_user_defined)
+  test_directions_user_defined
+  test_contour_orientation)
 
   foreach(target ${targets})
     create_single_source_cgal_program("${target}.cpp")
