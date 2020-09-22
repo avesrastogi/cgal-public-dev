@@ -47,7 +47,7 @@ they can be evaluated analytically at any point inside the polygon.
 For all analytic coordinates, we provide two algorithms. One has a linear time complexity,
 but may suffer imprecisions near the polygon boundary, while the second one is precise
 but has a quadratic time complexity. The user can choose the preferred algorithm by
-specifying a computation policy `Computation_policy_2`.
+specifying a computation policy `Barycentric_coordinates::Computation_policy_2`.
 
 All analytic barycentric coordinates for polygons can be computed either by instantiating a class
 or through one of the free functions. Harmonic coordinates can be computed only by
@@ -212,7 +212,7 @@ in a star-shaped polygon. We note that this type of coordinates is well-defined 
 while Wachspress and discrete harmonic coordinates are not. However, it may yield negative
 coordinate values for points outside <a href="https://en.wikipedia.org/wiki/Star-shaped_polygon">the polygon's kernel</a>
 (shown in red). We speed up the computation using the linear time complexity algorithm by specifying
-a computation policy `Computation_policy_2`. The used `Kernel` is inexact.
+a computation policy `Barycentric_coordinates::Computation_policy_2`. The used `Kernel` is inexact.
 
 \anchor mv_coord_example
 \cgalFigureBegin{mv_example, mv_coord_example.svg}
@@ -407,7 +407,7 @@ the coordinates can also be computed but not everywhere (see below for more deta
 the resulting precision of the computation is due to the involved algorithm and a chosen number type.
 In the following paragraph, we discuss two available algorithms for computing Wachspress coordinates
 when an inexact number type is used. The chosen algorithm is specified by a computation policy
-`Computation_policy_2`.
+`Barycentric_coordinates::Computation_policy_2`.
 
 \anchor wp_polygon
 \cgalFigureBegin{wp_notations, wp_notations.svg}
