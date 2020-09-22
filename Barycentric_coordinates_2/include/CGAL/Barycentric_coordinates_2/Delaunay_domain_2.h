@@ -133,8 +133,7 @@ namespace Barycentric_coordinates {
     m_polygon(polygon),
     m_traits(traits),
     m_point_map(point_map),
-    m_construct_centroid_2(
-      m_traits.construct_centroid_2_object()) {
+    m_construct_centroid_2(m_traits.construct_centroid_2_object()) {
 
       CGAL_precondition(
         polygon.size() >= 3);

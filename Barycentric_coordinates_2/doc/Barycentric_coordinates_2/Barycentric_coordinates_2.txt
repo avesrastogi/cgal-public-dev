@@ -134,7 +134,7 @@ table below for some advise.
 </tr>
 </table>
 
-/note This is the second version of the package with the modified and improved API.
+\note This is the second version of the package with the modified and improved API.
 The package still supports the old API. See more details \ref depr_example "here".
 
 

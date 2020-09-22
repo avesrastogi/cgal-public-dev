@@ -106,7 +106,14 @@ namespace Barycentric_coordinates {
     using VectorFT  = Eigen::Matrix<FT, Eigen::Dynamic, Eigen::Dynamic>;
     using MatrixFT  = Eigen::SparseMatrix<FT>;
     using TripletFT = Eigen::Triplet<FT>;
-    using Solver    = Eigen::SimplicialLDLT<MatrixFT>;
+
+    #if defined(HMC_SparseLU)
+    using Solver = Eigen::SparseLU<MatrixFT>;
+    #elif defined(HMC_SimplicialLLT)
+    using Solver = Eigen::SimplicialLLT<MatrixFT>;
+    #else
+    using Solver = Eigen::SimplicialLDLT<MatrixFT>;
+    #endif
     /// \endcond
 
     /// @}
