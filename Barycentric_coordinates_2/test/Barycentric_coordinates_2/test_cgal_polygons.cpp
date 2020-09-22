@@ -48,28 +48,28 @@ int main() {
 
   weights.clear(); coordinates.clear();
   CGAL::Barycentric_coordinates::wachspress_weights_2(
-    polygon.container(), query, std::back_inserter(weights));
+    polygon, query, std::back_inserter(weights));
   CGAL::Barycentric_coordinates::wachspress_coordinates_2(
-    polygon.container(), query, std::back_inserter(coordinates));
+    polygon, query, std::back_inserter(coordinates));
   check_result(weights, coordinates);
 
   weights.clear(); coordinates.clear();
   CGAL::Barycentric_coordinates::mean_value_weights_2(
-    polygon.container(), query, std::back_inserter(weights));
+    polygon, query, std::back_inserter(weights));
   CGAL::Barycentric_coordinates::mean_value_coordinates_2(
-    polygon.container(), query, std::back_inserter(coordinates));
+    polygon, query, std::back_inserter(coordinates));
   check_result(weights, coordinates);
 
   weights.clear(); coordinates.clear();
   CGAL::Barycentric_coordinates::discrete_harmonic_weights_2(
-    polygon.container(), query, std::back_inserter(weights));
+    polygon, query, std::back_inserter(weights));
   CGAL::Barycentric_coordinates::discrete_harmonic_coordinates_2(
-    polygon.container(), query, std::back_inserter(coordinates));
+    polygon, query, std::back_inserter(coordinates));
   check_result(weights, coordinates);
 
   coordinates.clear();
   CGAL::Barycentric_coordinates::boundary_coordinates_2(
-    polygon.container(), query, std::back_inserter(coordinates));
+    polygon, query, std::back_inserter(coordinates));
   assert(
     coordinates[0] == FT(0) && coordinates[1] == FT(0) &&
     coordinates[2] == FT(0) && coordinates[3] == FT(0) );

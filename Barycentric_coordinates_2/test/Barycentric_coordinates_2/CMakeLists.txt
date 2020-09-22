@@ -60,8 +60,9 @@ if(CGAL_FOUND)
   create_single_source_cgal_program(
     "test_dh_weights.cpp")
 
-  create_single_source_cgal_program(
-    "test_cgal_polygons.cpp")
+  # missing begin() and end() in CGAL 4.14
+  # create_single_source_cgal_program(
+  #   "test_cgal_polygons.cpp")
 
   find_package(Eigen3 REQUIRED)
   if(EIGEN3_FOUND)
