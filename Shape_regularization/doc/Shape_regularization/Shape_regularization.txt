@@ -80,6 +80,10 @@ A set of 2D segments before (red) and after (green) the angle and offset regular
 
 \cgalExample{Shape_regularization/regularize_simple.cpp}
 
+\note As it can be seen from the example, the algorithm does not prioritize any directions
+like vertical or horizontal but rather returns the optimal regularized configuration
+of the input segments.
+
 
 \subsection QP_Regularization_Segments_Delaunay Delaunay Neighbor Query
 
