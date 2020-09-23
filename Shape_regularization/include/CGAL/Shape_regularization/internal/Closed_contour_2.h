@@ -177,6 +177,7 @@ namespace internal {
       intersect_segments(wraps);
       if (wraps.size() < 4) return false;
 
+      // Experimental code.
       // make_segments_collinear(wraps);
       // intersect_segments(wraps);
       // if (wraps.size() < 4) return false;
@@ -201,7 +202,7 @@ namespace internal {
       }
     }
 
-    // Do we need this function?
+    // Experimental function.
     void make_segments_collinear(
       std::vector<Segment_wrapper_2>& wraps) const {
 

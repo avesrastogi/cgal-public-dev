@@ -206,9 +206,7 @@ namespace internal {
       const auto& sref = ref_segment.source();
       const auto& tref = ref_segment.target();
 
-      const auto center =
-        internal::middle_point_2(sref, tref);
-
+      const auto center = CGAL::midpoint(sref, tref);
       CGAL_assertion(
         weights.size() == collinear_group.size());
       Vector_2 dir = Vector_2(FT(0), FT(0));

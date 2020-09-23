@@ -55,6 +55,8 @@ if(CGAL_FOUND)
   create_single_source_cgal_program(
     "regularize_planes.cpp")
   create_single_source_cgal_program(
+    "regularize_contour.cpp")
+  create_single_source_cgal_program(
     "regularize_closed_contour.cpp")
   create_single_source_cgal_program(
     "regularize_open_contour.cpp")

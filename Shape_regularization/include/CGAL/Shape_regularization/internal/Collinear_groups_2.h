@@ -160,8 +160,7 @@ namespace internal {
         const auto& sj = get(m_segment_map,
           *(m_input_range.begin() + sj_index));
 
-        const auto p = internal::middle_point_2(
-          sj.source(), sj.target());
+        const auto p = CGAL::midpoint(sj.source(), sj.target());
         const auto q = line.projection(p);
 
         const FT sq_dist = CGAL::squared_distance(p, q);

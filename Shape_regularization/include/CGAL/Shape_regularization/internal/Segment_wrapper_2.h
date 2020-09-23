@@ -62,8 +62,7 @@ namespace internal {
 
     void set_barycenter(
       const Segment_2& segment) {
-      barycenter = internal::middle_point_2(
-        segment.source(), segment.target());
+      barycenter = CGAL::midpoint(segment.source(), segment.target());
     }
 
     void set_direction(

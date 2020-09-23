@@ -44,6 +44,7 @@ namespace Contours {
     \ingroup PkgShapeRegularizationRefContours
 
     \brief regularizes closed contours.
+    \anchor closed_contour
 
     Given a set of ordered 2D points connected by segments, which form a closed contour,
     this function enables to reinforce three types of regularities among consecutive edges of this contour:
@@ -176,7 +177,36 @@ namespace Contours {
   /*!
     \ingroup PkgShapeRegularizationRefContours
 
+    \brief regularizes closed contours.
+
+    This function regularizes a closed contour with respect to the longest
+    edge of this contour.
+
+    \sa \ref closed_contour "regularize_closed_contour()"
+  */
+  template<
+  typename InputRange,
+  typename OutIterator>
+  OutIterator regularize_closed_contour(
+    const InputRange& input_range,
+    OutIterator contour) {
+
+    CGAL_precondition(input_range.size() >= 3);
+    using Iterator_type = typename InputRange::const_iterator;
+    using Point_2 = typename std::iterator_traits<Iterator_type>::value_type;
+    using Kernel = typename Kernel_traits<Point_2>::Kernel;
+    using Contour_directions = Longest_direction_2<Kernel, InputRange>;
+
+    Contour_directions directions(input_range, true);
+    return regularize_closed_contour(
+      input_range, directions, contour);
+  }
+
+  /*!
+    \ingroup PkgShapeRegularizationRefContours
+
     \brief regularizes open contours.
+    \anchor open_contour
 
     Given a set of ordered 2D points connected by segments, which form an open contour,
     this function enables to reinforce three types of regularities among consecutive edges of this contour:
@@ -305,6 +335,34 @@ namespace Contours {
       input_range, directions, contour, CGAL::parameters::all_default());
   }
   /// \endcond
+
+  /*!
+    \ingroup PkgShapeRegularizationRefContours
+
+    \brief regularizes open contours.
+
+    This function regularizes an open contour with respect to the longest
+    edge of this contour.
+
+    \sa \ref open_contour "regularize_open_contour()"
+  */
+  template<
+  typename InputRange,
+  typename OutIterator>
+  OutIterator regularize_open_contour(
+    const InputRange& input_range,
+    OutIterator contour) {
+
+    CGAL_precondition(input_range.size() >= 3);
+    using Iterator_type = typename InputRange::const_iterator;
+    using Point_2 = typename std::iterator_traits<Iterator_type>::value_type;
+    using Kernel = typename Kernel_traits<Point_2>::Kernel;
+    using Contour_directions = Longest_direction_2<Kernel, InputRange>;
+
+    Contour_directions directions(input_range, false);
+    return regularize_open_contour(
+      input_range, directions, contour);
+  }
 
 } // namespace Contours
 } // namespace Shape_regularization

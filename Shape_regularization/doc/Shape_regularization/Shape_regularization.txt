@@ -75,7 +75,7 @@ group of all input segments. The algorithm is called via the function
 `regularize_segments()`.
 
 \cgalFigureBegin{regularize_simple_example, regularize_simple.svg}
-A set of 2D segments before (red) and after (green) the angle regularization.
+A set of 2D segments before (red) and after (green) the angle and offset regularization.
 \cgalFigureEnd
 
 \cgalExample{Shape_regularization/regularize_simple.cpp}
@@ -404,6 +404,15 @@ If the user wants to rotate each contour edge on its own towards the best-fit di
 without reconnecting them after into a closed/open contour, she can either use the
 \ref QP_Regularization_Segments "Segment Regularization" algorithm or she can orient
 each segment by calling the `ContourDirections::orient()` method.
+
+The example below shows the most straightforward entry point to the algorithm, where
+we regularize a simple closed contour. The algorithm is called via the function `regularize_closed_contour()`.
+
+\cgalFigureBegin{regularize_contour_example, regularize_contour.svg}
+A closed contour before (red) and after (green) regularization.
+\cgalFigureEnd
+
+\cgalExample{Shape_regularization/regularize_contour.cpp}
 
 
 \subsection Contour_Regularization_Closed Closed Contours

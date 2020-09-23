@@ -79,8 +79,7 @@ namespace internal {
     OutputIterator regularize(
       OutputIterator contour) {
 
-      return m_regularization->regularize(
-        contour);
+      return m_regularization->regularize(contour);
     }
 
   private:

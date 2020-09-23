@@ -218,8 +218,8 @@ namespace Segments {
       edges.clear();
       edges.reserve(graph.size());
       for (const auto& edge : graph) {
-        const auto p = get_middle_point(edge.first);
-        const auto q = get_middle_point(edge.second);
+        const auto p = get_midpoint(edge.first);
+        const auto q = get_midpoint(edge.second);
         edges.push_back(Segment_2(p, q));
       }
     }
@@ -262,8 +262,7 @@ namespace Segments {
           m_segment_map, *(m_input_range.begin() + seg_index));
         const auto& source = segment.source();
         const auto& target = segment.target();
-        const auto vh = m_delaunay.insert(
-          internal::middle_point_2(source, target));
+        const auto vh = m_delaunay.insert(CGAL::midpoint(source, target));
         vh->info() = seg_index;
       }
     }
@@ -318,7 +317,7 @@ namespace Segments {
       }
     }
 
-    const Point_2 get_middle_point(
+    const Point_2 get_midpoint(
       const std::size_t seg_index) const {
 
       CGAL_assertion(
@@ -327,7 +326,7 @@ namespace Segments {
         m_segment_map, *(m_input_range.begin() + seg_index));
       const auto& source = segment.source();
       const auto& target = segment.target();
-      return internal::middle_point_2(source, target);
+      return CGAL::midpoint(source, target);
     }
   };
 

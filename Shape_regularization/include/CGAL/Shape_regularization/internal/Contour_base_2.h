@@ -438,7 +438,7 @@ namespace internal {
         const std::size_t direction_index = assigned[i];
         CGAL_assertion(direction_index != std::size_t(-1));
 
-        // Old code.
+        // Experimental code.
         // const auto& di = directions[direction_index];
         // const auto& dj = wrap.direction;
 
@@ -488,7 +488,7 @@ namespace internal {
       const Direction_2& seg_direction,
       Segment_2& segment) const {
 
-      // Old code.
+      // Experimental code.
       // const FT angle_deg = internal::compute_angle_2(
       //   ref_direction, seg_direction);
       // const FT converted = CGAL::abs(convert_angle_2(angle_deg));
@@ -645,9 +645,7 @@ namespace internal {
       const auto& sref = ref_segment.source();
       const auto& tref = ref_segment.target();
 
-      const auto center =
-        internal::middle_point_2(sref, tref);
-
+      const auto center = CGAL::midpoint(sref, tref);
       CGAL_assertion(weights.size() == wraps.size());
       Vector_2 dir = Vector_2(FT(0), FT(0));
       for (std::size_t i = 0; i < weights.size(); ++i) {
@@ -772,14 +770,12 @@ namespace internal {
       const Line_2 linei = Line_2(
         segmenti.source(), segmenti.target());
       const auto p = linei.projection(segmentj.source());
-      const auto source = internal::middle_point_2(
-        p, segmenti.target());
+      const auto source = CGAL::midpoint(p, segmenti.target());
 
       const Line_2 linej = Line_2(
         segmentj.source(), segmentj.target());
       const auto q = linej.projection(segmenti.target());
-      const auto target = internal::middle_point_2(
-        q, segmentj.source());
+      const auto target = CGAL::midpoint(q, segmentj.source());
 
       orth = Segment_2(source, target);
     }

@@ -33,6 +33,7 @@
 #include <utility>
 #include <iostream>
 #include <fstream>
+#include <cassert>
 #include <sstream>
 #include <memory>
 #include <tuple>
@@ -42,6 +43,7 @@
 #include <CGAL/centroid.h>
 #include <CGAL/number_utils.h>
 #include <CGAL/property_map.h>
+#include <CGAL/constructions_d.h>
 #include <CGAL/squared_distance_2.h>
 #include <CGAL/squared_distance_3.h>
 #include <CGAL/assertions.h>
@@ -122,27 +124,10 @@ namespace internal {
     const Point_2& frame_origin,
     const FT angle_deg) {
 
-    using Traits = typename Kernel_traits<Point_2>::Kernel;
-    using Direction_2 = typename Traits::Direction_2;
-
     FT x, y;
     const FT dx = barycenter.x() - frame_origin.x();
     const FT dy = barycenter.y() - frame_origin.y();
     rotate_2_cw(angle_deg, dx, dy, x, y);
-    return Point_2(x, y);
-  }
-
-  // Computes the middle point between two input points.
-  template<typename Point_2>
-  Point_2 middle_point_2(
-    const Point_2& source, const Point_2& target) {
-
-    using Traits = typename Kernel_traits<Point_2>::Kernel;
-    using FT = typename Traits::FT;
-
-    const FT half = FT(1) / FT(2);
-    const FT x = half * (source.x() + target.x());
-    const FT y = half * (source.y() + target.y());
     return Point_2(x, y);
   }
 
@@ -161,7 +146,7 @@ namespace internal {
   // Computes the counterclockwise perpendicular vector from a direction.
   template<typename Direction_2>
   typename Kernel_traits<Direction_2>::Kernel::Vector_2
-  perpendicular_vector_2(Direction_2& direction) {
+  perpendicular_vector_2(const Direction_2& direction) {
 
     using Traits = typename Kernel_traits<Direction_2>::Kernel;
     using Vector_2 = typename Traits::Vector_2;
@@ -170,7 +155,7 @@ namespace internal {
       -direction.dy(), direction.dx()); // counterclockwise
   }
 
-  // Computes line coefficients a, b, and c.
+  // Computes the line coefficients a, b, and c.
   template<
   typename FT,
   typename Point_2,
@@ -187,7 +172,7 @@ namespace internal {
     c = -a * barycenter.x() - b * barycenter.y();
   }
 
-  // Computes direction from a vector.
+  // Computes the direction from a vector.
   template<typename Vector_2>
   typename Kernel_traits<Vector_2>::Kernel::Direction_2
   direction_2(Vector_2& v) {
@@ -202,7 +187,7 @@ namespace internal {
     return Direction_2(v);
   }
 
-  // Computes orientation in degrees of a direction.
+  // Computes the orientation in degrees of a direction.
   template<typename Direction_2>
   typename Kernel_traits<Direction_2>::Kernel::FT
   orientation_2(const Direction_2& direction) {
@@ -361,8 +346,7 @@ namespace internal {
 
     auto source = segment.source();
     auto target = segment.target();
-    const auto barycenter =
-      internal::middle_point_2(source, target);
+    const auto barycenter = CGAL::midpoint(source, target);
 
     rotate_point_2(angle_deg, barycenter, source);
     rotate_point_2(angle_deg, barycenter, target);
