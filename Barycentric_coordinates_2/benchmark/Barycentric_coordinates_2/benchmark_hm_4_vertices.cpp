@@ -69,6 +69,7 @@ int main() {
 
   Timer timer;
   std::cout.precision(10);
+  const std::size_t number_of_runs = 1;
 
   const std::vector<Point_2> vertices = {
     Point_2(0, 0), Point_2(1, 0),
@@ -83,31 +84,38 @@ int main() {
   seeds.push_back(Point_2(0.5, 0.5));
 
   Domain domain(vertices);
-  HMC2 harmonic_coordinates_2(vertices, domain);
-
   for (const FT scale : scales) {
+
     domain.clear();
     domain.create(scale, seeds);
-    std::cout << "benchmark_hm_4_vertices, num queries: " <<
-      domain.number_of_vertices() << std::endl;
-    harmonic_coordinates_2.clear();
+    HMC2 harmonic_coordinates_2(vertices, domain);
 
-    timer.reset(); timer.start();
-    harmonic_coordinates_2.setup();
-    timer.stop();
-    const double setup = timer.time();
+    double setup = 0.0, factorize = 0.0, solve = 0.0;
+    for (std::size_t k = 0; k < number_of_runs; ++k) {
+      harmonic_coordinates_2.clear();
 
-    timer.reset(); timer.start();
-    harmonic_coordinates_2.factorize();
-    timer.stop();
-    const double factorize = timer.time();
+      timer.reset(); timer.start();
+      harmonic_coordinates_2.setup();
+      timer.stop();
+      setup += timer.time();
 
-    timer.reset(); timer.start();
-    harmonic_coordinates_2.solve();
-    timer.stop();
-    const double solve = timer.time();
+      timer.reset(); timer.start();
+      harmonic_coordinates_2.factorize();
+      timer.stop();
+      factorize += timer.time();
+
+      timer.reset(); timer.start();
+      harmonic_coordinates_2.solve();
+      timer.stop();
+      solve += timer.time();
+    }
+    setup /= static_cast<double>(number_of_runs);
+    factorize /= static_cast<double>(number_of_runs);
+    solve /= static_cast<double>(number_of_runs);
 
     const double total = setup + factorize + solve;
+    std::cout << "benchmark_hm_4_vertices, num queries: " <<
+      domain.number_of_vertices() << std::endl;
     std::cout <<
       "benchmark_hm_4_vertices, compute (CPU time setup/factorize/solve/total): " <<
     setup << "/" << factorize << "/" << solve << "/" << total << " seconds" << std::endl;
