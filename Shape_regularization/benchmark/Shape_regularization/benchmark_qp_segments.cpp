@@ -1,4 +1,7 @@
 #include <CGAL/Real_timer.h>
+#include <CGAL/function_objects.h>
+#include <CGAL/point_generators_2.h>
+#include <CGAL/Join_input_iterator.h>
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Shape_regularization.h>
 
@@ -12,22 +15,47 @@ using Segments  = std::vector<Segment_2>;
 using Indices   = std::vector<std::size_t>;
 using Timer     = CGAL::Real_timer;
 
+using Point_creator    = CGAL::Creator_uniform_2<double, Point_2>;
+using P1               = CGAL::Random_points_on_segment_2<Point_2, Point_creator>;
+using P2               = CGAL::Random_points_on_circle_2<Point_2, Point_creator>;
+using Segment_creator  = CGAL::Creator_uniform_2<Point_2, Segment_2>;
+using Segment_iterator = CGAL::Join_input_iterator_2<P1, P2, Segment_creator>;
+
 using NQ = CGAL::Shape_regularization::Segments::Delaunay_neighbor_query_2<Kernel, Segments>;
 using AR = CGAL::Shape_regularization::Segments::Angle_regularization_2<Kernel, Segments>;
 using OR = CGAL::Shape_regularization::Segments::Offset_regularization_2<Kernel, Segments>;
 
-void benchmark_qp_segments(
+void create_random(
   const std::size_t n,
-  const bool regroup,
-  const bool simple_output,
-  const std::size_t num_iters = 1) {
+  std::vector<Segment_2>& segments) {
+
+  segments.clear();
+  segments.reserve(n);
+
+  const Point_2 source(0, -100);
+  const Point_2 target(0, +100);
+  const FT radius = 250.0;
+  P1 p1(source, target);
+  P2 p2(radius);
+
+  Segment_iterator generator(p1, p2);
+  std::copy_n(generator, n, std::back_inserter(segments));
+
+  // assert(segments.size() == n);
+  // CGAL::Shape_regularization::Tests::Saver<Kernel> saver;
+  // saver.export_eps_segments(segments, "/Users/monet/Documents/gsoc/ggr/logs/random", 1.0);
+  // exit(EXIT_SUCCESS);
+}
+
+void create_pattern(
+  const std::size_t n,
+  std::vector<Segment_2>& segments) {
+
+  segments.clear();
+  segments.reserve(n);
 
   FT step = FT(1), d = FT(1) / FT(10);
   FT x1 = FT(0), y1 = FT(0), x2 = FT(0), y2 = FT(0);
-  const std::size_t m = 10;
-
-  Segments segments;
-  segments.reserve(n);
 
   for (std::size_t i = 0; i < n / 2; ++i) {
     x1 = step * i;
@@ -50,9 +78,24 @@ void benchmark_qp_segments(
     const Point_2 target = Point_2(x2, y2);
     segments.push_back(Segment_2(source, target));
   }
+  assert(segments.size() == n);
 
   // CGAL::Shape_regularization::Tests::Saver<Kernel> saver;
-  // saver.export_eps_segments(segments, "path_to/logs/segments", 100.0);
+  // saver.export_eps_segments(segments, "/Users/monet/Documents/gsoc/ggr/logs/pattern", 100.0);
+  // exit(EXIT_SUCCESS);
+}
+
+void benchmark_qp_segments(
+  const std::size_t n,
+  const bool regroup,
+  const bool simple_output,
+  const std::size_t num_iters) {
+
+  const std::size_t m = 10; // number of segments in a group
+  std::vector<Segment_2> segments;
+
+  create_pattern(n, segments);
+  // create_random(n, segments);
 
   Timer timer;
   timer.start();
@@ -165,13 +208,14 @@ void benchmark_qp_segments(
 
 int main(int argc, char *argv[]) {
 
+  const std::size_t num_iters = 1;
   const std::vector<std::size_t> ns = {
     10, 50, 100, 500, 1000, 5000, 10000, 15000
   };
   std::cout << std::endl;
   for (const std::size_t n : ns) {
-    benchmark_qp_segments(n, false, false);
-    benchmark_qp_segments(n, true , false);
+    benchmark_qp_segments(n, false, false, num_iters);
+    benchmark_qp_segments(n, true , false, num_iters);
     std::cout << std::endl;
   }
 
@@ -179,8 +223,8 @@ int main(int argc, char *argv[]) {
   // for (std::size_t i = 10; i <= 5000; i += 10)
   //   ns.push_back(i);
   // for (const std::size_t n : ns) {
-  //   benchmark_qp_segments(n, false, true);
-  //   benchmark_qp_segments(n, true , true);
+  //   benchmark_qp_segments(n, false, true, num_iters);
+  //   benchmark_qp_segments(n, true , true, num_iters);
   // }
 
   return EXIT_SUCCESS;

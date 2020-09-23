@@ -10,3 +10,4 @@
 * Think what I can do with all examples.
 
 * Implement the review of Marc.
+* To benchmark ...., we used a MacBook Pro 2018 with 2.2 GHz Intel Core i7 processor (6 cores) and 32 GB 2400 MHz DDR4 memory. The installed operating system was OS X 10.15 Catalina.

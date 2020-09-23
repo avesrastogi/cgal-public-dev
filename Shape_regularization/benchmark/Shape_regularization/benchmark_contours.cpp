@@ -1,4 +1,6 @@
 #include <CGAL/Real_timer.h>
+#include <CGAL/random_polygon_2.h>
+#include <CGAL/point_generators_2.h>
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Shape_regularization.h>
 
@@ -10,21 +12,44 @@ using Point_2 = typename Kernel::Point_2;
 using Contour = std::vector<Point_2>;
 using Timer   = CGAL::Real_timer;
 
+using Creator   = CGAL::Creator_uniform_2<int, Point_2>;
+using Generator = CGAL::Random_points_in_square_2<Point_2, Creator>;
+
 using CD = CGAL::Shape_regularization::Contours::Longest_direction_2<Kernel, Contour>;
 
-void benchmark_contours(
+void create_random(
   const std::size_t n,
-  const bool simple_output,
-  const std::size_t num_iters = 1) {
+  std::vector<Point_2>& contour) {
+
+  contour.clear();
+  contour.reserve(n);
+
+  const FT radius = 100.0;
+  std::vector<Point_2> point_set;
+  point_set.reserve(n);
+
+  CGAL::copy_n_unique(
+    Generator(radius), n, std::back_inserter(point_set));
+  CGAL::random_polygon_2(
+    point_set.size(), std::back_inserter(contour), point_set.begin());
+
+  // assert(contour.size() == n);
+  // CGAL::Shape_regularization::Tests::Saver<Kernel> saver;
+  // saver.export_eps_closed_contour(contour, "/Users/monet/Documents/gsoc/ggr/logs/random_closed", 1.0);
+  // saver.export_eps_open_contour(contour, "/Users/monet/Documents/gsoc/ggr/logs/random_open", 1.0);
+  // exit(EXIT_SUCCESS);
+}
+
+void create_pattern(
+  const std::size_t n,
+  std::vector<Point_2>& contour) {
+
+  contour.clear();
+  contour.reserve(n);
 
   FT step = FT(1), d = FT(1) / FT(10);
   FT x = FT(0), y = FT(0);
 
-  Timer timer;
-  Contour contour, regularized;
-  const FT max_offset_2 = FT(1) / FT(5);
-
-  contour.reserve(n);
   for (std::size_t i = 0; i < n / 2; ++i) {
     x = step * i;
     if (i % 2 == 0) y = FT(0);
@@ -41,12 +66,28 @@ void benchmark_contours(
     const Point_2 vertex = Point_2(x, y);
     contour.push_back(vertex);
   }
+  assert(contour.size() == n);
 
   // CGAL::Shape_regularization::Tests::Saver<Kernel> saver;
-  // saver.export_eps_closed_contour(contour, "path_to/logs/closed", 100.0);
-  // saver.export_eps_open_contour(contour, "path_to/logs/open", 100.0);
+  // saver.export_eps_closed_contour(contour, "/Users/monet/Documents/gsoc/ggr/logs/pattern_closed", 100.0);
+  // saver.export_eps_open_contour(contour, "/Users/monet/Documents/gsoc/ggr/logs/pattern_open", 100.0);
+  // exit(EXIT_SUCCESS);
+}
 
+void benchmark_contours(
+  const std::size_t n,
+  const bool simple_output,
+  const std::size_t num_iters) {
+
+  Timer timer;
+  std::vector<Point_2> contour, regularized;
+
+  create_pattern(n, contour);
+  // create_random(n, contour);
+
+  const FT max_offset_2 = FT(1) / FT(5);
   regularized.clear();
+
   timer.start();
   CD closed_directions(contour, true);
   timer.stop();
@@ -96,17 +137,18 @@ void benchmark_contours(
 
 int main(int argc, char *argv[]) {
 
+  const std::size_t num_iters = 1;
   const std::vector<std::size_t> ns = {
     10, 100, 1000, 10000, 100000, 1000000, 10000000
   };
   for (const std::size_t n : ns)
-    benchmark_contours(n, false);
+    benchmark_contours(n, false, num_iters);
 
   // std::vector<std::size_t> ns;
   // for (std::size_t i = 10; i <= 10000; i += 10)
   //   ns.push_back(i);
   // for (const std::size_t n : ns)
-  //   benchmark_contours(n, true);
+  //   benchmark_contours(n, true, num_iters);
 
   return EXIT_SUCCESS;
 }
