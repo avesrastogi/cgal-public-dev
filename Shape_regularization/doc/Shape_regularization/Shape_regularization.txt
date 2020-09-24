@@ -284,76 +284,20 @@ into groups with contextually similar properties from the very beginning will le
 performance as indicated in the table. However, note that not each data set can be meaningfully
 split into such groups.
 
-To benchmark the algorithm, we create a simple pattern with a few unregularized segments,
-where we know the exact angle and offset difference between pairs of segments, we then
-repeat this pattern until we reach the required number of segments. We, finally, apply both
-angle and then offset regularization 100 times and return the average time. In the pre-grouped
-version, we create groups of 10 subsequent segments that is for 500 input segments we
-have 50 input groups.
-
-<table class="markdownTable" align="center">
-<tr class="markdownTableHead">
-<th class="markdownTableHeadCenter">Number of segments</th>
-<th class="markdownTableHeadCenter">Angles (in seconds)</th>
-<th class="markdownTableHeadCenter">Offsets (in seconds)</th>
-<th class="markdownTableHeadCenter">Angles Pre-Grouped (in seconds)</th>
-</tr>
-<tr class="markdownTableBody">
-<td class="markdownTableBodyCenter">10</td>
-<td class="markdownTableBodyCenter">0.000291</td>
-<td class="markdownTableBodyCenter">0.000091</td>
-<td class="markdownTableBodyCenter">0.000143</td>
-</tr>
-<tr class="markdownTableBody">
-<td class="markdownTableBodyCenter">50</td>
-<td class="markdownTableBodyCenter">0.000815</td>
-<td class="markdownTableBodyCenter">0.000328</td>
-<td class="markdownTableBodyCenter">0.000430</td>
-</tr>
-<tr class="markdownTableBody">
-<td class="markdownTableBodyCenter">100</td>
-<td class="markdownTableBodyCenter">0.004444</td>
-<td class="markdownTableBodyCenter">0.000537</td>
-<td class="markdownTableBodyCenter">0.000793</td>
-</tr>
-<tr class="markdownTableBody">
-<td class="markdownTableBodyCenter">500</td>
-<td class="markdownTableBodyCenter">0.032797</td>
-<td class="markdownTableBodyCenter">0.003487</td>
-<td class="markdownTableBodyCenter">0.006250</td>
-</tr>
-<tr class="markdownTableBody">
-<td class="markdownTableBodyCenter">1,000</td>
-<td class="markdownTableBodyCenter">0.083326</td>
-<td class="markdownTableBodyCenter">0.009756</td>
-<td class="markdownTableBodyCenter">0.018682</td>
-</tr>
-<tr class="markdownTableBody">
-<td class="markdownTableBodyCenter">5,000</td>
-<td class="markdownTableBodyCenter">1.525801</td>
-<td class="markdownTableBodyCenter">0.204352</td>
-<td class="markdownTableBodyCenter">0.450086</td>
-</tr>
-<tr class="markdownTableBody">
-<td class="markdownTableBodyCenter">10,000</td>
-<td class="markdownTableBodyCenter">5.947787</td>
-<td class="markdownTableBodyCenter">0.800017</td>
-<td class="markdownTableBodyCenter">1.641780</td>
-</tr>
-<tr class="markdownTableBody">
-<td class="markdownTableBodyCenter">15,000</td>
-<td class="markdownTableBodyCenter">14.80045</td>
-<td class="markdownTableBodyCenter">1.803781</td>
-<td class="markdownTableBodyCenter">3.788940</td>
-</tr>
-</table>
-
-The same results can be seen in the figure.
+To benchmark the algorithm, we used a MacBook Pro 2018 with 2.2 GHz Intel Core i7 processor
+(6 cores) and 32 GB 2400 MHz DDR4 memory. The installed operating system was OS X 10.15 Catalina.
+We first create a set of random segments in a square such that all segments are either
+parallel to the X axis or Y axis. We then slightly perturb all segments by a random angle
+within the interval [-15, 15] degrees and apply the regularization algorithm 10 times
+on the same input. The returned time is the average time over all iterations. In the pre-grouped
+version, we regroup all segments into groups of 10 segments and the regularization algorithm is
+applied to each group. For example, in case of 50 input segments, we will have 5 input groups.
+The results are shown in the figure below.
 
 \cgalFigureBegin{qp_segments_bench, qp_segments_bench.svg}
 Time in seconds to regularize angles (solid red) and offsets (solid green) without
-grouping input segments contextually and with contextual grouping
-for angles (dashed red) and offsets (dashed green).
+regrouping input segments and with the groups of 10 segments for angles (dashed red)
+and offsets (dashed green).
 \cgalFigureEnd
 
 
@@ -457,55 +401,12 @@ is quite high and before merging them into one segment, we collect all of them i
 in order to find the best optimal position to place the final segment that may lead to a slower
 performance in some cases.
 
-To benchmark the algorithm, we create a simple pattern and repeat it until we have a
-closed or open polygon with the required number of vertices. We know the exact angle and
-offset difference between consecutive polygon edges within this pattern. We then apply
-the contour regularization algorithm 100 times and return the average time.
-
-<table class="markdownTable" align="center">
-<tr class="markdownTableHead">
-<th class="markdownTableHeadCenter">Number of vertices</th>
-<th class="markdownTableHeadCenter">Closed (in seconds)</th>
-<th class="markdownTableHeadCenter">Open (in seconds)</th>
-</tr>
-<tr class="markdownTableBody">
-<td class="markdownTableBodyCenter">10</td>
-<td class="markdownTableBodyCenter">0.000047</td>
-<td class="markdownTableBodyCenter">0.000012</td>
-</tr>
-<tr class="markdownTableBody">
-<td class="markdownTableBodyCenter">100</td>
-<td class="markdownTableBodyCenter">0.000049</td>
-<td class="markdownTableBodyCenter">0.000031</td>
-</tr>
-<tr class="markdownTableBody">
-<td class="markdownTableBodyCenter">1,000</td>
-<td class="markdownTableBodyCenter">0.000375</td>
-<td class="markdownTableBodyCenter">0.000165</td>
-</tr>
-<tr class="markdownTableBody">
-<td class="markdownTableBodyCenter">10,000</td>
-<td class="markdownTableBodyCenter">0.004421</td>
-<td class="markdownTableBodyCenter">0.003347</td>
-</tr>
-<tr class="markdownTableBody">
-<td class="markdownTableBodyCenter">100,000</td>
-<td class="markdownTableBodyCenter">0.043992</td>
-<td class="markdownTableBodyCenter">0.025921</td>
-</tr>
-<tr class="markdownTableBody">
-<td class="markdownTableBodyCenter">1,000,000</td>
-<td class="markdownTableBodyCenter">0.414134</td>
-<td class="markdownTableBodyCenter">0.272030</td>
-</tr>
-<tr class="markdownTableBody">
-<td class="markdownTableBodyCenter">10,000,000</td>
-<td class="markdownTableBodyCenter">4.577806</td>
-<td class="markdownTableBodyCenter">4.346724</td>
-</tr>
-</table>
-
-The same results can be seen in the figure.
+To benchmark the algorithm, we used a MacBook Pro 2018 with 2.2 GHz Intel Core i7 processor
+(6 cores) and 32 GB 2400 MHz DDR4 memory. The installed operating system was OS X 10.15 Catalina.
+We first create a rectilinear polygon with the required number of edges. We then slightly perturb
+all edges by a random angle within the interval [-15, 15] degrees and apply the regularization
+algorithm 10 times on the same input. The returned time is the average time over all iterations.
+The results are shown in the figure below.
 
 \cgalFigureBegin{contours_bench, contours_bench.svg}
 Time in seconds to regularize closed (red) and open (green) contours.

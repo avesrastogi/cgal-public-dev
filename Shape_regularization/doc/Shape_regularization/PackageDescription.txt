@@ -54,7 +54,7 @@ to the user-specified conditions.}
 
 ## Shape Regularization ##
 
-### Concepts ###
+### %Concepts ###
 - `NeighborQuery`
 - `RegularizationType`
 - `ContourDirections`

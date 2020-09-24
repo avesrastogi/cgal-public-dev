@@ -1,3 +1,4 @@
+#include <CGAL/Random.h>
 #include <CGAL/Real_timer.h>
 #include <CGAL/function_objects.h>
 #include <CGAL/point_generators_2.h>
@@ -15,37 +16,15 @@ using Segments  = std::vector<Segment_2>;
 using Indices   = std::vector<std::size_t>;
 using Timer     = CGAL::Real_timer;
 
-using Point_creator    = CGAL::Creator_uniform_2<double, Point_2>;
-using P1               = CGAL::Random_points_on_segment_2<Point_2, Point_creator>;
-using P2               = CGAL::Random_points_on_circle_2<Point_2, Point_creator>;
-using Segment_creator  = CGAL::Creator_uniform_2<Point_2, Segment_2>;
-using Segment_iterator = CGAL::Join_input_iterator_2<P1, P2, Segment_creator>;
+using PCreator = CGAL::Creator_uniform_2<FT, Point_2>;
+using RS       = CGAL::Random_points_on_segment_2<Point_2, PCreator>;
+using RC       = CGAL::Random_points_on_circle_2<Point_2, PCreator>;
+using SCreator = CGAL::Creator_uniform_2<Point_2, Segment_2>;
+using RSRC     = CGAL::Join_input_iterator_2<RS, RC, SCreator>;
 
 using NQ = CGAL::Shape_regularization::Segments::Delaunay_neighbor_query_2<Kernel, Segments>;
 using AR = CGAL::Shape_regularization::Segments::Angle_regularization_2<Kernel, Segments>;
 using OR = CGAL::Shape_regularization::Segments::Offset_regularization_2<Kernel, Segments>;
-
-void create_random(
-  const std::size_t n,
-  std::vector<Segment_2>& segments) {
-
-  segments.clear();
-  segments.reserve(n);
-
-  const Point_2 source(0, -100);
-  const Point_2 target(0, +100);
-  const FT radius = 250.0;
-  P1 p1(source, target);
-  P2 p2(radius);
-
-  Segment_iterator generator(p1, p2);
-  std::copy_n(generator, n, std::back_inserter(segments));
-
-  // assert(segments.size() == n);
-  // CGAL::Shape_regularization::Tests::Saver<Kernel> saver;
-  // saver.export_eps_segments(segments, "/Users/monet/Documents/gsoc/ggr/logs/random", 1.0);
-  // exit(EXIT_SUCCESS);
-}
 
 void create_pattern(
   const std::size_t n,
@@ -85,6 +64,58 @@ void create_pattern(
   // exit(EXIT_SUCCESS);
 }
 
+void create_random_in_square(
+  const std::size_t n,
+  std::vector<Segment_2>& segments) {
+
+  segments.clear();
+  segments.reserve(n);
+
+  CGAL::Random rand;
+  for (std::size_t i = 0; i < n / 2; ++i) {
+    const FT x = static_cast<FT>(rand.get_int(-250, 250));
+    const FT y = static_cast<FT>(rand.get_int(-250, 250));
+    segments.push_back(Segment_2(
+      Point_2(x, y), Point_2(x, -y)));
+    segments.push_back(Segment_2(
+      Point_2(-x, y), Point_2(x, y)));
+  }
+  assert(segments.size() == n);
+
+  // Perturb segments.
+  for (auto& segment : segments) {
+    const FT angle = static_cast<FT>(rand.get_int(-15, 15));
+    CGAL::Shape_regularization::internal::
+      rotate_segment_2(angle, FT(0), segment);
+  }
+
+  // CGAL::Shape_regularization::Tests::Saver<Kernel> saver;
+  // saver.export_eps_segments(segments, "/Users/monet/Documents/gsoc/ggr/logs/pseudo_random", 1.0);
+  // exit(EXIT_SUCCESS);
+}
+
+void create_random_in_circle(
+  const std::size_t n,
+  std::vector<Segment_2>& segments) {
+
+  segments.clear();
+  segments.reserve(n);
+
+  const Point_2 source(0, -100);
+  const Point_2 target(0, +100);
+  const FT radius = 250.0;
+  RS p1(source, target);
+  RC p2(radius);
+
+  RSRC generator(p1, p2);
+  std::copy_n(generator, n, std::back_inserter(segments));
+  assert(segments.size() == n);
+
+  // CGAL::Shape_regularization::Tests::Saver<Kernel> saver;
+  // saver.export_eps_segments(segments, "/Users/monet/Documents/gsoc/ggr/logs/random", 1.0);
+  // exit(EXIT_SUCCESS);
+}
+
 void benchmark_qp_segments(
   const std::size_t n,
   const bool regroup,
@@ -95,7 +126,9 @@ void benchmark_qp_segments(
   std::vector<Segment_2> segments;
 
   create_pattern(n, segments);
-  // create_random(n, segments);
+
+  // create_random_in_square(n, segments);
+  // create_random_in_circle(n, segments);
 
   Timer timer;
   timer.start();
@@ -219,8 +252,9 @@ int main(int argc, char *argv[]) {
     std::cout << std::endl;
   }
 
+  // Dense results for plotting.
   // std::vector<std::size_t> ns;
-  // for (std::size_t i = 10; i <= 5000; i += 10)
+  // for (std::size_t i = 10; i <= 10000; i += 10)
   //   ns.push_back(i);
   // for (const std::size_t n : ns) {
   //   benchmark_qp_segments(n, false, true, num_iters);
