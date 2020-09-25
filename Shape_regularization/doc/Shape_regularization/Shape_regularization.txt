@@ -274,14 +274,14 @@ on the used QP solver. When using the `CGAL::OSQP_quadratic_program_traits` mode
 we exploit and efficiently use the sparse nature of the related QP problem that leads
 to quick performances in practice.
 
-The table below shows how the computation time depends on the number of input segments.
+The plot (solid) below shows how the computation time depends on the number of input segments.
 We first observe that the most challenging step is angle regularization while the offset
 regularization is much faster. This is an effect of complexity reduction by segmenting
 the problem into groups for offset regularization. Since each group of parallel segments is much
 smaller than the original set of input segments, the total computation time is smaller, too.
 The same idea can be applied to accelerate the angle regularization. Splitting input segments
 into groups with contextually similar properties from the very beginning will lead to better
-performance as indicated in the table. However, note that not each data set can be meaningfully
+performance as indicated in the plot (dashed). However, note that not each data set can be meaningfully
 split into such groups.
 
 To benchmark the algorithm, we used a MacBook Pro 2018 with 2.2 GHz Intel Core i7 processor
@@ -292,7 +292,8 @@ within the interval [-15, 15] degrees and apply the regularization algorithm 10 
 on the same input. The returned time is the average time over all iterations. In the pre-grouped
 version, we regroup all segments into groups of 10 segments and the regularization algorithm is
 applied to each group. For example, in case of 50 input segments, we will have 5 input groups.
-The results are shown in the figure below.
+Since the groups are very small, there is no much difference in time between angle and
+offset regularizations. The results are shown in the figure below.
 
 \cgalFigureBegin{qp_segments_bench, qp_segments_bench.svg}
 Time in seconds to regularize angles (solid red) and offsets (solid green) without
@@ -395,11 +396,10 @@ An open contour before (red) and after (green) the contour regularization.
 
 The contour regularization algorithms, both closed and open, have, in practice, a
 linear time behavior with respect to the number of contour vertices. In fact, the time
-is not linear, as you can see in the table and figure below, due to the second step
-of merging consecutive collinear edges. For some polygons, the number of such edges
-is quite high and before merging them into one segment, we collect all of them into a group
-in order to find the best optimal position to place the final segment that may lead to a slower
-performance in some cases.
+is not linear, as you can see in the plot below, due to the second step of merging consecutive
+collinear edges. For some polygons, the number of such edges is quite high and before merging
+them into one segment, we collect all of them into a group in order to find the best optimal
+position to place the final segment that may lead to a slower performance in some cases.
 
 To benchmark the algorithm, we used a MacBook Pro 2018 with 2.2 GHz Intel Core i7 processor
 (6 cores) and 32 GB 2400 MHz DDR4 memory. The installed operating system was OS X 10.15 Catalina.
