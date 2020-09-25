@@ -7,6 +7,7 @@
 * The Project_traits classes are missing the construct_centroid_2 and compute_determinant_2 objects.
 * Finally, should we remove `in_tuple` and `in_pair` or should we leave them?
 * CGAL polygon is missing end and begin, which are documented.
+* Should I remove tables? Are not they redundant?
 
 * Add 3D coordinates.
 * I should merge this package with the natural neighbor coordinates package.
